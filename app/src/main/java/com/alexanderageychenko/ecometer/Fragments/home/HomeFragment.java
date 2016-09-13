@@ -44,7 +44,7 @@ public class HomeFragment extends ExFragment implements HomeAdapter.Listener {
     public void onResume() {
         super.onResume();
         homeAdapter.setData(Depository.getInstance().getMeters());
-        Snackbar.make(recyclerView, "Data was refreshed", Snackbar.LENGTH_LONG)
+        Snackbar.make(recyclerView, "Data was refreshed", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
     }
 
