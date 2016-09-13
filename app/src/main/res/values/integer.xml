@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="animation_duration">300</integer>
+    <integer name="animation_duration_in">225</integer>
+    <integer name="animation_duration_out">195</integer>
+    <integer name="animation_duration_x2">600</integer>
+    <integer name="animation_duration_x0_5">150</integer>
+    <integer name="SearchFriendsLimit">50</integer>
+    <integer name="SurveysLimit">50</integer>
+
+    <integer name="LoginFragment_autoShowStep1Offset">1000</integer>
+
+    <integer name="getLeaderStep">50</integer>
+    <integer name="getChatStep">20</integer>
+
+    <integer name="minPointsToDonate">20</integer>
+
+    <integer name="surveys_text_input_lenght_limit">5000</integer>
+
+
+    <integer name="animation_zoominduration">250</integer>
+    <integer name="animation_zoomoutoffset">300</integer>
+    <integer name="animation_zoomoutduration">125</integer>
+
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">EcoMeter</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_statistics">Statistics</string>
+    <string name="gas_name">Gas</string>
+</resources>
