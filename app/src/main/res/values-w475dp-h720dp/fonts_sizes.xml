@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fonts_sizes_10">12.8dp</dimen>
+    <dimen name="fonts_sizes_11">14.08dp</dimen>
+    <dimen name="fonts_sizes_12">15.36dp</dimen>
+    <dimen name="fonts_sizes_13">16.64dp</dimen>
+    <dimen name="fonts_sizes_14">17.92dp</dimen>
+    <dimen name="fonts_sizes_15">19.2dp</dimen>
+    <dimen name="fonts_sizes_16">20.48dp</dimen>
+    <dimen name="fonts_sizes_18">23.04dp</dimen>
+    <dimen name="fonts_sizes_20">25.6dp</dimen>
+    <dimen name="fonts_sizes_22">28.16dp</dimen>
+    <dimen name="fonts_sizes_26">33.28dp</dimen>
+    <dimen name="fonts_sizes_30">38.4dp</dimen>
+</resources>

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by vladimiryuyukin on 25.02.16.
+ * Created by alexanderageychenko 13.09.16.
  */
 public class FragmentCroupier {
     HashMap<String, List<ExFragment>> backStackMap = new HashMap<>();

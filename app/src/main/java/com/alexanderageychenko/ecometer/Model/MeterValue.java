@@ -1,5 +1,8 @@
 package com.alexanderageychenko.ecometer.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -7,7 +10,11 @@ import java.util.Date;
  */
 
 public class MeterValue {
+    @SerializedName("value")
+    @Expose
     Long value;
+    @SerializedName("date")
+    @Expose
     Date date;
 
     public MeterValue(Long value, Date date) {

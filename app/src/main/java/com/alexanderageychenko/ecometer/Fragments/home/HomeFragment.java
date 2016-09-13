@@ -2,6 +2,7 @@ package com.alexanderageychenko.ecometer.Fragments.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexanderageychenko.ecometer.Fragments.ExFragment;
-import com.alexanderageychenko.ecometer.Model.Depository;
+import com.alexanderageychenko.ecometer.Data.Depository;
 import com.alexanderageychenko.ecometer.Model.Meter;
 import com.alexanderageychenko.ecometer.R;
 
@@ -43,6 +44,14 @@ public class HomeFragment extends ExFragment implements HomeAdapter.Listener {
     public void onResume() {
         super.onResume();
         homeAdapter.setData(Depository.getInstance().getMeters());
+        Snackbar.make(recyclerView, "Data was refreshed", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    @Override
+    public void onPause() {
+        Depository.getInstance().saveToDB();
+        super.onPause();
     }
 
     @Override

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/home_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/design_dp_8"
+        android:layout_marginBottom="@dimen/design_dp_8">
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/done"
+        style="@style/AppTheme.ButtonShadow.Button"
+        fontPath="fonts/Asap-Regular.ttf"
+        android:layout_width="@dimen/button_rounded_width"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/design_dp_40"
+        android:layout_marginTop="@dimen/design_dp_8"
+        android:layout_height="@dimen/button_rounded_height"
+        android:background="@drawable/button_green_brand"
+        android:text="Done"
+        android:visibility="visible"
+        tools:ignore="MissingPrefix" />
+</RelativeLayout>
