@@ -134,6 +134,16 @@ public class Meter implements IMeter {
     }
 
     @Override
+    public String getMeanValuePerDayString() {
+        return String.valueOf(getMeanValuePerDay());
+    }
+
+    @Override
+    public String getMeanValuePerMonthString() {
+        return String.valueOf(getMeanValuePerMonth());
+    }
+
+    @Override
     public MeterType getType() {
         return meterType;
     }

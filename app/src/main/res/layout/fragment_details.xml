@@ -14,7 +14,7 @@
         android:layout_marginLeft="@dimen/design_dp_16"
         android:layout_marginRight="@dimen/design_dp_16"
         android:layout_marginTop="@dimen/design_dp_16"
-        app:cardElevation="4dp">
+        app:cardElevation="@dimen/card_default_elevation">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -109,7 +109,7 @@
         android:layout_marginLeft="@dimen/design_dp_16"
         android:layout_marginRight="@dimen/design_dp_16"
         android:layout_marginTop="@dimen/design_dp_16"
-        app:cardElevation="4dp">
+        app:cardElevation="@dimen/card_default_elevation">
 
         <RelativeLayout
             android:layout_width="match_parent"

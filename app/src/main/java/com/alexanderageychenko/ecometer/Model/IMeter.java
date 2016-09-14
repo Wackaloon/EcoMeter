@@ -21,6 +21,10 @@ public interface IMeter {
 
     Double getMeanValuePerMonth();
 
+    String getMeanValuePerDayString();
+
+    String getMeanValuePerMonthString();
+
     MeterType getType();
 
     MeterPosition getPosition();

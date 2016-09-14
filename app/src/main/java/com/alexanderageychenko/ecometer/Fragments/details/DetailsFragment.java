@@ -91,6 +91,8 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
 
         if (meter != null){
             ((TextView) view.findViewById(R.id.name)).setText(meter.getFullName());
+            ((TextView) view.findViewById(R.id.mean_day_text)).setText(meter.getMeanValuePerDayString());
+            ((TextView) view.findViewById(R.id.mean_month_text)).setText(meter.getMeanValuePerMonthString());
         }
 
         recyclerView = (RecyclerView) view.findViewById(R.id.details_recycler_view);
