@@ -37,7 +37,6 @@ public class MainActivity extends ExActivity{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         initFragments();
     }
     protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
