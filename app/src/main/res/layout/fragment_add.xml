@@ -16,7 +16,6 @@
     <Button
         android:id="@+id/done"
         style="@style/AppTheme.ButtonShadow.Button"
-        fontPath="fonts/Asap-Regular.ttf"
         android:layout_width="@dimen/button_rounded_width"
         android:layout_height="@dimen/button_rounded_height"
         android:layout_alignParentBottom="true"
@@ -25,6 +24,5 @@
         android:layout_marginTop="@dimen/design_dp_8"
         android:background="@drawable/button_green_brand"
         android:text="Done"
-        android:visibility="visible"
-        tools:ignore="MissingPrefix" />
+        android:visibility="visible"/>
 </com.alexanderageychenko.ecometer.Model.ExRelativeLayout>

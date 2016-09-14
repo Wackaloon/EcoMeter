@@ -11,6 +11,7 @@ import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.alexanderageychenko.ecometer.Fragments.ExFragment;
 import com.alexanderageychenko.ecometer.Data.Depository;
@@ -24,11 +25,12 @@ import com.alexanderageychenko.ecometer.R;
 /**
  * Created by alexanderageychenko 13.09.16.
  */
-public class HomeFragment extends ExFragment implements HomeAdapter.Listener {
+public class HomeFragment extends ExFragment implements HomeAdapter.Listener, View.OnClickListener {
     private static final String TAG = "Home";
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private HomeAdapter homeAdapter;
+    private Button add;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +39,9 @@ public class HomeFragment extends ExFragment implements HomeAdapter.Listener {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        add = (Button) view.findViewById(R.id.add);
+        add.setOnClickListener(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -66,5 +71,13 @@ public class HomeFragment extends ExFragment implements HomeAdapter.Listener {
         MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
                 .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_DETAILS)
                 .putExtra("id", Depository.getInstance().getMeters().indexOf(item)));
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == add){
+            MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
+                    .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_ADD_VALUE));
+        }
     }
 }

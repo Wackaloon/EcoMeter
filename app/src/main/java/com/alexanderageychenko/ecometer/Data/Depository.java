@@ -44,4 +44,9 @@ public class Depository {
     public void saveToDB(){
         metersDAO.add(meters);
     }
+
+    public void addNewMeter(Meter meter){
+        meters.add(meter);
+    }
 }
+

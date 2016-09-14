@@ -77,7 +77,7 @@ public class SettingsFragment extends ExFragment implements SettingsAdapter.List
                 Depository.getInstance().getMeters().remove(item);
                 homeAdapter.setData(Depository.getInstance().getMeters());
             }
-        });
+        }).show();
 
     }
 

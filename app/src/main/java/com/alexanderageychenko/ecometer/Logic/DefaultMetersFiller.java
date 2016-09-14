@@ -19,9 +19,6 @@ public class DefaultMetersFiller {
             meters.add(new Meter(MeterType.WATER, MeterPosition.KITCHEN, null));
             meters.add(new Meter(MeterType.WATER, MeterPosition.TOILET, null));
             meters.add(new Meter(MeterType.ELECTRICITY, MeterPosition.KITCHEN, null));
-            for (Meter meter : meters){
-                meter.addValue(0l);
-            }
         }
         return meters;
     }

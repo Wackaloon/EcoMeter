@@ -5,5 +5,5 @@ package com.alexanderageychenko.ecometer.Model;
  */
 
 public enum MeterPosition {
-    BATHROOM, TOILET, KITCHEN
+    BATHROOM, TOILET, KITCHEN, STREET
 }

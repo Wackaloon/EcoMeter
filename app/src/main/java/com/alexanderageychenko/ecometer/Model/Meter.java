@@ -33,8 +33,20 @@ public class Meter implements IMeter {
     @Expose
     private MeterValue valueLast = null;
 
+    public String getName() {
+        return name;
+    }
+
     public void setNewValue(@NonNull Long value) {
         this.valueLast = new MeterValue(value, Calendar.getInstance().getTime());
+    }
+
+    public void setMeterType(MeterType meterType) {
+        this.meterType = meterType;
+    }
+
+    public void setMeterPosition(MeterPosition meterPosition) {
+        this.meterPosition = meterPosition;
     }
 
     public void applyNewValue() {
@@ -46,6 +58,10 @@ public class Meter implements IMeter {
     public Meter(MeterType meterType, MeterPosition meterPosition, String name) {
         this.meterType = meterType;
         this.meterPosition = meterPosition;
+        this.name = name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 

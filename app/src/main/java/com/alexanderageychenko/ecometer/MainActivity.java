@@ -13,23 +13,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import com.alexanderageychenko.ecometer.Data.Depository;
 import com.alexanderageychenko.ecometer.Fragments.add.AddFragment;
 import com.alexanderageychenko.ecometer.Fragments.details.DetailsFragment;
+import com.alexanderageychenko.ecometer.Fragments.edit.EditFragment;
 import com.alexanderageychenko.ecometer.Fragments.home.HomeFragment;
 import com.alexanderageychenko.ecometer.Fragments.settings.SettingsFragment;
 import com.alexanderageychenko.ecometer.Logic.DialogBuilder;
 import com.alexanderageychenko.ecometer.Logic.FragmentCroupier;
 import com.alexanderageychenko.ecometer.Model.ExActivity;
 
-public class MainActivity extends ExActivity implements View.OnClickListener {
+public class MainActivity extends ExActivity{
 
     private FragmentCroupier fragmentCroupier = new FragmentCroupier();
     private HomeFragment homeFragment = new HomeFragment();
     private AddFragment addFragment = new AddFragment();
     private SettingsFragment settingsFragment = new SettingsFragment();
-    private FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +38,6 @@ public class MainActivity extends ExActivity implements View.OnClickListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setImageResource(android.R.drawable.ic_input_add);
-        fab.setOnClickListener(this);
         initFragments();
     }
     protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -50,7 +48,16 @@ public class MainActivity extends ExActivity implements View.OnClickListener {
                 case OPEN_DETAILS:{
                     DetailsFragment meterDetails = DetailsFragment.newInstance(intent.getIntExtra("id", -1));
                     fragmentCroupier.addFragment("main", meterDetails, true, R.animator.in_right, MainApplication.noAnimId, R.animator.no_anim, R.animator.out_right);
-                    fab.setVisibility(View.GONE);
+                    break;
+                }
+                case OPEN_EDIT_METER:
+                case OPEN_CREATE_METER:{
+                    EditFragment editFragment = EditFragment.newInstance(intent.getIntExtra("id", -1));
+                    fragmentCroupier.addFragment("main", editFragment, true, R.animator.in_right, MainApplication.noAnimId, R.animator.no_anim, R.animator.out_right);
+                    break;
+                }
+                case OPEN_ADD_VALUE:{
+                    fragmentCroupier.addFragment("main", addFragment, true, R.animator.alpha_in, MainApplication.noAnimId, R.animator.no_anim, R.animator.alpha_out);
                     break;
                 }
             }
@@ -61,6 +68,7 @@ public class MainActivity extends ExActivity implements View.OnClickListener {
     private void initFragments(){
         fragmentCroupier.init(getFragmentManager(), R.id.content_frame);
         fragmentCroupier.addFragment("main", homeFragment);
+        fragmentCroupier.addFragment("settings", settingsFragment);
         fragmentCroupier.loadBackStack("main");
     }
 
@@ -80,8 +88,7 @@ public class MainActivity extends ExActivity implements View.OnClickListener {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            fragmentCroupier.addFragment("main", settingsFragment, true, R.animator.in_right, MainApplication.noAnimId, R.animator.no_anim, R.animator.out_right);
-            fab.setVisibility(View.GONE);
+            fragmentCroupier.loadBackStack("settings", R.animator.in_right, MainApplication.noAnimId);
             return true;
         }
 
@@ -89,26 +96,11 @@ public class MainActivity extends ExActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {
-        if (view == fab){
-            if (fragmentCroupier.getLastLoadTag().equals("main")){
-                fab.setImageResource(R.drawable.ic_done_white_48dp);
-                fab.setVisibility(View.GONE);
-                fragmentCroupier.addFragment("main", addFragment, true, R.animator.alpha_in, MainApplication.noAnimId, R.animator.no_anim, R.animator.alpha_out);
-
-            }
-
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         if (!fragmentCroupier.popBackStack() && fragmentCroupier.getLastLoadTag().equals("main")) {
             DialogBuilder.getExitDialog(this).show();
         }else{
-            fab.setImageResource(android.R.drawable.ic_input_add);
-            fragmentCroupier.loadBackStack("main");
-            fab.setVisibility(View.VISIBLE);
+            fragmentCroupier.loadBackStack("main", MainApplication.noAnimId, R.animator.out_right);
         }
     }
 
