@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.alexanderageychenko.ecometer.Model.DeleteMeterListener;
 import com.alexanderageychenko.ecometer.Model.DetailsEditListener;
 import com.alexanderageychenko.ecometer.Model.Meter;
 import com.alexanderageychenko.ecometer.Model.MeterValue;
@@ -135,6 +136,23 @@ public abstract class DialogBuilder {
             }
         };
         return new DatePickerDialog(activity, myDateListener, year, month, day);
+    }
+
+    public static Dialog getDeleteMeterDialog(final Activity activity, final DeleteMeterListener listener) {
+        AlertDialog alertDialog = new AlertDialog.Builder(activity).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (listener != null) listener.delete();
+                dialog.dismiss();
+            }
+        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setMessage("Are you sure that you want to delete this meter?").create();
+
+        return alertDialog;
     }
 
 

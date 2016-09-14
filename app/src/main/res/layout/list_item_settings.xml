@@ -31,8 +31,9 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/image_edit"
                 android:layout_marginLeft="@dimen/design_dp_8"
                 android:layout_toRightOf="@+id/image">
 
@@ -41,34 +42,34 @@
                     style="@style/AppTheme.TextViewMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/last_date"
                     android:layout_marginRight="@dimen/design_dp_8"
                     android:layout_marginTop="@dimen/design_dp_8"
                     android:text="Some Nmae" />
-
-                <TextView
-                    android:id="@+id/last_value"
-                    style="@style/AppTheme.TextViewMain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/design_dp_8"
-                    android:paddingBottom="@dimen/design_dp_8"
-                    android:text="15422884" />
-
-                <TextView
-                    android:id="@+id/last_date"
-                    style="@style/AppTheme.TextViewMain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/design_dp_8"
-                    android:layout_marginTop="@dimen/design_dp_8"
-                    android:gravity="right"
-                    android:text="16.09.16"
-                    android:textSize="@dimen/fonts_sizes_14" />
             </RelativeLayout>
+                <ImageView
+                    android:id="@+id/image_edit"
+                    android:layout_width="@dimen/design_dp_70"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/image_delete"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/main_yellow"
+                    android:padding="@dimen/design_dp_12"
+                    android:src="@android:drawable/ic_menu_edit"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_delete"
+                    android:layout_width="@dimen/design_dp_70"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/main_red"
+                    android:padding="@dimen/design_dp_12"
+                    android:src="@android:drawable/ic_menu_delete"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

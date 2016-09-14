@@ -18,6 +18,7 @@ import com.alexanderageychenko.ecometer.Data.Depository;
 import com.alexanderageychenko.ecometer.Fragments.add.AddFragment;
 import com.alexanderageychenko.ecometer.Fragments.details.DetailsFragment;
 import com.alexanderageychenko.ecometer.Fragments.home.HomeFragment;
+import com.alexanderageychenko.ecometer.Fragments.settings.SettingsFragment;
 import com.alexanderageychenko.ecometer.Logic.DialogBuilder;
 import com.alexanderageychenko.ecometer.Logic.FragmentCroupier;
 import com.alexanderageychenko.ecometer.Model.ExActivity;
@@ -27,6 +28,7 @@ public class MainActivity extends ExActivity implements View.OnClickListener {
     private FragmentCroupier fragmentCroupier = new FragmentCroupier();
     private HomeFragment homeFragment = new HomeFragment();
     private AddFragment addFragment = new AddFragment();
+    private SettingsFragment settingsFragment = new SettingsFragment();
     private FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,8 @@ public class MainActivity extends ExActivity implements View.OnClickListener {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
+            fragmentCroupier.addFragment("main", settingsFragment, true, R.animator.in_right, MainApplication.noAnimId, R.animator.no_anim, R.animator.out_right);
+            fab.setVisibility(View.GONE);
             return true;
         }
 
