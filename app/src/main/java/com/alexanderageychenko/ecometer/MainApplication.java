@@ -110,7 +110,7 @@ public class MainApplication extends Application {
 
 
     public enum SIGNAL_TYPE {
-        LOG,
+        LOG, OPEN_DETAILS,
     }
 
     public static class ACTIVITY_RESULT_REQUEST_KEY {

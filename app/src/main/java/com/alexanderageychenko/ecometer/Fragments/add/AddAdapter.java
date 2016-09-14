@@ -73,22 +73,23 @@ class AddAdapter extends RecyclerView.Adapter<AddAdapter.ViewHolder> {
         });
         MeterType type = item.getType();
         if (type == null) {
-            holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_public_white_48dp));
+            holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_green_A0));
+            holder.imageView.setImageResource(R.drawable.ic_public_white_48dp);
         } else {
             switch (type) {
                 case GAS: {
-                    holder.back.setBackgroundColor(context.getResources().getColor(R.color.main_orange));
-                    holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_whatshot_white_48dp));
+                    holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_orange));
+                    holder.imageView.setImageResource(R.drawable.ic_whatshot_white_48dp);
                     break;
                 }
                 case WATER: {
-                    holder.back.setBackgroundColor(context.getResources().getColor(R.color.main_blue));
-                    holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_invert_colors_white_48dp));
+                    holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_blue));
+                    holder.imageView.setImageResource(R.drawable.ic_invert_colors_white_48dp);
                     break;
                 }
                 case ELECTRICITY: {
-                    holder.back.setBackgroundColor(context.getResources().getColor(R.color.main_yellow));
-                    holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_flash_on_white_48dp));
+                    holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_yellow));
+                    holder.imageView.setImageResource(R.drawable.ic_flash_on_white_48dp);
                     break;
                 }
             }
@@ -99,7 +100,7 @@ class AddAdapter extends RecyclerView.Adapter<AddAdapter.ViewHolder> {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     try {
                         data.get(holder.getAdapterPosition()).setNewValue(Long.parseLong(holder.lastValue.getText().toString()));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     return true;
@@ -117,7 +118,7 @@ class AddAdapter extends RecyclerView.Adapter<AddAdapter.ViewHolder> {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
                     data.get(holder.getAdapterPosition()).setNewValue(Long.parseLong(holder.lastValue.getText().toString()));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -142,7 +143,7 @@ class AddAdapter extends RecyclerView.Adapter<AddAdapter.ViewHolder> {
     }
 
     public ArrayList<Meter> getItems() {
-        for (Meter m: data){
+        for (Meter m : data) {
             m.applyNewValue();
         }
         return data;
@@ -155,14 +156,12 @@ class AddAdapter extends RecyclerView.Adapter<AddAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        View back;
         TextView name;
         EditText lastValue;
 
         ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.image);
-            back = itemView.findViewById(R.id.background);
             name = (TextView) itemView.findViewById(R.id.name);
             lastValue = (EditText) itemView.findViewById(R.id.last_value);
         }

@@ -42,7 +42,7 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final Meter item = data.get(position);
         holder.name.setText(item.getFullName());
         holder.lastValue.setText(item.getLastValue());
@@ -50,27 +50,28 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null) listener.onItemClick(item);
+                if (listener != null) listener.onItemClick(item, holder);
             }
         });
         MeterType type = item.getType();
         if (type == null) {
-            holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_public_white_48dp));
+            holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_green_A0));
+            holder.imageView.setImageResource(R.drawable.ic_public_white_48dp);
         } else {
             switch (type) {
                 case GAS: {
-                    holder.back.setBackgroundColor(context.getResources().getColor(R.color.main_orange));
-                    holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_whatshot_white_48dp));
+                    holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_orange));
+                    holder.imageView.setImageResource(R.drawable.ic_whatshot_white_48dp);
                     break;
                 }
                 case WATER: {
-                    holder.back.setBackgroundColor(context.getResources().getColor(R.color.main_blue));
-                    holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_invert_colors_white_48dp));
+                    holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_blue));
+                    holder.imageView.setImageResource(R.drawable.ic_invert_colors_white_48dp);
                     break;
                 }
                 case ELECTRICITY: {
-                    holder.back.setBackgroundColor(context.getResources().getColor(R.color.main_yellow));
-                    holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_flash_on_white_48dp));
+                    holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_yellow));
+                    holder.imageView.setImageResource(R.drawable.ic_flash_on_white_48dp);
                     break;
                 }
             }
@@ -88,19 +89,17 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     interface Listener {
-        void onItemClick(Meter item);
+        void onItemClick(Meter item, HomeAdapter.ViewHolder viewHolder);
     }
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        View back;
         TextView name, lastValue, lastDate, meanValuePerDay, meanValuePerMonth;
 
         ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.image);
-            back = itemView.findViewById(R.id.background);
             name = (TextView) itemView.findViewById(R.id.name);
             lastValue = (TextView) itemView.findViewById(R.id.last_value);
             lastDate = (TextView) itemView.findViewById(R.id.last_date);

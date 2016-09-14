@@ -28,4 +28,11 @@
         <item name="android:gravity">center</item>
         <item name="fontPath">fonts/Asap-Regular.ttf</item>
     </style>
+
+    <style name="AppTheme.TextViewMain" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">@dimen/fonts_sizes_16</item>
+        <item name="android:textColor">@color/font_black</item>
+        <item name="fontPath">fonts/Asap-Regular.ttf</item>
+        <item name="android:gravity">left</item>
+    </style>
 </resources>

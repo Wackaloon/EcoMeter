@@ -86,7 +86,11 @@ public class FragmentCroupier {
                 popAnimMap.put(fragment, new Integer[]{popAnimIn, popAnimOut});
             }
             if (replace) {
-                fragmentManager.beginTransaction().setCustomAnimations(animIn, animOut).replace(resourceId, fragment).commit();
+                fragmentManager
+                        .beginTransaction()
+                        .setCustomAnimations(animIn, animOut)
+                        .replace(resourceId, fragment)
+                        .commit();
                 lastLoadTag = tag;
             }
             if (backStackChangedListener != null) backStackChangedListener.onBackStackChanged();
