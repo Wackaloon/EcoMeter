@@ -49,6 +49,10 @@ public class Meter implements IMeter {
         this.meterPosition = meterPosition;
     }
 
+    public void addValue(MeterValue value){
+        values.add(value);
+    }
+
     public void applyNewValue() {
         if (valueLast != null)
             values.add(valueLast);
@@ -63,10 +67,6 @@ public class Meter implements IMeter {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void addValue(Long value) {
-        values.add(new MeterValue(value, Calendar.getInstance().getTime()));
     }
 
     @Override
@@ -111,18 +111,22 @@ public class Meter implements IMeter {
         if (values != null && values.size() == 0) {
             return result;
         }
-        if (values != null)
+        if (values != null) {
+            double daysCount = 0;
             for (int i = 1; i < values.size(); ++i) {
                 MeterValue value = values.get(i);
-                MeterValue prevValue = values.get(i-1);
+                MeterValue prevValue = values.get(i - 1);
                 Date date = value.getDate();
                 Date prevDate = prevValue.getDate();
                 long diff = date.getTime() - prevDate.getTime();
-                long hours = Math.round(Math.ceil(diff / (60 * 60 * 1000)));
+                double days = diff / (24 * 60 * 60 * 1000);
+                daysCount += days;
                 long valueDiff = value.getValue() - prevValue.getValue();
-                double perHour = valueDiff*1f/hours;
-                result += (perHour*24)/(values.size()-1);
+                double perDay = valueDiff / days;
+                result += (perDay);
             }
+            result /= daysCount;
+        }
         return result;
     }
 
@@ -135,29 +139,42 @@ public class Meter implements IMeter {
         if (values != null && values.size() == 0) {
             return result;
         }
-        if (values != null)
-        for (int i = 1; i < values.size(); ++i) {
-            MeterValue value = values.get(i);
-            MeterValue prevValue = values.get(i-1);
-            Date date = value.getDate();
-            Date prevDate = prevValue.getDate();
-            long diff = date.getTime() - prevDate.getTime();
-            long hours = Math.round(Math.ceil(diff / (60 * 60 * 1000)));
-            long valueDiff = value.getValue() - prevValue.getValue();
-            double perHour = valueDiff*1f/hours;
-            result += (perHour*24*31)/(values.size()-1);
+        if (values != null) {
+            Calendar c = Calendar.getInstance();
+            boolean newMonth = false;
+            long montlyValue = 0;
+            int monthsCount = 1;
+            for (int i = 1; i < values.size(); ++i) {
+                MeterValue value = values.get(i);
+                MeterValue prevValue = values.get(i - 1);
+                Date date = value.getDate();
+                Date prevDate = prevValue.getDate();
+                c.setTime(date);
+                int month = c.get(Calendar.MONTH);
+                c.setTime(prevDate);
+                int monthPrev = c.get(Calendar.MONTH);
+                if (month == monthPrev){
+                    montlyValue += value.value-prevValue.value;
+                }else{
+                    result += montlyValue;
+                    monthsCount++;
+                    montlyValue = value.value-prevValue.value;
+                }
+
+            }
+            result /= monthsCount;
         }
         return result;
     }
 
     @Override
     public String getMeanValuePerDayString() {
-        return String.valueOf(getMeanValuePerDay());
+        return String.format("%.2f", getMeanValuePerDay());
     }
 
     @Override
     public String getMeanValuePerMonthString() {
-        return String.valueOf(getMeanValuePerMonth());
+        return String.format("%.2f",getMeanValuePerMonth());
     }
 
     @Override
