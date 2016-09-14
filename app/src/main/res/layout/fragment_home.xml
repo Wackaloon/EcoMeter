@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/design_dp_8"
-        android:layout_marginTop="@dimen/design_dp_8"></android.support.v7.widget.RecyclerView>
+        android:layout_above="@+id/add"
+        android:layout_marginTop="@dimen/design_dp_8"/>
 
     <Button
         android:id="@+id/add"
