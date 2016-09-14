@@ -112,8 +112,16 @@ public class Meter implements IMeter {
             return result;
         }
         if (values != null)
-            for (MeterValue value : values) {
-                result += value.value * 1f / values.size();
+            for (int i = 1; i < values.size(); ++i) {
+                MeterValue value = values.get(i);
+                MeterValue prevValue = values.get(i-1);
+                Date date = value.getDate();
+                Date prevDate = prevValue.getDate();
+                long diff = date.getTime() - prevDate.getTime();
+                long hours = Math.round(Math.ceil(diff / (60 * 60 * 1000)));
+                long valueDiff = value.getValue() - prevValue.getValue();
+                double perHour = valueDiff*1f/hours;
+                result += (perHour*24)/(values.size()-1);
             }
         return result;
     }
@@ -121,14 +129,23 @@ public class Meter implements IMeter {
     @Override
     public Double getMeanValuePerMonth() {
         Double result = 0.0;
-        if (values.size() == 1) {
+        if (values != null && values.size() == 1) {
             return values.get(0).value.doubleValue();
         }
-        if (values.size() == 0) {
+        if (values != null && values.size() == 0) {
             return result;
         }
-        for (MeterValue value : values) {
-            result += value.value * 1f / values.size();
+        if (values != null)
+        for (int i = 1; i < values.size(); ++i) {
+            MeterValue value = values.get(i);
+            MeterValue prevValue = values.get(i-1);
+            Date date = value.getDate();
+            Date prevDate = prevValue.getDate();
+            long diff = date.getTime() - prevDate.getTime();
+            long hours = Math.round(Math.ceil(diff / (60 * 60 * 1000)));
+            long valueDiff = value.getValue() - prevValue.getValue();
+            double perHour = valueDiff*1f/hours;
+            result += (perHour*24*31)/(values.size()-1);
         }
         return result;
     }
