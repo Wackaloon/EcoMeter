@@ -39,13 +39,13 @@ public class MainActivity extends ExActivity{
             switch (signal_type) {
                 case OPEN_DETAILS:{
                     DetailsFragment meterDetails = DetailsFragment.newInstance();
-                    fragmentCroupier.addFragment("main", meterDetails, true, android.R.anim.slide_in_left, MainApplication.noAnimId,  MainApplication.noAnimId, android.R.anim.slide_out_right);
+                    fragmentCroupier.addFragment("main", meterDetails, true, android.R.anim.fade_in, MainApplication.noAnimId,  MainApplication.noAnimId, android.R.anim.fade_out);
                     break;
                 }
                 case OPEN_EDIT_METER:
                 case OPEN_CREATE_METER:{
                     EditMeterFragment editMeterFragment = EditMeterFragment.newInstance();
-                    fragmentCroupier.addFragment("main", editMeterFragment, true, android.R.anim.slide_in_left, MainApplication.noAnimId,  MainApplication.noAnimId, android.R.anim.slide_out_right);
+                    fragmentCroupier.addFragment("main", editMeterFragment, true, android.R.anim.fade_in, MainApplication.noAnimId,  MainApplication.noAnimId, android.R.anim.fade_out);
                     break;
                 }
                 case OPEN_ADD_VALUE:{
@@ -80,7 +80,7 @@ public class MainActivity extends ExActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            fragmentCroupier.loadBackStack("settings", R.animator.in_right, MainApplication.noAnimId);
+            fragmentCroupier.loadBackStack("settings",  android.R.anim.fade_in, MainApplication.noAnimId);
             return true;
         }
 
@@ -92,7 +92,7 @@ public class MainActivity extends ExActivity{
         if (!fragmentCroupier.popBackStack() && fragmentCroupier.getLastLoadTag().equals("main")) {
             DialogBuilder.getExitDialog(this).show();
         }else{
-            fragmentCroupier.loadBackStack("main", MainApplication.noAnimId, R.animator.out_right);
+            fragmentCroupier.loadBackStack("main", MainApplication.noAnimId, android.R.anim.fade_out);
         }
     }
 
