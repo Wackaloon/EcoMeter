@@ -10,13 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.alexanderageychenko.ecometer.Data.Depository;
 import com.alexanderageychenko.ecometer.Fragments.ExFragment;
 import com.alexanderageychenko.ecometer.Logic.DialogBuilder;
+import com.alexanderageychenko.ecometer.Logic.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.MainApplication;
 import com.alexanderageychenko.ecometer.Model.DeleteMeterListener;
-import com.alexanderageychenko.ecometer.Model.Meter;
+import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
+import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.R;
+
+import javax.inject.Inject;
 
 
 /**
@@ -28,6 +31,13 @@ public class SettingsFragment extends ExFragment implements SettingsAdapter.List
     private RecyclerView.LayoutManager layoutManager;
     private SettingsAdapter homeAdapter;
     private Button add;
+
+    @Inject
+    IMetersDepository iMetersDepository;
+
+    public SettingsFragment() {
+        Dagger.get().getInjector().inject(this);
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,40 +60,44 @@ public class SettingsFragment extends ExFragment implements SettingsAdapter.List
     @Override
     public void onResume() {
         super.onResume();
-        homeAdapter.setData(Depository.getInstance().getMeters());
-
-//        Snackbar.make(recyclerView, "Data was refreshed", Snackbar.LENGTH_SHORT)
-//                .setAction("Action", null).show();
+        homeAdapter.setData(iMetersDepository.getMeters());
     }
 
     @Override
     public void onPause() {
-        Depository.getInstance().saveToDB();
         super.onPause();
     }
 
     @Override
-    public void onEditClick(Meter item) {
+    public void onEditClick(IMeter item) {
+        iMetersDepository.selectMeter(item.getId());
         MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
-                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_EDIT_METER)
-                .putExtra("id", Depository.getInstance().getMeters().indexOf(item)));
+                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_EDIT_METER));
     }
 
     @Override
-    public void onDeleteClick(final Meter item) {
+    public void onDeleteClick(final IMeter item) {
         DialogBuilder.getDeleteMeterDialog(getActivity(), new DeleteMeterListener() {
             @Override
             public void delete() {
-                Depository.getInstance().getMeters().remove(item);
-                homeAdapter.setData(Depository.getInstance().getMeters());
+                iMetersDepository.getMeters().remove(item);
+                homeAdapter.setData(iMetersDepository.getMeters());
             }
         }).show();
 
     }
 
     @Override
+    public void onItemClick(IMeter item) {
+//        iMetersDepository.selectMeter(item.getId());
+//        MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
+//                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_DETAILS));
+    }
+
+    @Override
     public void onClick(View view) {
         if (view == add){
+            iMetersDepository.selectMeter(null);
             MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
                     .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_CREATE_METER));
         }

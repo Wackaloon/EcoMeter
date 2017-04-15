@@ -6,12 +6,9 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,9 +16,8 @@ import android.widget.LinearLayout;
 
 import com.alexanderageychenko.ecometer.Model.DeleteMeterListener;
 import com.alexanderageychenko.ecometer.Model.DetailsEditListener;
-import com.alexanderageychenko.ecometer.Model.Meter;
-import com.alexanderageychenko.ecometer.Model.MeterValue;
-import com.alexanderageychenko.ecometer.R;
+import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
+import com.alexanderageychenko.ecometer.Model.Entity.MeterValue;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -59,7 +55,7 @@ public abstract class DialogBuilder {
         return alertDialog;
     }
 
-    public static Dialog getEditDetailsDialog(final Activity activity, final Meter meter, final int position, final DetailsEditListener detailsEditListener) {
+    public static Dialog getEditDetailsDialog(final Activity activity, final IMeter meter, final int position, final DetailsEditListener detailsEditListener) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
         alertDialog.setTitle("Edit Value");
         final String blockCharacterSet = "0123456789";
@@ -113,7 +109,7 @@ public abstract class DialogBuilder {
         return alertDialog.create();
     }
 
-    public static Dialog getExitEditDateDialog(final Activity activity, final Meter meter, final int position, final DetailsEditListener detailsEditListener) {
+    public static Dialog getExitEditDateDialog(final Activity activity, final IMeter meter, final int position, final DetailsEditListener detailsEditListener) {
 
         final Calendar calendar = Calendar.getInstance();
 

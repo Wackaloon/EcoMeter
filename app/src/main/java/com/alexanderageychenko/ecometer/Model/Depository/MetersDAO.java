@@ -1,4 +1,4 @@
-package com.alexanderageychenko.ecometer.Data;
+package com.alexanderageychenko.ecometer.Model.Depository;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,11 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.alexanderageychenko.ecometer.Logic.MyGsonBuilder;
-import com.alexanderageychenko.ecometer.Model.Meter;
+import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
+import com.alexanderageychenko.ecometer.Model.Entity.Meter;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -54,18 +55,17 @@ public class MetersDAO {
         return hashMap;
     }
 
-    public void add(final List<Meter> meters) {
+    public void add(final Collection<IMeter> meters) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
                 db.execSQL("DELETE FROM " + TABLE_NAME + ";");
                 Gson gson = MyGsonBuilder.build();
-                for (int i = 0; i < meters.size(); ++i) {
-                    Meter meter = meters.get(i);
+                for (IMeter meter : meters) {
                     ContentValues values = new ContentValues();
-                    values.put(COLUMN_NAME.ID, i);
-                    values.put(COLUMN_NAME.JSON, gson.toJson(meter));
+                    values.put(COLUMN_NAME.ID, meter.getId());
+                    values.put(COLUMN_NAME.JSON, gson.toJson(meter, Meter.class));
                     db.insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
                 }
             }

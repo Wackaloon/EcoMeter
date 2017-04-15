@@ -1,4 +1,4 @@
-package com.alexanderageychenko.ecometer.Model;
+package com.alexanderageychenko.ecometer.Model.Entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -2,8 +2,6 @@ package com.alexanderageychenko.ecometer.Fragments.edit;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,47 +11,44 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.alexanderageychenko.ecometer.Data.Depository;
 import com.alexanderageychenko.ecometer.Fragments.ExFragment;
-import com.alexanderageychenko.ecometer.Logic.DialogBuilder;
-import com.alexanderageychenko.ecometer.Model.DetailsEditListener;
-import com.alexanderageychenko.ecometer.Model.Meter;
-import com.alexanderageychenko.ecometer.Model.MeterPosition;
-import com.alexanderageychenko.ecometer.Model.MeterType;
-import com.alexanderageychenko.ecometer.Model.MeterValue;
+import com.alexanderageychenko.ecometer.Logic.dagger2.Dagger;
+import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
+import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
+import com.alexanderageychenko.ecometer.Model.Entity.Meter;
+import com.alexanderageychenko.ecometer.Model.Entity.MeterPosition;
+import com.alexanderageychenko.ecometer.Model.Entity.MeterType;
 import com.alexanderageychenko.ecometer.R;
 
-import static android.support.design.R.styleable.Spinner;
+import javax.inject.Inject;
 
 /**
  * Created by alexanderageychenko on 9/14/16.
  */
 
-public class EditFragment extends ExFragment implements View.OnClickListener, TextView.OnEditorActionListener {
+public class EditMeterFragment extends ExFragment implements View.OnClickListener, TextView.OnEditorActionListener {
     private static final String ARG_METER_NUMBER = "argMeterNumber";
-    private Meter meter = null;
+    private IMeter meter = null;
     private android.widget.Spinner type;
     private android.widget.Spinner position;
     private EditText nameInput;
     private boolean create = false;
     private Button done;
-    /**
-     * Create a new DetailsFragment
-     * @param type The string of meter type
-     */
-    public static EditFragment newInstance(int type) {
-        Bundle args = new Bundle();
-        args.putInt(ARG_METER_NUMBER, type);
+    @Inject
+    IMetersDepository iMetersDepository;
 
-        EditFragment fragment = new EditFragment();
-        fragment.setArguments(args);
+    public EditMeterFragment() {
+        Dagger.get().getInjector().inject(this);
+    }
 
+    public static EditMeterFragment newInstance() {
+        EditMeterFragment fragment = new EditMeterFragment();
         return fragment;
     }
+
 
     @Nullable
     @Override
@@ -69,17 +64,15 @@ public class EditFragment extends ExFragment implements View.OnClickListener, Te
         position = (Spinner) view.findViewById(R.id.spinner_position);
         done = (Button) view.findViewById(R.id.done);
         done.setOnClickListener(this);
-        Bundle args = getArguments();
-        int typeNumber = args.containsKey(ARG_METER_NUMBER) ? args.getInt(ARG_METER_NUMBER) : -1;
 
         MeterType typeM = null;
         MeterPosition positionM = null;
-        if (typeNumber != -1){
-            meter = Depository.getInstance().getMeters().get(typeNumber);
+        if (iMetersDepository.getSelectedMeter() != null){
+            meter =iMetersDepository.getSelectedMeter();
             ((TextView) view.findViewById(R.id.title)).setText("Edit Meter");
             create = false;
         }else{
-            meter = new Meter(MeterType.WATER, MeterPosition.KITCHEN, null);
+            meter = new Meter(MeterType.WATER, MeterPosition.KITCHEN, null, (long) iMetersDepository.getMeters().size()+1);
             ((TextView) view.findViewById(R.id.title)).setText("Create New Meter");
             create = true;
         }
@@ -139,9 +132,8 @@ public class EditFragment extends ExFragment implements View.OnClickListener, Te
                 e.printStackTrace();
             }
             if (create){
-                Depository.getInstance().addNewMeter(meter);
+                iMetersDepository.addMeter(meter);
             }
-            Depository.getInstance().saveToDB();
             getActivity().onBackPressed();
         }
     }

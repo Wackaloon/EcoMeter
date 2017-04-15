@@ -6,17 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alexanderageychenko.ecometer.Model.Meter;
-import com.alexanderageychenko.ecometer.Model.MeterType;
-import com.alexanderageychenko.ecometer.Model.MeterValue;
+import com.alexanderageychenko.ecometer.Model.Entity.MeterValue;
 import com.alexanderageychenko.ecometer.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by alexanderaheychenko 13.09.16.

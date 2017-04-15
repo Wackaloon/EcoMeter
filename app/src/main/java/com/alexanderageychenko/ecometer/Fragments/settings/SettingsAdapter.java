@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alexanderageychenko.ecometer.Model.Meter;
-import com.alexanderageychenko.ecometer.Model.MeterType;
+import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
+import com.alexanderageychenko.ecometer.Model.Entity.MeterType;
 import com.alexanderageychenko.ecometer.R;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by alexanderaheychenko 13.09.16.
  */
 class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
-    private List<Meter> data = new ArrayList<>();
+    private List<IMeter> data = new ArrayList<>();
     private Context context;
     private Listener listener;
 
@@ -29,7 +29,7 @@ class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
         this.context = context;
     }
 
-    public void setData(@Nullable Collection<Meter> data) {
+    public void setData(@Nullable Collection<IMeter> data) {
         this.data.clear();
         if (data != null)
             this.data.addAll(data);
@@ -43,7 +43,7 @@ class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Meter item = data.get(position);
+        final IMeter item = data.get(position);
         holder.name.setText(item.getFullName());
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +57,18 @@ class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
                 if (listener != null) listener.onDeleteClick(item);
             }
         });
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) listener.onItemClick(item);
+            }
+        });
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) listener.onItemClick(item);
+            }
+        });
         MeterType type = item.getType();
         if (type == null) {
             holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_green_A0));
@@ -65,17 +77,17 @@ class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
             switch (type) {
                 case GAS: {
                     holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_orange));
-                    holder.imageView.setImageResource(R.drawable.ic_whatshot_white_48dp);
+                    holder.imageView.setImageResource(R.drawable.gas_image);
                     break;
                 }
                 case WATER: {
                     holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_blue));
-                    holder.imageView.setImageResource(R.drawable.ic_invert_colors_white_48dp);
+                    holder.imageView.setImageResource(R.drawable.water_image);
                     break;
                 }
                 case ELECTRICITY: {
                     holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_yellow));
-                    holder.imageView.setImageResource(R.drawable.ic_flash_on_white_48dp);
+                    holder.imageView.setImageResource(R.drawable.electro_image);
                     break;
                 }
             }
@@ -93,8 +105,9 @@ class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
     }
 
     interface Listener {
-        void onEditClick(Meter item);
-        void onDeleteClick(Meter item);
+        void onEditClick(IMeter item);
+        void onDeleteClick(IMeter item);
+        void onItemClick(IMeter item);
     }
 
 

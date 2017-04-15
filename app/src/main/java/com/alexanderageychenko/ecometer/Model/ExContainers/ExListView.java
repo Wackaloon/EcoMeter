@@ -1,4 +1,4 @@
-package com.alexanderageychenko.ecometer.Model;
+package com.alexanderageychenko.ecometer.Model.ExContainers;
 
 import android.annotation.TargetApi;
 import android.content.Context;

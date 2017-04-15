@@ -1,13 +1,24 @@
-package com.alexanderageychenko.ecometer.Model;
+package com.alexanderageychenko.ecometer.Model.Entity;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by alexanderageychenko on 9/13/16.
  */
 
 public interface IMeter {
+
+    String getName();
+
+    void setMeterType(MeterType meterType);
+
+    void setMeterPosition(MeterPosition meterPosition);
+
+    void addValue(MeterValue value);
+
+    void setName(String name);
+
+    Long getId();
 
     String getFullName();
 
@@ -28,6 +39,9 @@ public interface IMeter {
     MeterType getType();
 
     MeterPosition getPosition();
+
+    void setValue(Long newValue);
+    void applyValue();
 
 
 }

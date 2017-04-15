@@ -1,29 +1,29 @@
-package com.alexanderageychenko.ecometer.Model;
+package com.alexanderageychenko.ecometer.Model.ExContainers;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.ScrollView;
+import android.widget.LinearLayout;
 
 /**
- * Created by vladimiryuyukin on 22.04.16.
+ * Created by vladimiryuyukin on 21.04.16.
  */
-public class ExScrollView extends ScrollView {
-    public ExScrollView(Context context) {
+public class ExLinearLayout extends LinearLayout {
+    public ExLinearLayout(Context context) {
         super(context);
     }
 
-    public ExScrollView(Context context, AttributeSet attrs) {
+    public ExLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ExScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ExLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ExScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ExLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

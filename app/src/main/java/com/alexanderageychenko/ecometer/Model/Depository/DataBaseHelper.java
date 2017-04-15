@@ -1,4 +1,4 @@
-package com.alexanderageychenko.ecometer.Data;
+package com.alexanderageychenko.ecometer.Model.Depository;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;

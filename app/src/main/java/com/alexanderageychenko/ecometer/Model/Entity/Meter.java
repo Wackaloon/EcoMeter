@@ -1,6 +1,4 @@
-package com.alexanderageychenko.ecometer.Model;
-
-import android.support.annotation.NonNull;
+package com.alexanderageychenko.ecometer.Model.Entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -16,6 +14,10 @@ import java.util.Locale;
  */
 
 public class Meter implements IMeter {
+
+    @SerializedName("id")
+    @Expose
+    private Long id;
     @SerializedName("type")
     @Expose
     private MeterType meterType;
@@ -33,40 +35,42 @@ public class Meter implements IMeter {
     @Expose
     private MeterValue valueLast = null;
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public void setNewValue(@NonNull Long value) {
-        this.valueLast = new MeterValue(value, Calendar.getInstance().getTime());
-    }
-
+    @Override
     public void setMeterType(MeterType meterType) {
         this.meterType = meterType;
     }
 
+    @Override
     public void setMeterPosition(MeterPosition meterPosition) {
         this.meterPosition = meterPosition;
     }
 
+    @Override
     public void addValue(MeterValue value){
         values.add(value);
     }
 
-    public void applyNewValue() {
-        if (valueLast != null)
-            values.add(valueLast);
-        valueLast = null;
-    }
 
-    public Meter(MeterType meterType, MeterPosition meterPosition, String name) {
+    public Meter(MeterType meterType, MeterPosition meterPosition, String name, Long id) {
         this.meterType = meterType;
         this.meterPosition = meterPosition;
         this.name = name;
+        this.id = id;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
     @Override
@@ -185,5 +189,17 @@ public class Meter implements IMeter {
     @Override
     public MeterPosition getPosition() {
         return meterPosition;
+    }
+
+    @Override
+    public void setValue(Long newValue) {
+        this.valueLast = new MeterValue(newValue, Calendar.getInstance().getTime());
+    }
+
+    @Override
+    public void applyValue() {
+        if (valueLast != null)
+            values.add(valueLast);
+        valueLast = null;
     }
 }
