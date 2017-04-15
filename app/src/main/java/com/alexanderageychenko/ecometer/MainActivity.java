@@ -39,17 +39,17 @@ public class MainActivity extends ExActivity{
             switch (signal_type) {
                 case OPEN_DETAILS:{
                     DetailsFragment meterDetails = DetailsFragment.newInstance();
-                    fragmentCroupier.addFragment("main", meterDetails, true, R.animator.in_right, MainApplication.noAnimId, R.animator.no_anim, R.animator.out_right);
+                    fragmentCroupier.addFragment("main", meterDetails, true, android.R.anim.slide_in_left, MainApplication.noAnimId,  MainApplication.noAnimId, android.R.anim.slide_out_right);
                     break;
                 }
                 case OPEN_EDIT_METER:
                 case OPEN_CREATE_METER:{
                     EditMeterFragment editMeterFragment = EditMeterFragment.newInstance();
-                    fragmentCroupier.addFragment("main", editMeterFragment, true, R.animator.in_right, MainApplication.noAnimId, R.animator.no_anim, R.animator.out_right);
+                    fragmentCroupier.addFragment("main", editMeterFragment, true, android.R.anim.slide_in_left, MainApplication.noAnimId,  MainApplication.noAnimId, android.R.anim.slide_out_right);
                     break;
                 }
                 case OPEN_ADD_VALUE:{
-                    fragmentCroupier.addFragment("main", addValueFragment, true, R.animator.alpha_in, MainApplication.noAnimId, R.animator.no_anim, R.animator.alpha_out);
+                    fragmentCroupier.addFragment("main", addValueFragment, true, android.R.anim.fade_in, MainApplication.noAnimId, MainApplication.noAnimId, android.R.anim.fade_out);
                     break;
                 }
             }
@@ -58,7 +58,7 @@ public class MainActivity extends ExActivity{
     
 
     private void initFragments(){
-        fragmentCroupier.init(getFragmentManager(), R.id.content_frame);
+        fragmentCroupier.init(getSupportFragmentManager(), R.id.content_frame);
         fragmentCroupier.addFragment("main", homeFragment);
         fragmentCroupier.addFragment("settings", settingsFragment);
         fragmentCroupier.loadBackStack("main");

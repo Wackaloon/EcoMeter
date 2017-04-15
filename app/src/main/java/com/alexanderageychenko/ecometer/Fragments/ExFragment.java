@@ -1,21 +1,23 @@
 package com.alexanderageychenko.ecometer.Fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.app.Fragment;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+
+import com.alexanderageychenko.ecometer.Logic.dagger2.Dagger;
 
 
 /**
@@ -24,7 +26,7 @@ import android.view.inputmethod.InputMethodManager;
 public abstract class ExFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener {
     protected int real_width, real_height;
 
-    Animator.AnimatorListener animatorListener;
+    Animation.AnimationListener animatorListener;
 
     private Float elevator;
 
@@ -36,7 +38,7 @@ public abstract class ExFragment extends Fragment implements ViewTreeObserver.On
         return real_height;
     }
 
-    public ExFragment setAnimatorListener(Animator.AnimatorListener animatorListener) {
+    public ExFragment setAnimatorListener(Animation.AnimationListener animatorListener) {
         this.animatorListener = animatorListener;
         return this;
     }
@@ -96,16 +98,37 @@ public abstract class ExFragment extends Fragment implements ViewTreeObserver.On
         super.onStop();
     }
 
+
     @Override
-    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
-        Animator anim = super.onCreateAnimator(transit, enter, nextAnim);
-        if (nextAnim != 0) {
-            anim = AnimatorInflater.loadAnimator(getActivity(),
-                    nextAnim);
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        final Fragment parent = getParentFragment();
+        Animation anim = super.onCreateAnimation(transit, enter, nextAnim);
+
+        // Apply the workaround only if this is a child fragment, and the parent
+        // is being removed.
+        if (!enter && parent != null && parent.isRemoving()) {
+            // This is a workaround for the bug where child fragments disappear when
+            // the parent is removed (as all children are first removed from the parent)
+            // See https://code.google.com/p/android/issues/detail?id=55228
+            Animation doNothingAnim = new AlphaAnimation(1, 1);
+            if (nextAnim != 0) {
+                anim = AnimationUtils.loadAnimation(Dagger.get().getGetter().getApplicationContext(),
+                        nextAnim);
+            }
+            doNothingAnim.setDuration(anim.getDuration());
+
             if (animatorListener != null)
-                anim.addListener(animatorListener);
+                doNothingAnim.setAnimationListener(animatorListener);
+            return doNothingAnim;
+        } else {
+            if (nextAnim != 0) {
+                anim = AnimationUtils.loadAnimation(Dagger.get().getGetter().getApplicationContext(),
+                        nextAnim);
+                if (animatorListener != null)
+                    anim.setAnimationListener(animatorListener);
+            }
+            return anim;
         }
-        return anim;
     }
 
     public boolean popBackStack() {

@@ -1,9 +1,9 @@
 package com.alexanderageychenko.ecometer.Logic;
 
-import android.animation.Animator;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.animation.Animation;
 
 import com.alexanderageychenko.ecometer.Fragments.ExFragment;
 
@@ -22,24 +22,19 @@ public class FragmentCroupier {
     int resourceId;
     String lastLoadTag = "";
     boolean animationRun = false;
-    Animator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+    Animation.AnimationListener animatorListener = new Animation.AnimationListener() {
         @Override
-        public void onAnimationStart(Animator animation) {
+        public void onAnimationStart(Animation animation) {
             animationRun = true;
         }
 
         @Override
-        public void onAnimationEnd(Animator animation) {
+        public void onAnimationEnd(Animation animation) {
             animationRun = false;
         }
 
         @Override
-        public void onAnimationCancel(Animator animation) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animation) {
+        public void onAnimationRepeat(Animation animation) {
 
         }
     };

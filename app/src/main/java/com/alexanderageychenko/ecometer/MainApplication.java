@@ -25,7 +25,7 @@ public class MainApplication extends Application {
     static public IntentFilter GLOBAL_FILTER;
     static public String FILTER_ACTION_NAME;
     static public String SIGNAL_NAME = "SIGNAL";
-    static public int noAnimId = com.alexanderageychenko.ecometer.R.animator.no_anim;
+    static public int noAnimId =  R.anim.emty_animation;
     static public int currentApiVersion;
     //
     static private MainApplication mainApplication;

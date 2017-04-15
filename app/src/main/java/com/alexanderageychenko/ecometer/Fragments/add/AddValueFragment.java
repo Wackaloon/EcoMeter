@@ -1,6 +1,5 @@
 package com.alexanderageychenko.ecometer.Fragments.add;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -8,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,7 +24,7 @@ import javax.inject.Inject;
 /**
  * Created by alexanderageychenko 13.09.16.
  */
-public class AddValueFragment extends ExFragment implements AddValueAdapter.Listener, View.OnClickListener {
+public class AddValueFragment extends ExFragment implements AddValueAdapter.Listener, View.OnClickListener, TextWatcher {
     private static final String TAG = "Home";
     private Button done;
     private IMeter meter;
@@ -63,44 +61,23 @@ public class AddValueFragment extends ExFragment implements AddValueAdapter.List
         meter_image.setBackgroundColor(getResources().getColor(meter.getType().getBackgroundResource()));
         meter_image.setImageResource(meter.getType().getImageResource());
         new_value = (EditText) view.findViewById(R.id.new_value_input);
-        new_value.setText(meter.getLastValue());
-        new_value.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                try {
-                    meter.setValue(Long.parseLong(new_value.getText().toString()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
         done.setOnClickListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        InputMethodManager imm = (InputMethodManager) Dagger.get().getGetter().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
-        new_value.requestFocus();
+        String last = meter.getLastValue();
+        new_value.setText(last);
+        new_value.addTextChangedListener(this);
     }
 
     @Override
     public void onPause() {
+        new_value.removeTextChangedListener(this);
+        new_value.setText("");
         super.onPause();
 
-        InputMethodManager imm = (InputMethodManager) Dagger.get().getGetter().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0,InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     @Override
@@ -114,5 +91,24 @@ public class AddValueFragment extends ExFragment implements AddValueAdapter.List
             iMetersDepository.addMeter(meter);
             getActivity().onBackPressed();
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        try {
+            meter.setValue(Long.parseLong(new_value.getText().toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
     }
 }
