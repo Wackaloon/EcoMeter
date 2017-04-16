@@ -9,10 +9,10 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.alexanderageychenko.ecometer.Logic.dagger2.AppModule;
-import com.alexanderageychenko.ecometer.Logic.dagger2.Dagger;
-import com.alexanderageychenko.ecometer.Logic.dagger2.DaggerAppComponent;
-import com.alexanderageychenko.ecometer.Logic.dagger2.DepositoryModule;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppModule;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
+import com.alexanderageychenko.ecometer.Tools.dagger2.DaggerAppComponent;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Module.DepositoryModule;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 

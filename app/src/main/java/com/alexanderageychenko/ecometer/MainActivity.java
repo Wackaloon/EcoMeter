@@ -9,13 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.alexanderageychenko.ecometer.Fragments.add.AddValueFragment;
-import com.alexanderageychenko.ecometer.Fragments.details.DetailsFragment;
-import com.alexanderageychenko.ecometer.Fragments.edit.EditMeterFragment;
-import com.alexanderageychenko.ecometer.Fragments.home.HomeFragment;
-import com.alexanderageychenko.ecometer.Fragments.settings.SettingsFragment;
-import com.alexanderageychenko.ecometer.Logic.DialogBuilder;
-import com.alexanderageychenko.ecometer.Logic.FragmentCroupier;
+import com.alexanderageychenko.ecometer.View.add.AddValueFragment;
+import com.alexanderageychenko.ecometer.View.details.DetailsFragment;
+import com.alexanderageychenko.ecometer.View.edit.EditMeterFragment;
+import com.alexanderageychenko.ecometer.View.home.HomeFragment;
+import com.alexanderageychenko.ecometer.View.settings.SettingsFragment;
+import com.alexanderageychenko.ecometer.Tools.DialogBuilder;
+import com.alexanderageychenko.ecometer.Tools.FragmentCroupier;
 import com.alexanderageychenko.ecometer.Model.ExContainers.ExActivity;
 
 public class MainActivity extends ExActivity{

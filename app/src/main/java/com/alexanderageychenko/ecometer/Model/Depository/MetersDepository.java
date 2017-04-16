@@ -1,6 +1,7 @@
 package com.alexanderageychenko.ecometer.Model.Depository;
 
 import com.alexanderageychenko.ecometer.MainApplication;
+import com.alexanderageychenko.ecometer.Model.DataBase.MetersDAO;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.Model.Entity.Meter;
 

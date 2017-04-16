@@ -11,7 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
-import com.alexanderageychenko.ecometer.Logic.DialogBuilder;
+import com.alexanderageychenko.ecometer.Tools.DialogBuilder;
 import com.alexanderageychenko.ecometer.MainApplication;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
