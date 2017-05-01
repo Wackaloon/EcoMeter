@@ -10,6 +10,7 @@ import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.MainModule;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.NetworkModule;
 import com.google.gson.Gson;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +31,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import io.reactivex.Scheduler;
 import okhttp3.Cache;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -40,9 +42,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Scheduler;
 
 /**
  * Created by Alexander on 01.05.2017.
@@ -153,7 +153,7 @@ public class Rest {
                 .baseUrl(serverName)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(networkSheduler))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(networkSheduler))
                 .build();
 
         restInterface = retrofit.create(RestInterface.class);

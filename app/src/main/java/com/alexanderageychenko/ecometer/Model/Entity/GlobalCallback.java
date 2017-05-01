@@ -9,13 +9,12 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 
 public abstract class GlobalCallback<T extends IResponse> implements Callback<T> {
@@ -37,9 +36,9 @@ public abstract class GlobalCallback<T extends IResponse> implements Callback<T>
         }
         Observable.just(response)
                 .observeOn(Schedulers.from(executor))
-                .subscribe(new Action1<Response<T>>() {
+                .subscribe(new Consumer<Response<T>>() {
                     @Override
-                    public void call(Response<T> tResponse) {
+                    public void accept(Response<T> tResponse) throws Exception {
                         handleResponse(tResponse);
                     }
                 });
@@ -85,19 +84,9 @@ public abstract class GlobalCallback<T extends IResponse> implements Callback<T>
         }
         Observable.just(t)
                 .observeOn(Schedulers.from(executor))
-                .subscribe(new Subscriber<Throwable>() {
+                .subscribe(new Consumer<Throwable>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Throwable t) {
+                    public void accept(Throwable t) throws Exception {
                         if (t.getClass() == UnknownHostException.class
                                 || t.getClass() == ConnectException.class
                                 || t.getClass() == java.net.SocketTimeoutException.class) {
