@@ -60,7 +60,7 @@ public class HomeOctopus implements IHomeOctopus {
             iView.setMeters(iMeters);
         }
     };
-    
+
     @Override
     public void onStart() {
         Observable.just(iMetersDepository.getMeters())

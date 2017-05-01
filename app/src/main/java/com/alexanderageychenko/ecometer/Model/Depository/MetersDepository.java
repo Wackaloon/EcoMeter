@@ -38,17 +38,17 @@ public class MetersDepository implements IMetersDepository {
         meters.clear();
         for (IMeter m : iMeters)
             meters.put(m.getId(), m);
-        saveToDB();
+        saveToDB(iMeters);
 
     }
 
-    private void saveToDB(){
-        Observable.just(meters.values()) // use  to imitate rest request
+    private void saveToDB(Collection<IMeter> iMeters){
+        Observable.just(iMeters) // use  to imitate rest request
                 .observeOn(Schedulers.io())  //io for DB usage
                 .subscribe(new Consumer<Collection<IMeter>>() {
                     @Override
-                    public void accept(Collection<IMeter> time) throws Exception {
-                        metersDAO.add(meters.values());
+                    public void accept(Collection<IMeter> iMeters) throws Exception {
+                        metersDAO.add(iMeters);
                     }
                 });
     }
@@ -67,7 +67,7 @@ public class MetersDepository implements IMetersDepository {
     @Override
     public void addMeter(IMeter meter) {
         meters.put(meter.getId(), meter);
-        saveToDB();
+        saveToDB(meters.values());
     }
 
     @Override

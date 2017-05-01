@@ -10,8 +10,8 @@ import android.util.Log;
 
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.Tools.dagger2.DaggerAppComponent;
-import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppModule;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.DepositoryModule;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Module.MainModule;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.UIModule;
 import com.crashlytics.android.Crashlytics;
 
@@ -71,7 +71,7 @@ public class MainApplication extends Application {
 
         Dagger.setAppComponent(DaggerAppComponent.builder()
                 .depositoryModule(new DepositoryModule())
-                .appModule(new AppModule(MainApplication.this))
+                .mainModule(new MainModule(MainModule.Type.ANDROID, this))
                 .uIModule(new UIModule(this))
                 .build());
     }
