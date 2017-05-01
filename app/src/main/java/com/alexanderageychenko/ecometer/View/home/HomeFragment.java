@@ -26,8 +26,9 @@ import io.reactivex.functions.Consumer;
 /**
  * Created by alexanderageychenko 13.09.16.
  */
-public class HomeFragment extends ExFragment implements HomeAdapter.Listener, IHomeOctopus.IView {
-    private static final String TAG = "Home";
+public class HomeFragment
+        extends ExFragment
+        implements HomeAdapter.Listener, IHomeOctopus.IView {
     private HomeAdapter homeAdapter;
     @Inject
     IHomeOctopus iHomeOctopus;
@@ -38,43 +39,35 @@ public class HomeFragment extends ExFragment implements HomeAdapter.Listener, IH
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         homeAdapter = new HomeAdapter(getActivity());
         homeAdapter.setListener(this);
         recyclerView.setAdapter(homeAdapter);
         iHomeOctopus.setIView(this);
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         iHomeOctopus.onStart();
-
     }
 
     @Override
     public void onStop() {
         iHomeOctopus.onStop();
         super.onStop();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     @Override

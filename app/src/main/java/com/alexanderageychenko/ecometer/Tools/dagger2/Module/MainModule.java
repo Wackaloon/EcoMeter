@@ -5,9 +5,6 @@ import android.app.Application;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by viorn on 22.12.16.
- */
 @Module
 public class MainModule {
     private Type type;

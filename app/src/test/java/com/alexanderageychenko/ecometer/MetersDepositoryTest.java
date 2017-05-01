@@ -3,12 +3,8 @@ package com.alexanderageychenko.ecometer;
 import com.alexanderageychenko.ecometer.Model.DataBase.IMetersDAO;
 import com.alexanderageychenko.ecometer.Model.Depository.MetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
+import com.alexanderageychenko.ecometer.Model.Entity.response.GetMetersList;
 import com.alexanderageychenko.ecometer.Tools.DefaultMetersFiller;
-import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
-import com.alexanderageychenko.ecometer.Tools.dagger2.DaggerAppComponent;
-import com.alexanderageychenko.ecometer.Tools.dagger2.Module.DepositoryModule;
-import com.alexanderageychenko.ecometer.Tools.dagger2.Module.MainModule;
-import com.alexanderageychenko.ecometer.Tools.dagger2.Module.UIModule;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,38 +28,28 @@ import static org.mockito.Mockito.verify;
  */
 
 @RunWith(value = BlockJUnit4ClassRunner.class)
-public class MetersDepositoryTest {
-    private Boolean[] stop = {false};
-   private boolean[] fail = {false};
+public class MetersDepositoryTest extends TestRoot {
     @Mock
     IMetersDAO iMetersDAO;
     @InjectMocks
     MetersDepository metersDepository;
 
-
     @Before
     public void setup() {
-        Dagger.setAppComponent(DaggerAppComponent.builder()
-                .depositoryModule(new DepositoryModule())
-                .mainModule(new MainModule(MainModule.Type.TEST))
-                .uIModule(new UIModule(new TestContext()))
-                .build());
-        MockitoAnnotations.initMocks(this);
 
-        fail[0] = false;
-        stop[0] = false;
+
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test(timeout = 10000)
     public void setMetersList() {
 
         DefaultMetersFiller filer = new DefaultMetersFiller();
-
         final ArrayList<IMeter> defaultMeters = new ArrayList<IMeter>(filer.getDefaultMeters());
 
         metersDepository.setMeters(defaultMeters);
 
-        verify(iMetersDAO, atLeastOnce()).add(defaultMeters);
+        verify(iMetersDAO, atLeastOnce()).set(defaultMeters);
 
         Assert.assertEquals(new ArrayList<>(metersDepository.getMeters()), defaultMeters);
 
@@ -71,16 +57,18 @@ public class MetersDepositoryTest {
             @Override
             public void accept(Collection<IMeter> iMeters) throws Exception {
                 Assert.assertEquals(new ArrayList<>(iMeters), defaultMeters);
-                stop[0] = true;
+                setTestSuccecedAndStop();
             }
         });
         metersDepository.requestMeters();
-        
+
         waitForStopAndCheckResult();
     }
 
-    private void waitForStopAndCheckResult() {
-        TestTools.pause(stop);
-        Assert.assertFalse(fail[0]);
+    @Test(timeout = 10000)
+    public void getMetersList(){
+       // auth(); if you need auth dont forget to auth first in every test
+        restManager.getRestInterface().getMeters(5L).enqueue(new CallbackNullCheckStop<GetMetersList>());
+        waitForStopAndCheckResult();
     }
 }

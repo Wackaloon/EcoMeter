@@ -15,9 +15,6 @@ import java.util.Collection;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-/**
- * Created by alexanderageychenko 13.09.16.
- */
 
 public class MetersDAO implements IMetersDAO {
     public final static String TABLE_NAME = "Meter_LIST";
@@ -57,7 +54,7 @@ public class MetersDAO implements IMetersDAO {
     }
 
     @Override
-    public void add(final Collection<IMeter> meters) {
+    public void set(final Collection<IMeter> meters) {
         executor.execute(new Runnable() {
             @Override
             public void run() {

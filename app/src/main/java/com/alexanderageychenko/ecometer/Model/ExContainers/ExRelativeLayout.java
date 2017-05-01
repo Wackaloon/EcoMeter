@@ -6,9 +6,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-/**
- * Created by vladimiryuyukin on 22.04.16.
- */
 public class ExRelativeLayout extends RelativeLayout {
     public ExRelativeLayout(Context context) {
         super(context);

@@ -48,7 +48,7 @@ public class MetersDepository implements IMetersDepository {
                 .subscribe(new Consumer<Collection<IMeter>>() {
                     @Override
                     public void accept(Collection<IMeter> iMeters) throws Exception {
-                        metersDAO.add(iMeters);
+                        metersDAO.set(iMeters);
                     }
                 });
     }

@@ -10,11 +10,13 @@ import java.util.Collection;
  */
 
 public interface IHomeOctopus extends Octopus<IHomeOctopus.IView> {
+
     void openMeterDetails(IMeter meter);
 
     void openAddValueToMeter(IMeter meter);
 
     interface IView extends Octopus.IView {
+
         void setMeters(Collection<IMeter> meters);
     }
 }

@@ -6,9 +6,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-/**
- * Created by vladimiryuyukin on 21.04.16.
- */
 public class ExFrameLayout extends FrameLayout {
     public ExFrameLayout(Context context) {
         super(context);

@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by alexanderaheychenko 13.09.16.
+ * Created by Alexander on 16.04.2017.
  */
 class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private List<IMeter> data = new ArrayList<>();
@@ -88,7 +88,7 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView name, lastValue, lastDate, meanValuePerDay, meanValuePerMonth;
+        TextView name, lastValue, lastDate;
 
         ViewHolder(View itemView) {
             super(itemView);

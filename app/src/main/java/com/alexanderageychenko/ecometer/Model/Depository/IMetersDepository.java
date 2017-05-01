@@ -11,21 +11,16 @@ import io.reactivex.Observable;
  */
 
 public interface IMetersDepository {
-
     //for data source to set new meters
     void setMeters(Collection<IMeter> iMeters);
-
     //for presenter to get existing meters
     Collection<IMeter> getMeters();
-
     void addMeter(IMeter meter);
-
     IMeter getMeter(Long id);
     // for presenter to subscribe for meters changes
     Observable<Collection<IMeter>> getMetersPublisher();
     //for presenter to request new meters data
     void requestMeters();
-
     //select meter for further operations
     void selectMeter(Long meterId);
     // get selected meter (for editing of adding values)

@@ -6,9 +6,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-/**
- * Created by vladimiryuyukin on 21.04.16.
- */
 public class ExListView extends ListView {
     public ExListView(Context context) {
         super(context);

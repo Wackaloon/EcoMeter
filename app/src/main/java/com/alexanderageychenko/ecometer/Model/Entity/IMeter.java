@@ -9,39 +9,21 @@ import java.util.ArrayList;
 public interface IMeter {
 
     String getName();
-
-    void setMeterType(MeterType meterType);
-
-    void setMeterPosition(MeterPosition meterPosition);
-
-    void addValue(MeterValue value);
-
-    void setName(String name);
-
     Long getId();
-
     String getFullName();
-
     String getLastValue();
-
     String getLastValueDate();
-
     ArrayList<MeterValue> getAllValues();
-
     Double getMeanValuePerDay();
-
     Double getMeanValuePerMonth();
-
     String getMeanValuePerDayString();
-
     String getMeanValuePerMonthString();
-
     MeterType getType();
-
     MeterPosition getPosition();
-
+    void setMeterType(MeterType meterType);
+    void setMeterPosition(MeterPosition meterPosition);
+    void addValue(MeterValue value);
+    void setName(String name);
     void setValue(Long newValue);
     void applyValue();
-
-
 }

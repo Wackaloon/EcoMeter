@@ -43,12 +43,14 @@ android {
     buildTypes {
         production {
             minifyEnabled true
+            buildConfigField "com.alexanderageychenko.ecometer.ServerType", "SERVER_TYPE", "com.alexanderageychenko.ecometer.ServerType.PROD"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "DEBUG_MODE", "false"
         }
         debug {
             debuggable true
             minifyEnabled false
+            buildConfigField "com.alexanderageychenko.ecometer.ServerType", "SERVER_TYPE", "com.alexanderageychenko.ecometer.ServerType.TEST"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "DEBUG_MODE", "true"
         }
@@ -68,6 +70,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.google.android.gms:play-services-auth:10.2.1'
     compile 'com.google.android.gms:play-services-identity:10.2.1'

@@ -18,9 +18,6 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-/**
- * Created by alexanderageychenko 13.09.16.
- */
 public class MainApplication extends Application {
 
     //static

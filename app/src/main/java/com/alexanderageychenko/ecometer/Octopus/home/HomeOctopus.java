@@ -26,7 +26,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HomeOctopus implements IHomeOctopus {
     private IView iView;
-
     @Inject
     IMetersDepository iMetersDepository;
     private Disposable metersSubscription;
@@ -39,7 +38,6 @@ public class HomeOctopus implements IHomeOctopus {
     public void setIView(IView view) {
         this.iView = view;
     }
-
     private Function<Collection<IMeter>, Collection<IMeter>> sortFunc = new Function<Collection<IMeter>, Collection<IMeter>>() {
         @Override
         public Collection<IMeter> apply(Collection<IMeter> iMeters) throws Exception {
@@ -53,7 +51,6 @@ public class HomeOctopus implements IHomeOctopus {
             return list;
         }
     };
-
     private Consumer<Collection<IMeter>> consumer = new Consumer<Collection<IMeter>>() {
         @Override
         public void accept(Collection<IMeter> iMeters) throws Exception {
@@ -74,7 +71,6 @@ public class HomeOctopus implements IHomeOctopus {
 
         iMetersDepository.requestMeters();
     }
-
     @Override
     public void onStop() {
         metersSubscription.dispose();
@@ -86,7 +82,6 @@ public class HomeOctopus implements IHomeOctopus {
         MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
                 .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_DETAILS));
     }
-
     @Override
     public void openAddValueToMeter(IMeter meter) {
         iMetersDepository.selectMeter(meter.getId());

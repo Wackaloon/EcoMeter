@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by alexanderageychenko on 9/13/16.
+ * Created by Alexander on 01.05.2017.
  */
 
 public class Meter implements IMeter {
