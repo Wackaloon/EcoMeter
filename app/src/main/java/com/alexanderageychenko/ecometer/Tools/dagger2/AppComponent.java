@@ -19,12 +19,14 @@ import dagger.Component;
  * Created by Alexander on 15.04.2017.
  */
 @Singleton
-@Component(modules={DepositoryModule.class, MainModule.class, OctopusModule.class, UIModule.class, NetworkModule.class})
+@Component(modules = {DepositoryModule.class, MainModule.class, OctopusModule.class, UIModule.class, NetworkModule.class})
 public interface AppComponent {
     Getter getGetter();
+
     Injector getInjector();
 
     @Nullable
     Context getContext();
+
     MainModule.Type getType();
 }

@@ -1,4 +1,4 @@
-package com.alexanderageychenko.ecometer;
+package com.alexanderageychenko.ecometer.tools;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;

@@ -1,6 +1,7 @@
 package com.alexanderageychenko.ecometer.View;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +18,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 
-import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
+import java.lang.reflect.Field;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -99,6 +102,9 @@ public abstract class ExFragment extends Fragment implements ViewTreeObserver.On
     }
 
 
+    // Arbitrary value; set it to some reasonable default
+    private static final int DEFAULT_CHILD_ANIMATION_DURATION = 250;
+
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
         final Fragment parent = getParentFragment();
@@ -111,23 +117,36 @@ public abstract class ExFragment extends Fragment implements ViewTreeObserver.On
             // the parent is removed (as all children are first removed from the parent)
             // See https://code.google.com/p/android/issues/detail?id=55228
             Animation doNothingAnim = new AlphaAnimation(1, 1);
-            if (nextAnim != 0) {
-                anim = AnimationUtils.loadAnimation(Dagger.get().getGetter().getApplicationContext(),
-                        nextAnim);
-            }
-            doNothingAnim.setDuration(anim.getDuration());
-
+            doNothingAnim.setDuration(getNextAnimationDuration(parent, DEFAULT_CHILD_ANIMATION_DURATION));
+            anim = doNothingAnim;
             if (animatorListener != null)
-                doNothingAnim.setAnimationListener(animatorListener);
-            return doNothingAnim;
+                anim.setAnimationListener(animatorListener);
         } else {
+            anim = super.onCreateAnimation(transit, enter, nextAnim);
             if (nextAnim != 0) {
-                anim = AnimationUtils.loadAnimation(Dagger.get().getGetter().getApplicationContext(),
-                        nextAnim);
+                anim = AnimationUtils.loadAnimation(getActivity(), nextAnim);
                 if (animatorListener != null)
                     anim.setAnimationListener(animatorListener);
             }
-            return anim;
+        }
+
+        return anim;
+    }
+
+    private static long getNextAnimationDuration(Fragment fragment, long defValue) {
+        try {
+            // Attempt to get the resource ID of the next animation that
+            // will be applied to the given fragment.
+            Field nextAnimField = Fragment.class.getDeclaredField("mNextAnim");
+            nextAnimField.setAccessible(true);
+            int nextAnimResource = nextAnimField.getInt(fragment);
+            Animation nextAnim = AnimationUtils.loadAnimation(fragment.getActivity(), nextAnimResource);
+
+            // ...and if it can be loaded, return that animation's duration
+            return (nextAnim == null) ? defValue : nextAnim.getDuration();
+        } catch (NoSuchFieldException|IllegalAccessException|Resources.NotFoundException ex) {
+            Log.w(TAG, "Unable to load next animation from parent.", ex);
+            return defValue;
         }
     }
 

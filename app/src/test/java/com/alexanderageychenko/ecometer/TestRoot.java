@@ -8,6 +8,10 @@ import com.alexanderageychenko.ecometer.Tools.dagger2.DaggerAppComponent;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.DepositoryModule;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.MainModule;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.UIModule;
+import com.alexanderageychenko.ecometer.tools.AnsiColor;
+import com.alexanderageychenko.ecometer.tools.NullCheck;
+import com.alexanderageychenko.ecometer.tools.TestContext;
+import com.alexanderageychenko.ecometer.tools.TestTools;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,7 +67,8 @@ public class TestRoot {
                         .addInterceptor(new Interceptor() {
                             @Override
                             public okhttp3.Response intercept(Chain chain) throws IOException {
-                                Request.Builder requestBuilder = chain.request().newBuilder(); Boolean haveAgent = false;
+                                Request.Builder requestBuilder = chain.request().newBuilder();
+                                Boolean haveAgent = false;
                                 String agent = null;
                                 if (haveAgent) {
                                     requestBuilder.addHeader("user_agent", agent);

@@ -1,4 +1,4 @@
-package com.alexanderageychenko.ecometer;
+package com.alexanderageychenko.ecometer.tools;
 
 import com.alexanderageychenko.ecometer.Tools.annotation.AllowedNull;
 import com.alexanderageychenko.ecometer.Tools.annotation.IgnoreNullCheck;
