@@ -7,13 +7,14 @@ import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -39,28 +40,38 @@ public class HomeOctopus implements IHomeOctopus {
         this.iView = view;
     }
 
+    private Function<Collection<IMeter>, Collection<IMeter>> sortFunc = new Function<Collection<IMeter>, Collection<IMeter>>() {
+        @Override
+        public Collection<IMeter> apply(Collection<IMeter> iMeters) throws Exception {
+            ArrayList<IMeter> list = new ArrayList<IMeter>(iMeters);
+            Collections.sort(list, new Comparator<IMeter>() {
+                @Override
+                public int compare(IMeter meter, IMeter t1) {
+                    return meter.getId().compareTo(t1.getId());
+                }
+            });
+            return list;
+        }
+    };
+
+    private Consumer<Collection<IMeter>> consumer = new Consumer<Collection<IMeter>>() {
+        @Override
+        public void accept(Collection<IMeter> iMeters) throws Exception {
+            iView.setMeters(iMeters);
+        }
+    };
+    
     @Override
     public void onStart() {
+        Observable.just(iMetersDepository.getMeters())
+                .map(sortFunc)
+                .subscribe(consumer);
+
         metersSubscription = iMetersDepository.getMetersPublisher()
                 .observeOn(Schedulers.newThread())
-                .map(new Function<Collection<IMeter>, Collection<IMeter>>() {
-                    @Override
-                    public Collection<IMeter> apply(Collection<IMeter> iMeters) throws Exception {
-                        Collections.sort((List) iMeters, new Comparator<IMeter>() {
-                            @Override
-                            public int compare(IMeter meter, IMeter t1) {
-                                return meter.getId().compareTo(t1.getId());
-                            }
-                        });
-                        return iMeters;
-                    }
-                })
-                .subscribe(new Consumer<Collection<IMeter>>() {
-                    @Override
-                    public void accept(Collection<IMeter> iMeters) throws Exception {
-                        iView.setMeters(iMeters);
-                    }
-                });
+                .map(sortFunc)
+                .subscribe(consumer);
+
         iMetersDepository.requestMeters();
     }
 

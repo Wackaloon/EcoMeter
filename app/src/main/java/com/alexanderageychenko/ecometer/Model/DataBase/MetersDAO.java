@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
  * Created by alexanderageychenko 13.09.16.
  */
 
-public class MetersDAO {
+public class MetersDAO implements IMetersDAO {
     public final static String TABLE_NAME = "Meter_LIST";
     public final static String SQL_CREATE_ENTRIES = "CREATE TABLE " + TABLE_NAME + "(" + COLUMN_NAME.ID + " INTEGER PRIMARY KEY," + COLUMN_NAME.JSON + " TEXT);";
     private final static String LOG_TAG = "SQL_" + TABLE_NAME;
@@ -32,6 +32,7 @@ public class MetersDAO {
         dataBaseHelper = DataBaseHelper.getInstance(context);
     }
 
+    @Override
     public ArrayList<Meter> get() {
         SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
         ArrayList<Meter> hashMap = new ArrayList<>();
@@ -55,6 +56,7 @@ public class MetersDAO {
         return hashMap;
     }
 
+    @Override
     public void add(final Collection<IMeter> meters) {
         executor.execute(new Runnable() {
             @Override

@@ -1,14 +1,16 @@
 package com.alexanderageychenko.ecometer.Model.Depository;
 
-import com.alexanderageychenko.ecometer.MainApplication;
-import com.alexanderageychenko.ecometer.Model.DataBase.MetersDAO;
+import com.alexanderageychenko.ecometer.Model.DataBase.IMetersDAO;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.Model.Entity.Meter;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
@@ -20,10 +22,16 @@ import io.reactivex.subjects.PublishSubject;
  */
 
 public class MetersDepository implements IMetersDepository {
-    private MetersDAO metersDAO;
+    @Inject
+    IMetersDAO metersDAO;
     private Long selectedMeterId;
     private HashMap<Long, IMeter> meters = new HashMap<>();
     private PublishSubject<Collection<IMeter>> metersPublisher = PublishSubject.create();
+
+
+    public MetersDepository() {
+        Dagger.get().getInjector().inject(this);
+    }
 
     @Override
     public void setMeters(Collection<IMeter> iMeters) {
@@ -40,9 +48,6 @@ public class MetersDepository implements IMetersDepository {
                 .subscribe(new Consumer<Collection<IMeter>>() {
                     @Override
                     public void accept(Collection<IMeter> time) throws Exception {
-                        if (metersDAO == null) {
-                            metersDAO = new MetersDAO(MainApplication.getInstance());
-                        }
                         metersDAO.add(meters.values());
                     }
                 });
@@ -82,9 +87,7 @@ public class MetersDepository implements IMetersDepository {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long time) throws Exception {
-                        if (metersDAO == null) {
-                            metersDAO = new MetersDAO(MainApplication.getInstance());
-                        }
+
                         if (meters.isEmpty()) {//load meters from DAO
                             ArrayList<Meter> defaultMeters = metersDAO.get();
                             for (IMeter m : defaultMeters)

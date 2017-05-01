@@ -27,7 +27,10 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
         </activity>
-
+         <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="2b88a2fa5bd8d8692573253da2a61688f976e262" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

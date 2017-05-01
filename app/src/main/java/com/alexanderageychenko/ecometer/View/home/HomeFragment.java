@@ -50,6 +50,7 @@ public class HomeFragment extends ExFragment implements HomeAdapter.Listener, IH
         homeAdapter = new HomeAdapter(getActivity());
         homeAdapter.setListener(this);
         recyclerView.setAdapter(homeAdapter);
+        iHomeOctopus.setIView(this);
         super.onViewCreated(view, savedInstanceState);
     }
 

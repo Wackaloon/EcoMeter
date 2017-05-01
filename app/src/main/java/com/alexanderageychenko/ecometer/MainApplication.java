@@ -6,14 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
-import android.provider.Settings;
 import android.util.Log;
 
-import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppModule;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.Tools.dagger2.DaggerAppComponent;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppModule;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.DepositoryModule;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Module.UIModule;
+import com.crashlytics.android.Crashlytics;
 
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -29,7 +31,6 @@ public class MainApplication extends Application {
     static public int currentApiVersion;
     //
     static private MainApplication mainApplication;
-    public String android_id;
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -53,13 +54,9 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Fabric.with(this, new Crashlytics());
         FILTER_ACTION_NAME = getApplicationContext().getPackageName();
         GLOBAL_FILTER = new IntentFilter(FILTER_ACTION_NAME);
-
-
-        android_id = Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        Log.d("DEBUG", "android_id:" + android_id);
 
         //fontPath="fonts/Lucida-Grande-Regular.ttf"
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -72,10 +69,10 @@ public class MainApplication extends Application {
 
         registerReceiver(broadcastReceiver, GLOBAL_FILTER);
 
-        Log.d("DEBUG_CACHE", "cacheDir: " + getCacheDir().getPath() + " externalCacheDir: " + getExternalCacheDir());
         Dagger.setAppComponent(DaggerAppComponent.builder()
                 .depositoryModule(new DepositoryModule())
                 .appModule(new AppModule(MainApplication.this))
+                .uIModule(new UIModule(this))
                 .build());
     }
 
