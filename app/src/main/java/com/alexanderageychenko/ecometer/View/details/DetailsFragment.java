@@ -32,6 +32,7 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private DetailsAdapter detailsAdapter;
+    private View plus;
 
     @Inject
     IMetersDepository iMetersDepository;
@@ -64,6 +65,8 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
         meter = iMetersDepository.getSelectedMeter();
         type = meter.getType();
 
+        plus =  view.findViewById(R.id.plus);
+        plus.setVisibility(View.GONE);
 
         if (type == null) {
             imageView.setBackgroundColor(getResources().getColor(R.color.main_green_A0));
@@ -80,7 +83,7 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
         }
 
         recyclerView = (RecyclerView) view.findViewById(R.id.details_recycler_view);
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         detailsAdapter = new DetailsAdapter(getActivity());
         detailsAdapter.setListener(this);
@@ -91,6 +94,7 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
     public void onResume() {
         super.onResume();
         detailsAdapter.setData(meter.getAllValues());
+        recyclerView.scrollToPosition(0);
     }
 
     @Override

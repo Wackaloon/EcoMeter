@@ -30,6 +30,8 @@ public class HomeFragment
         extends ExFragment
         implements HomeAdapter.Listener, IHomeOctopus.IView {
     private HomeAdapter homeAdapter;
+    private View settings;
+    private View statistics;
     @Inject
     IHomeOctopus iHomeOctopus;
 
@@ -55,6 +57,20 @@ public class HomeFragment
         homeAdapter = new HomeAdapter(getActivity());
         homeAdapter.setListener(this);
         recyclerView.setAdapter(homeAdapter);
+        settings = view.findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iHomeOctopus.openSettings();
+            }
+        });
+        statistics = view.findViewById(R.id.statistics);
+        statistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iHomeOctopus.openStatistics();
+            }
+        });
         iHomeOctopus.setIView(this);
     }
 

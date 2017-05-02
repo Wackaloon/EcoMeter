@@ -16,31 +16,32 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/design_dp_44"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/last_date"
             style="@style/AppTheme.TextViewMain"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
             android:hint="Date"
+            android:gravity="center_vertical|left"
+            android:paddingLeft="@dimen/design_dp_8"
             android:imeOptions="actionNext"
-            android:inputType="numberDecimal"
-            android:padding="@dimen/design_dp_12" />
+            android:inputType="numberDecimal" />
 
         <TextView
             android:id="@+id/last_value"
             style="@style/AppTheme.TextViewMain"
+            android:paddingRight="@dimen/design_dp_8"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
             android:ellipsize="end"
-            android:gravity="right"
+            android:gravity="center_vertical|right"
             android:hint="Current value..."
             android:imeOptions="actionNext"
-            android:inputType="numberDecimal"
-            android:padding="@dimen/design_dp_12" />
+            android:inputType="numberDecimal"/>
     </LinearLayout>
 </RelativeLayout>

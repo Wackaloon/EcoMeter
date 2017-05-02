@@ -29,6 +29,7 @@ class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHolder> {
         this.data.clear();
         if (data != null)
             this.data.addAll(data);
+
         notifyDataSetChanged();
     }
 

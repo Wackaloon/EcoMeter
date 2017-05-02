@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -53,6 +55,7 @@ public class Meter implements IMeter {
     @Override
     public void addValue(MeterValue value){
         values.add(value);
+
     }
 
 
@@ -76,9 +79,9 @@ public class Meter implements IMeter {
     @Override
     public String getFullName() {
         if (name != null)
-            return name + " " + meterType + " " + meterPosition;
+            return name + " " + meterPosition.name();
         else
-            return meterType + " " + meterPosition;
+            return meterPosition.name();
     }
 
     @Override
@@ -103,23 +106,31 @@ public class Meter implements IMeter {
 
     @Override
     public ArrayList<MeterValue> getAllValues() {
+        sort();
         return values;
+    }
+
+    private void sort(){
+        Collections.sort(values, new Comparator<MeterValue>() {
+            @Override
+            public int compare(MeterValue meterValue, MeterValue t1) {
+                return t1.getDate().compareTo(meterValue.getDate());
+            }
+        });
     }
 
     @Override
     public Double getMeanValuePerDay() {
         Double result = 0.0;
-        if (values != null && values.size() == 1) {
-            return values.get(0).value.doubleValue();
-        }
-        if (values != null && values.size() == 0) {
+        if (values != null && values.size() <= 1) {
             return result;
         }
         if (values != null) {
+            sort();
             double daysCount = 0;
-            for (int i = 1; i < values.size(); ++i) {
+            for (int i = 0; i < values.size()-1; ++i) {
                 MeterValue value = values.get(i);
-                MeterValue prevValue = values.get(i - 1);
+                MeterValue prevValue = values.get(i + 1);
                 Date date = value.getDate();
                 Date prevDate = prevValue.getDate();
                 long diff = date.getTime() - prevDate.getTime();
@@ -137,20 +148,18 @@ public class Meter implements IMeter {
     @Override
     public Double getMeanValuePerMonth() {
         Double result = 0.0;
-        if (values != null && values.size() == 1) {
-            return values.get(0).value.doubleValue();
-        }
-        if (values != null && values.size() == 0) {
+        if (values != null && values.size() <= 1) {
             return result;
         }
         if (values != null) {
+            sort();
             Calendar c = Calendar.getInstance();
             boolean newMonth = false;
             long montlyValue = 0;
             int monthsCount = 1;
-            for (int i = 1; i < values.size(); ++i) {
+            for (int i = 0; i < values.size()-1; ++i) {
                 MeterValue value = values.get(i);
-                MeterValue prevValue = values.get(i - 1);
+                MeterValue prevValue = values.get(i + 1);
                 Date date = value.getDate();
                 Date prevDate = prevValue.getDate();
                 c.setTime(date);
@@ -201,5 +210,6 @@ public class Meter implements IMeter {
         if (valueLast != null)
             values.add(valueLast);
         valueLast = null;
+        sort();
     }
 }

@@ -2,21 +2,20 @@ package com.alexanderageychenko.ecometer.View.add;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alexanderageychenko.ecometer.View.ExFragment;
-import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.R;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
+import com.alexanderageychenko.ecometer.View.ExFragment;
+import com.alexanderageychenko.ecometer.View.custom_view.MultiplePickerView;
 
 import javax.inject.Inject;
 
@@ -24,15 +23,16 @@ import javax.inject.Inject;
 /**
  * Created by alexanderageychenko 13.09.16.
  */
-public class AddValueFragment extends ExFragment implements AddValueAdapter.Listener, View.OnClickListener, TextWatcher {
+public class AddValueFragment extends ExFragment implements AddValueAdapter.Listener, View.OnClickListener {
     private static final String TAG = "Home";
     private Button done;
     private IMeter meter;
     private TextView meter_text;
     private TextView last_value;
     private TextView last_date;
-    private EditText new_value;
+    private View plus;
     private ImageView meter_image;
+        MultiplePickerView mPicker;
     @Inject
     IMetersDepository iMetersDepository;
 
@@ -51,6 +51,8 @@ public class AddValueFragment extends ExFragment implements AddValueAdapter.List
         super.onViewCreated(view, savedInstanceState);
         meter = iMetersDepository.getSelectedMeter();
         done = (Button) view.findViewById(R.id.done);
+        plus =  view.findViewById(R.id.plus);
+        plus.setVisibility(View.GONE);
         meter_text = (TextView) view.findViewById(R.id.name);
         meter_text.setText(meter.getFullName());
         last_value = (TextView) view.findViewById(R.id.last_value);
@@ -60,24 +62,19 @@ public class AddValueFragment extends ExFragment implements AddValueAdapter.List
         meter_image = (ImageView) view.findViewById(R.id.image);
         meter_image.setBackgroundColor(getResources().getColor(meter.getType().getBackgroundResource()));
         meter_image.setImageResource(meter.getType().getImageResource());
-        new_value = (EditText) view.findViewById(R.id.new_value_input);
         done.setOnClickListener(this);
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+                mPicker = (MultiplePickerView) view.findViewById(R.id.mPicker);
+
         String last = meter.getLastValue();
-        new_value.setText(last);
-        new_value.addTextChangedListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        new_value.removeTextChangedListener(this);
-        new_value.setText("");
-        super.onPause();
-
+        mPicker.setInitialValue(Long.valueOf(last));
+        mPicker.setListener(new MultiplePickerView.OnValueSelected() {
+            @Override
+            public void valueSelected(Long value) {
+                Log.d("MultiplePickerView", "valueSelected: " + value);
+                meter.setValue(value);
+            }
+        });
     }
 
     @Override
@@ -91,24 +88,5 @@ public class AddValueFragment extends ExFragment implements AddValueAdapter.List
             iMetersDepository.addMeter(meter);
             getActivity().onBackPressed();
         }
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        try {
-            meter.setValue(Long.parseLong(new_value.getText().toString()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-
     }
 }

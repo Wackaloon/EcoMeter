@@ -2,6 +2,7 @@
 <com.alexanderageychenko.ecometer.Model.ExContainers.ExRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="1dp"
     android:orientation="vertical">
 
@@ -10,7 +11,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/design_dp_8"
-        android:layout_above="@+id/add"
+        android:layout_above="@+id/card"
         android:layout_marginTop="@dimen/design_dp_8"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/design_dp_60"
+        android:layout_alignParentBottom="true"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="0dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="@dimen/design_dp_1"
+        android:layout_marginBottom="@dimen/design_dp_ne4"
+        android:layout_marginRight="@dimen/design_dp_ne4"
+        android:layout_marginLeft="@dimen/design_dp_ne4">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/settings"
+                style="@style/AppTheme.TextViewMain"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:text="Edit"/>
+            <View
+                android:layout_width="@dimen/design_dp_1"
+                android:layout_height="match_parent"
+                android:background="@color/light_grey"
+                android:layout_marginTop="@dimen/design_dp_16"
+                android:layout_marginBottom="@dimen/design_dp_16"/>
+            <TextView
+                android:id="@+id/statistics"
+                style="@style/AppTheme.TextViewMain"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:text="Statistics"/>
+
+        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
 </com.alexanderageychenko.ecometer.Model.ExContainers.ExRelativeLayout>

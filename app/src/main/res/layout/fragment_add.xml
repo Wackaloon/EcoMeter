@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/design_dp_8">
-        <include
-            layout="@layout/list_item_home"/>
+
+        <include layout="@layout/list_item_home" />
     </RelativeLayout>
 
     <android.support.v7.widget.CardView
@@ -36,28 +36,25 @@
                 style="@style/AppTheme.TextViewMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/last_value_text"
-                android:layout_marginLeft="@dimen/design_dp_30"
-                android:layout_marginTop="@dimen/design_dp_30"
+                android:layout_marginLeft="@dimen/design_dp_16"
+                android:layout_marginTop="@dimen/design_dp_16"
                 android:text="Current Value:" />
 
-            <EditText
-                android:id="@+id/new_value_input"
-                style="@style/AppTheme.TextViewMain"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <com.alexanderageychenko.ecometer.View.custom_view.MultiplePickerView
+                android:id="@+id/mPicker"
                 android:layout_below="@+id/new_value_text"
-                android:layout_margin="@dimen/design_dp_30"
-                android:inputType="number" />
-
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/design_dp_16"
+                android:layout_marginBottom="@dimen/design_dp_16"
+                android:layout_height="wrap_content" />
             <Button
                 android:id="@+id/done"
                 style="@style/AppTheme.ButtonShadow.Button"
                 android:layout_width="@dimen/button_rounded_width"
                 android:layout_height="@dimen/button_rounded_height"
-                android:layout_below="@+id/new_value_input"
+                android:layout_below="@+id/mPicker"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/design_dp_30"
+                android:layout_marginBottom="@dimen/design_dp_16"
                 android:background="@drawable/button_green_brand"
                 android:text="Done"
                 android:visibility="visible" />

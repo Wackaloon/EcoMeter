@@ -15,6 +15,10 @@ public interface IHomeOctopus extends Octopus<IHomeOctopus.IView> {
 
     void openAddValueToMeter(IMeter meter);
 
+    void openSettings();
+
+    void openStatistics();
+
     interface IView extends Octopus.IView {
 
         void setMeters(Collection<IMeter> meters);

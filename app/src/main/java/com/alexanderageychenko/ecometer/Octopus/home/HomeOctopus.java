@@ -1,6 +1,7 @@
 package com.alexanderageychenko.ecometer.Octopus.home;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.alexanderageychenko.ecometer.MainApplication;
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
@@ -87,5 +88,16 @@ public class HomeOctopus implements IHomeOctopus {
         iMetersDepository.selectMeter(meter.getId());
         MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
                 .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_ADD_VALUE));
+    }
+
+    @Override
+    public void openSettings() {
+        MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
+                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_SETTINGS));
+    }
+
+    @Override
+    public void openStatistics() {
+        Toast.makeText(Dagger.get().getContext(), "Soon...", Toast.LENGTH_SHORT).show();
     }
 }
