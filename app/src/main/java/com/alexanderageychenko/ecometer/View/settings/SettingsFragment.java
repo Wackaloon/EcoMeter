@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.alexanderageychenko.ecometer.MainApplication;
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
@@ -35,12 +34,12 @@ import io.reactivex.functions.Function;
 /**
  * Created by alexanderageychenko 13.09.16.
  */
-public class SettingsFragment extends ExFragment implements SettingsAdapter.Listener, View.OnClickListener {
+public class SettingsFragment extends ExFragment implements SettingsAdapter.Listener {
     private static final String TAG = "Home";
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private SettingsAdapter homeAdapter;
-    private Button add;
+    private View back;
 
     @Inject
     IMetersDepository iMetersDepository;
@@ -49,6 +48,7 @@ public class SettingsFragment extends ExFragment implements SettingsAdapter.List
     public SettingsFragment() {
         Dagger.get().getInjector().inject(this);
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,11 +62,17 @@ public class SettingsFragment extends ExFragment implements SettingsAdapter.List
         recyclerView.setLayoutManager(layoutManager);
         homeAdapter = new SettingsAdapter(getActivity());
         homeAdapter.setListener(this);
+        back = view.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
         recyclerView.setAdapter(homeAdapter);
-        add = (Button) view.findViewById(R.id.add);
-        add.setOnClickListener(this);
         super.onViewCreated(view, savedInstanceState);
     }
+
     private Function<Collection<IMeter>, Collection<IMeter>> sortFunc = new Function<Collection<IMeter>, Collection<IMeter>>() {
         @Override
         public Collection<IMeter> apply(Collection<IMeter> iMeters) throws Exception {
@@ -110,6 +116,13 @@ public class SettingsFragment extends ExFragment implements SettingsAdapter.List
     }
 
     @Override
+    public void onAddClick() {
+        iMetersDepository.selectMeter(null);
+        MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
+                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_CREATE_METER));
+    }
+
+    @Override
     public void onDeleteClick(final IMeter item) {
         DialogBuilder.getDeleteMeterDialog(getActivity(), new DeleteMeterListener() {
             @Override
@@ -128,12 +141,4 @@ public class SettingsFragment extends ExFragment implements SettingsAdapter.List
 //                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_DETAILS));
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == add){
-            iMetersDepository.selectMeter(null);
-            MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
-                    .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_CREATE_METER));
-        }
-    }
 }

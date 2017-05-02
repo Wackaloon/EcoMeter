@@ -10,20 +10,42 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/home_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/add"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/design_dp_8"
         android:layout_marginTop="@dimen/design_dp_8"/>
 
-    <Button
-        android:id="@+id/add"
-        style="@style/AppTheme.ButtonShadow.Button"
-        android:layout_width="@dimen/button_rounded_width"
-        android:layout_height="@dimen/button_rounded_height"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/design_dp_40"
-        android:layout_marginTop="@dimen/design_dp_8"
-        android:background="@drawable/button_green_brand"
-        android:text="Add"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/back"
+            style="@style/AppTheme.ButtonShadow.Button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_rounded_height"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/design_dp_16"
+            android:background="@drawable/button_green_brand"
+            android:text="Back"/>
+
+        <Button
+            android:id="@+id/statistics"
+            style="@style/AppTheme.ButtonShadow.Button"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:visibility="invisible"
+            android:layout_height="@dimen/button_rounded_height"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/design_dp_16"
+            android:background="@drawable/button_green_brand"
+            android:text="Stats"/>
+
+
+    </LinearLayout>
 </com.alexanderageychenko.ecometer.Model.ExContainers.ExRelativeLayout>

@@ -43,6 +43,14 @@ class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        if (position >= data.size()){
+            bindAdd(holder);
+            return;
+        }else{
+            holder.itemView.setOnClickListener(null);
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.delete.setVisibility(View.VISIBLE);
+        }
         final IMeter item = data.get(position);
         holder.name.setText(item.getFullName());
         holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -94,9 +102,38 @@ class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
         }
     }
 
+    private void bindAdd(ViewHolder holder){
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener!=null) {
+                    listener.onAddClick();
+                }
+            }
+        });
+        holder.name.setText("ADD NEW");
+        holder.edit.setVisibility(View.GONE);
+        holder.delete.setVisibility(View.GONE);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) listener.onAddClick();
+            }
+        });
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) listener.onAddClick();
+            }
+        });
+
+        holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_green_A0));
+        holder.imageView.setImageResource(R.drawable.ic_public_white_48dp);
+    }
+
     @Override
     public int getItemCount() {
-        return data.size();
+        return data.size() + 1;
     }
 
 
@@ -106,6 +143,9 @@ class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
 
     interface Listener {
         void onEditClick(IMeter item);
+
+        void onAddClick();
+
         void onDeleteClick(IMeter item);
         void onItemClick(IMeter item);
     }
