@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by Alexander on 16.04.2017.
+ * Created by Alexander on 16.04.2017
  */
 class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private List<IMeter> data = new ArrayList<>();

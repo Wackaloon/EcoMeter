@@ -15,6 +15,10 @@ import java.util.Collection;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class MetersDAO implements IMetersDAO {
     public final static String TABLE_NAME = "Meter_LIST";
@@ -55,20 +59,23 @@ public class MetersDAO implements IMetersDAO {
 
     @Override
     public void set(final Collection<IMeter> meters) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
-                db.execSQL("DELETE FROM " + TABLE_NAME + ";");
-                Gson gson = MyGsonBuilder.build();
-                for (IMeter meter : meters) {
-                    ContentValues values = new ContentValues();
-                    values.put(COLUMN_NAME.ID, meter.getId());
-                    values.put(COLUMN_NAME.JSON, gson.toJson(meter, Meter.class));
-                    db.insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-                }
-            }
-        });
+        ArrayList<IMeter> meter = new ArrayList<>(meters);
+        Observable.just(meter)
+                .observeOn(Schedulers.from(executor))
+                .subscribe(new Consumer<ArrayList<IMeter>>() {
+                    @Override
+                    public void accept(ArrayList<IMeter> iMeters) throws Exception {
+                        SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+                        db.execSQL("DELETE FROM " + TABLE_NAME + ";");
+                        Gson gson = MyGsonBuilder.build();
+                        for (IMeter meter : iMeters) {
+                            ContentValues values = new ContentValues();
+                            values.put(COLUMN_NAME.ID, meter.getId());
+                            values.put(COLUMN_NAME.JSON, gson.toJson(meter, Meter.class));
+                            db.insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+                        }
+                    }
+                });
     }
 
 

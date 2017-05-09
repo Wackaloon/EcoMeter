@@ -25,4 +25,6 @@ public interface IMetersDepository {
     void selectMeter(Long meterId);
     // get selected meter (for editing of adding values)
     IMeter getSelectedMeter();
+
+    void saveMeters();
 }

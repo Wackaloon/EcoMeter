@@ -38,7 +38,8 @@ public class MetersDepository implements IMetersDepository {
         meters.clear();
         for (IMeter m : iMeters)
             meters.put(m.getId(), m);
-        saveToDB(iMeters);
+
+        saveMeters();
 
     }
 
@@ -67,7 +68,7 @@ public class MetersDepository implements IMetersDepository {
     @Override
     public void addMeter(IMeter meter) {
         meters.put(meter.getId(), meter);
-        saveToDB(meters.values());
+        saveMeters();
     }
 
     @Override
@@ -109,5 +110,9 @@ public class MetersDepository implements IMetersDepository {
         return meters.get(selectedMeterId);
     }
 
+    @Override
+    public void saveMeters() {
+        saveToDB(meters.values());
+    }
 }
 

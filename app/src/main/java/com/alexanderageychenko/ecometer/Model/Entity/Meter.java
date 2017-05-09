@@ -86,9 +86,10 @@ public class Meter implements IMeter {
 
     @Override
     public String getLastValue() {
-        if (values != null && values.size() > 0)
-            return String.valueOf(values.get(values.size() - 1).value);
-        else
+        if (values != null && values.size() > 0) {
+            sort();
+            return String.valueOf(values.get(0).value);
+        }else
             return "0";
     }
 
@@ -97,8 +98,10 @@ public class Meter implements IMeter {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("", Locale.US);
         simpleDateFormat.applyPattern("dd MMM yyyy");
         Date date = null;
-        if (values != null && values.size() > 0)
-            date = values.get(values.size() - 1).date;
+        if (values != null && values.size() > 0) {
+            sort();
+            date = values.get(0).date;
+        }
         if (date == null)
             date = Calendar.getInstance().getTime();
         return simpleDateFormat.format(date);

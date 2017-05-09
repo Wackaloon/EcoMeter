@@ -32,7 +32,7 @@ import io.reactivex.functions.Function;
 
 
 /**
- * Created by alexanderageychenko 13.09.16.
+ * Created by alexanderageychenko 13.09.16
  */
 public class SettingsFragment extends ExFragment implements SettingsAdapter.Listener {
     private static final String TAG = "Home";

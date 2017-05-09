@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.alexanderageychenko.ecometer.Tools.DialogBuilder;
 import com.alexanderageychenko.ecometer.Tools.FragmentCroupier;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.View.add.AddValueFragment;
 import com.alexanderageychenko.ecometer.View.details.DetailsFragment;
 import com.alexanderageychenko.ecometer.View.edit.EditMeterFragment;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         try {
+            Dagger.get().getGetter().depository().getIMetersDepository().saveMeters();
             unregisterReceiver(broadcastReceiver);
         } catch (Throwable t) {
             t.printStackTrace();

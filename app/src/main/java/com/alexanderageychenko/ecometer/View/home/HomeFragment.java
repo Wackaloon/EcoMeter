@@ -18,8 +18,8 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 
@@ -28,16 +28,20 @@ import io.reactivex.functions.Consumer;
  */
 public class HomeFragment
         extends ExFragment
-        implements HomeAdapter.Listener, IHomeOctopus.IView {
+        implements HomeAdapter.Listener,
+                             View.OnClickListener {
     private HomeAdapter homeAdapter;
     private View settings;
     private View statistics;
     @Inject
     IHomeOctopus iHomeOctopus;
+    private Disposable metersSubscriber;
 
     public HomeFragment() {
         Dagger.get().getInjector().inject(this);
     }
+
+
 
     @Nullable
     @Override
@@ -50,6 +54,7 @@ public class HomeFragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
@@ -57,33 +62,42 @@ public class HomeFragment
         homeAdapter = new HomeAdapter(getActivity());
         homeAdapter.setListener(this);
         recyclerView.setAdapter(homeAdapter);
+
         settings = view.findViewById(R.id.settings);
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                iHomeOctopus.openSettings();
-            }
-        });
+        settings.setOnClickListener(this);
         statistics = view.findViewById(R.id.statistics);
-        statistics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                iHomeOctopus.openStatistics();
-            }
-        });
-        iHomeOctopus.setIView(this);
+        statistics.setOnClickListener(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        startSubscribers();
         iHomeOctopus.onStart();
     }
 
     @Override
     public void onStop() {
+        stopSubscribers();
         iHomeOctopus.onStop();
         super.onStop();
+    }
+
+    private void startSubscribers() {
+        metersSubscriber = iHomeOctopus.getMetersObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Collection<IMeter>>() {
+                    @Override
+                    public void accept(Collection<IMeter> iMeters) throws Exception {
+                        setMeters(iMeters);
+                    }
+                });
+    }
+
+    private void stopSubscribers() {
+        if (metersSubscriber != null) {
+            metersSubscriber.dispose();
+        }
     }
 
     @Override
@@ -96,15 +110,16 @@ public class HomeFragment
         iHomeOctopus.openAddValueToMeter(item);
     }
 
+    public void setMeters(Collection<IMeter> iMeters) {
+        homeAdapter.setData(iMeters);
+    }
+
     @Override
-    public void setMeters(Collection<IMeter> meters) {
-        Observable.just(meters)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Collection<IMeter>>() {
-                    @Override
-                    public void accept(Collection<IMeter> iMeters) throws Exception {
-                        homeAdapter.setData(iMeters);
-                    }
-                });
+    public void onClick(View view) {
+        if (view == settings){
+            iHomeOctopus.openSettings();
+        } else if ( view == statistics){
+            iHomeOctopus.openStatistics();
+        }
     }
 }

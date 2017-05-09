@@ -92,6 +92,8 @@ public abstract class DialogBuilder {
                         if (valueLong != null){
                             MeterValue valueMeter = meter.getAllValues().get(position);
                             valueMeter.setValue(valueLong);
+                            meter.getAllValues().remove(position);
+                            meter.getAllValues().add(valueMeter);
                         }
                         if (detailsEditListener != null)
                         detailsEditListener.valueWasEdited();
@@ -124,6 +126,8 @@ public abstract class DialogBuilder {
             public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
                 calendar.set(arg1, arg2, arg3);
                 value.setDate(calendar.getTime());
+                meter.getAllValues().remove(position);
+                meter.getAllValues().add(value);
                 if (detailsEditListener != null)
                     detailsEditListener.valueWasEdited();
                 // arg1 = year

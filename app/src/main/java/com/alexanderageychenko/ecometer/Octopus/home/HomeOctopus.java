@@ -20,25 +20,28 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Created by Alexander on 16.04.2017.
  */
 
 public class HomeOctopus implements IHomeOctopus {
-    private IView iView;
     @Inject
     IMetersDepository iMetersDepository;
     private Disposable metersSubscription;
+    private BehaviorSubject<Collection<IMeter>> metersObservable = BehaviorSubject.create();
 
     public HomeOctopus() {
         Dagger.get().getInjector().inject(this);
+        metersObservable.onNext(new ArrayList<IMeter>());
     }
 
     @Override
-    public void setIView(IView view) {
-        this.iView = view;
+    public Observable<Collection<IMeter>> getMetersObservable() {
+        return metersObservable;
     }
+
     private Function<Collection<IMeter>, Collection<IMeter>> sortFunc = new Function<Collection<IMeter>, Collection<IMeter>>() {
         @Override
         public Collection<IMeter> apply(Collection<IMeter> iMeters) throws Exception {
@@ -55,7 +58,7 @@ public class HomeOctopus implements IHomeOctopus {
     private Consumer<Collection<IMeter>> consumer = new Consumer<Collection<IMeter>>() {
         @Override
         public void accept(Collection<IMeter> iMeters) throws Exception {
-            iView.setMeters(iMeters);
+            metersObservable.onNext(iMeters);
         }
     };
 
