@@ -6,7 +6,9 @@ import android.widget.Toast;
 import com.alexanderageychenko.ecometer.MainApplication;
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
+import com.alexanderageychenko.ecometer.Tools.RxTools;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppRxSchedulers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,12 +16,13 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
 /**
@@ -29,8 +32,12 @@ import io.reactivex.subjects.BehaviorSubject;
 public class HomeOctopus implements IHomeOctopus {
     @Inject
     IMetersDepository iMetersDepository;
+    @Inject
+    @Named(AppRxSchedulers.PRESENTER_THREAD)
+    Scheduler backgroundThread;
     private Disposable metersSubscription;
     private BehaviorSubject<Collection<IMeter>> metersObservable = BehaviorSubject.create();
+    private MetersConsumer consumer = new MetersConsumer();
 
     public HomeOctopus() {
         Dagger.get().getInjector().inject(this);
@@ -55,12 +62,6 @@ public class HomeOctopus implements IHomeOctopus {
             return list;
         }
     };
-    private Consumer<Collection<IMeter>> consumer = new Consumer<Collection<IMeter>>() {
-        @Override
-        public void accept(Collection<IMeter> iMeters) throws Exception {
-            metersObservable.onNext(iMeters);
-        }
-    };
 
     @Override
     public void onStart() {
@@ -69,7 +70,7 @@ public class HomeOctopus implements IHomeOctopus {
                 .subscribe(consumer);
 
         metersSubscription = iMetersDepository.getMetersPublisher()
-                .observeOn(Schedulers.newThread())
+                .observeOn(backgroundThread)
                 .map(sortFunc)
                 .subscribe(consumer);
 
@@ -77,7 +78,8 @@ public class HomeOctopus implements IHomeOctopus {
     }
     @Override
     public void onStop() {
-        metersSubscription.dispose();
+        RxTools.Unsubscriber()
+                .unsubscribe(metersSubscription);
     }
 
     @Override
@@ -102,5 +104,12 @@ public class HomeOctopus implements IHomeOctopus {
     @Override
     public void openStatistics() {
         Toast.makeText(Dagger.get().getContext(), "Soon...", Toast.LENGTH_SHORT).show();
+    }
+
+    private class MetersConsumer implements Consumer<Collection<IMeter>>{
+        @Override
+        public void accept(Collection<IMeter> iMeters) throws Exception {
+            metersObservable.onNext(iMeters);
+        }
     }
 }

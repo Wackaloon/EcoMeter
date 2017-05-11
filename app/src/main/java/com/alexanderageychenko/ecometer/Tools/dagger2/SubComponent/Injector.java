@@ -2,6 +2,7 @@ package com.alexanderageychenko.ecometer.Tools.dagger2.SubComponent;
 
 import com.alexanderageychenko.ecometer.Model.Depository.MetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.rest.Rest;
+import com.alexanderageychenko.ecometer.Octopus.details.DetailsOctopus;
 import com.alexanderageychenko.ecometer.Octopus.home.HomeOctopus;
 import com.alexanderageychenko.ecometer.View.add.AddValueFragment;
 import com.alexanderageychenko.ecometer.View.details.DetailsFragment;
@@ -20,6 +21,7 @@ public interface Injector {
     void inject(AddValueFragment AddValueFragment);
     void inject(EditMeterFragment EditMeterFragment);
     void inject(DetailsFragment DetailsFragment);
+    void inject(DetailsOctopus DetailsOctopus);
     void inject(HomeFragment HomeFragment);
     void inject(HomeOctopus HomeOctopus);
     void inject(SettingsFragment SettingsFragment);

@@ -38,7 +38,8 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public HomeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_home, parent, false));
+        return new ViewHolder(LayoutInflater.from(context)
+                .inflate(R.layout.list_item_home, parent, false));
     }
 
     @Override
@@ -61,10 +62,10 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         });
         MeterType type = item.getType();
         if (type == null) {
-            holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_green_A0));
+            holder.imageView.setBackgroundResource(R.color.main_green_A0);
             holder.imageView.setImageResource(R.drawable.ic_public_white_48dp);
         } else {
-            holder.imageView.setBackgroundColor(context.getResources().getColor(type.getBackgroundResource()));
+            holder.imageView.setBackgroundResource(type.getBackgroundResource());
             holder.imageView.setImageResource(type.getImageResource());
         }
     }

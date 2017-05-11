@@ -14,10 +14,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.alexanderageychenko.ecometer.Model.Listener.DeleteMeterListener;
-import com.alexanderageychenko.ecometer.Model.Listener.DetailsEditListener;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.Model.Entity.MeterValue;
+import com.alexanderageychenko.ecometer.Model.Listener.DeleteMeterListener;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -55,7 +54,7 @@ public abstract class DialogBuilder {
         return alertDialog;
     }
 
-    public static Dialog getEditDetailsDialog(final Activity activity, final IMeter meter, final int position, final DetailsEditListener detailsEditListener) {
+    public static Dialog getEditDetailsDialog(final Activity activity, final IMeter meter, final int position) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
         alertDialog.setTitle("Edit Value");
         final String blockCharacterSet = "0123456789";
@@ -95,8 +94,6 @@ public abstract class DialogBuilder {
                             meter.getAllValues().remove(position);
                             meter.getAllValues().add(valueMeter);
                         }
-                        if (detailsEditListener != null)
-                        detailsEditListener.valueWasEdited();
                         dialog.dismiss();
                     }
                 });
@@ -111,7 +108,7 @@ public abstract class DialogBuilder {
         return alertDialog.create();
     }
 
-    public static Dialog getExitEditDateDialog(final Activity activity, final IMeter meter, final int position, final DetailsEditListener detailsEditListener) {
+    public static Dialog getExitEditDateDialog(final Activity activity, final IMeter meter, final int position) {
 
         final Calendar calendar = Calendar.getInstance();
 
@@ -128,8 +125,6 @@ public abstract class DialogBuilder {
                 value.setDate(calendar.getTime());
                 meter.getAllValues().remove(position);
                 meter.getAllValues().add(value);
-                if (detailsEditListener != null)
-                    detailsEditListener.valueWasEdited();
                 // arg1 = year
                 // arg2 = month
                 // arg3 = day

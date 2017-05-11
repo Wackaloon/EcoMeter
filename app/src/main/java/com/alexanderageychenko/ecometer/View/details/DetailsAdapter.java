@@ -35,7 +35,8 @@ class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHolder> {
 
     @Override
     public DetailsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_details, parent, false));
+        return new ViewHolder(LayoutInflater.from(context)
+                .inflate(R.layout.list_item_details, parent, false));
     }
 
     @Override

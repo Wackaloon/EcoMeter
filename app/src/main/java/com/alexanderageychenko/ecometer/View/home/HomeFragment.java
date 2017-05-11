@@ -12,13 +12,15 @@ import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.Octopus.home.IHomeOctopus;
 import com.alexanderageychenko.ecometer.R;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
+import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppRxSchedulers;
 import com.alexanderageychenko.ecometer.View.ExFragment;
 
 import java.util.Collection;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
@@ -35,6 +37,9 @@ public class HomeFragment
     private View statistics;
     @Inject
     IHomeOctopus iHomeOctopus;
+    @Inject
+    @Named(AppRxSchedulers.UI_THREAD)
+    Scheduler UIThread;
     private Disposable metersSubscriber;
 
     public HomeFragment() {
@@ -85,13 +90,8 @@ public class HomeFragment
 
     private void startSubscribers() {
         metersSubscriber = iHomeOctopus.getMetersObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Collection<IMeter>>() {
-                    @Override
-                    public void accept(Collection<IMeter> iMeters) throws Exception {
-                        setMeters(iMeters);
-                    }
-                });
+                .observeOn(UIThread)
+                .subscribe(new MetersConsumer());
     }
 
     private void stopSubscribers() {
@@ -110,9 +110,6 @@ public class HomeFragment
         iHomeOctopus.openAddValueToMeter(item);
     }
 
-    public void setMeters(Collection<IMeter> iMeters) {
-        homeAdapter.setData(iMeters);
-    }
 
     @Override
     public void onClick(View view) {
@@ -120,6 +117,14 @@ public class HomeFragment
             iHomeOctopus.openSettings();
         } else if ( view == statistics){
             iHomeOctopus.openStatistics();
+        }
+    }
+
+
+    class MetersConsumer implements Consumer<Collection<IMeter>>{
+        @Override
+        public void accept(Collection<IMeter> iMeters) throws Exception {
+            homeAdapter.setData(iMeters);
         }
     }
 }

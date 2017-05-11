@@ -36,14 +36,12 @@ public class MainActivity extends AppCompatActivity {
             MainApplication.SIGNAL_TYPE signal_type = (MainApplication.SIGNAL_TYPE) intent.getSerializableExtra(MainApplication.SIGNAL_NAME);
             switch (signal_type) {
                 case OPEN_DETAILS: {
-                    DetailsFragment meterDetails = DetailsFragment.newInstance();
-                    fragmentCroupier.addFragment("main", meterDetails, true, android.R.anim.fade_in, MainApplication.noAnimId, MainApplication.noAnimId, android.R.anim.fade_out);
+                    fragmentCroupier.addFragment("main", DetailsFragment.newInstance(), true, android.R.anim.fade_in, MainApplication.noAnimId, MainApplication.noAnimId, android.R.anim.fade_out);
                     break;
                 }
                 case OPEN_EDIT_METER:
                 case OPEN_CREATE_METER: {
-                    EditMeterFragment editMeterFragment = EditMeterFragment.newInstance();
-                    fragmentCroupier.addFragment("main", editMeterFragment, true, android.R.anim.fade_in, MainApplication.noAnimId, MainApplication.noAnimId, android.R.anim.fade_out);
+                    fragmentCroupier.addFragment("main", EditMeterFragment.newInstance(), true, android.R.anim.fade_in, MainApplication.noAnimId, MainApplication.noAnimId, android.R.anim.fade_out);
                     break;
                 }
                 case OPEN_ADD_VALUE: {
@@ -51,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 case OPEN_SETTINGS: {
-
                     fragmentCroupier.loadBackStack("settings", android.R.anim.fade_in, MainApplication.noAnimId);
                     break;
                 }
