@@ -1,16 +1,19 @@
 buildscript {
     repositories {
+        mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
 
     }
 
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
     }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -20,6 +23,10 @@ repositories {
     }
 }
 android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     lintOptions {
         // set to true to turn off analysis progress reporting by lint
         quiet true

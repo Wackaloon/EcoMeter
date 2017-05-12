@@ -121,7 +121,7 @@ public class HomeFragment
     }
 
 
-    class MetersConsumer implements Consumer<Collection<IMeter>>{
+    private class MetersConsumer implements Consumer<Collection<IMeter>>{
         @Override
         public void accept(Collection<IMeter> iMeters) throws Exception {
             homeAdapter.setData(iMeters);

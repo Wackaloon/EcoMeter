@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 
 /**
@@ -111,6 +112,28 @@ public class Meter implements IMeter {
     public ArrayList<MeterValue> getAllValues() {
         sort();
         return values;
+    }
+
+    @Override
+    public MeterValue getItemById(Long id) {
+        for (MeterValue mv : values){
+            if (mv.getId().equals(id)){
+                return mv;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void updateItem(MeterValue item) {
+        for (Iterator<MeterValue> it = values.iterator(); it.hasNext();){
+            MeterValue value = it.next();
+            if (value.getId().equals(item.getId())){
+                it.remove();
+            }
+        }
+        values.add(item);
+        sort();
     }
 
     private void sort(){

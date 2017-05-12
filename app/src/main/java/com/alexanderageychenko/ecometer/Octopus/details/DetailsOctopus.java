@@ -70,8 +70,21 @@ public class DetailsOctopus implements IDetailsOctopus {
     }
 
     @Override
+    public void requestUpdate() {
+        onStart();
+    }
+
+    @Override
     public void onStart() {
+        pullSelectedMeter();
+        provideData();
+    }
+
+    private void pullSelectedMeter(){
         meter = iMetersDepository.getSelectedMeter();
+    }
+
+    private void provideData(){
         meterTypeObservable.onNext(meter.getType());
         meterFullnameObservable.onNext(meter.getFullName());
         meterValuePerDayObservable.onNext(meter.getMeanValuePerDayString());

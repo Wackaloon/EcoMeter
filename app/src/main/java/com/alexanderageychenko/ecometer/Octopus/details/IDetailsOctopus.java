@@ -28,4 +28,6 @@ public interface IDetailsOctopus extends Octopus {
 
     int getItemPosition(MeterValue value);
 
+    void requestUpdate();
+
 }

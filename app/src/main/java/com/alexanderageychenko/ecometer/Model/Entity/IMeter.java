@@ -14,6 +14,8 @@ public interface IMeter {
     String getLastValue();
     String getLastValueDate();
     ArrayList<MeterValue> getAllValues();
+    MeterValue getItemById(Long id);
+    void updateItem(MeterValue item);
     Double getMeanValuePerDay();
     Double getMeanValuePerMonth();
     String getMeanValuePerDayString();

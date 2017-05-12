@@ -19,8 +19,8 @@ public class DefaultMetersFiller {
         if (meters.size() == 0){
             meters.add(new Meter(MeterType.GAS, MeterPosition.KITCHEN, null, 1L));
             meters.add(new Meter(MeterType.WATER, MeterPosition.KITCHEN, null, 2L));
-            meters.add(new Meter(MeterType.WATER, MeterPosition.TOILET, null, 3L));
-            meters.add(new Meter(MeterType.ELECTRICITY, MeterPosition.STREET, null, 4L));
+//            meters.add(new Meter(MeterType.WATER, MeterPosition.TOILET, null, 3L));
+//            meters.add(new Meter(MeterType.ELECTRICITY, MeterPosition.STREET, null, 4L));
             Meter meter = meters.get(0);
             for (int i = 0; i < 40; ++i){
                 Calendar c = Calendar.getInstance();

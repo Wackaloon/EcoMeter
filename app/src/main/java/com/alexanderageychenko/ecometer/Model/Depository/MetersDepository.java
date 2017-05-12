@@ -39,7 +39,7 @@ public class MetersDepository implements IMetersDepository {
         for (IMeter m : iMeters)
             meters.put(m.getId(), m);
 
-        saveMeters();
+        saveToDB(iMeters);
 
     }
 

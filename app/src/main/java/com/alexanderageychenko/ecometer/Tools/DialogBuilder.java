@@ -14,9 +14,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.alexanderageychenko.ecometer.Model.Listener.DeleteMeterListener;
+import com.alexanderageychenko.ecometer.Model.Listener.DetailsEditListener;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.Model.Entity.MeterValue;
-import com.alexanderageychenko.ecometer.Model.Listener.DeleteMeterListener;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -54,7 +55,7 @@ public abstract class DialogBuilder {
         return alertDialog;
     }
 
-    public static Dialog getEditDetailsDialog(final Activity activity, final IMeter meter, final int position) {
+    public static Dialog getEditDetailsDialog(final Activity activity, final IMeter meter, final Long id, final DetailsEditListener detailsEditListener) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
         alertDialog.setTitle("Edit Value");
         final String blockCharacterSet = "0123456789";
@@ -89,11 +90,12 @@ public abstract class DialogBuilder {
                             e.printStackTrace();
                         }
                         if (valueLong != null){
-                            MeterValue valueMeter = meter.getAllValues().get(position);
+                            MeterValue valueMeter = meter.getItemById(id);
                             valueMeter.setValue(valueLong);
-                            meter.getAllValues().remove(position);
-                            meter.getAllValues().add(valueMeter);
+                            meter.updateItem(valueMeter);
                         }
+                        if (detailsEditListener != null)
+                        detailsEditListener.valueWasEdited();
                         dialog.dismiss();
                     }
                 });
@@ -108,11 +110,11 @@ public abstract class DialogBuilder {
         return alertDialog.create();
     }
 
-    public static Dialog getExitEditDateDialog(final Activity activity, final IMeter meter, final int position) {
+    public static Dialog getExitEditDateDialog(final Activity activity, final IMeter meter, final Long id, final DetailsEditListener detailsEditListener) {
 
         final Calendar calendar = Calendar.getInstance();
 
-        final MeterValue value = meter.getAllValues().get(position);
+        final MeterValue value = meter.getItemById(id);
         Date date = value.getDate();
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);
@@ -123,8 +125,9 @@ public abstract class DialogBuilder {
             public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
                 calendar.set(arg1, arg2, arg3);
                 value.setDate(calendar.getTime());
-                meter.getAllValues().remove(position);
-                meter.getAllValues().add(value);
+                meter.updateItem(value);
+                if (detailsEditListener != null)
+                    detailsEditListener.valueWasEdited();
                 // arg1 = year
                 // arg2 = month
                 // arg3 = day

@@ -68,6 +68,7 @@ public class TestRoot {
                             @Override
                             public okhttp3.Response intercept(Chain chain) throws IOException {
                                 Request.Builder requestBuilder = chain.request().newBuilder();
+                                //add headers for request here
                                 Boolean haveAgent = false;
                                 String agent = null;
                                 if (haveAgent) {
@@ -77,12 +78,24 @@ public class TestRoot {
                                 return chain.proceed(request);
                             }
                         })
+                        //logging interceptor after headers
                         .addInterceptor(interceptor)
                         .sslSocketFactory(Rest.getAllTrustSSLContext())
                         .cookieJar(cookieJar);
             }
         };
         Rest.setIntstance(restManager);
+    }
+
+    protected void auth(){
+        //auth synchronously
+//        String name = "auth_name";
+//        String password = "Qwerty";
+        //for testing of authorization
+//        restManager.getRestInterface().auth(name, password).execute(new CallbackNullCheckStop<SomeAuthResponseModel>());
+        //or for authorization without testing of response
+//        new SomeAuthCallback().onResponse(restManager.getRestInterface().auth(name, password).execute());
+
     }
 
 

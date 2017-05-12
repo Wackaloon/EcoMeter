@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.alexanderageychenko.ecometer.Model.Entity.MeterType;
 import com.alexanderageychenko.ecometer.Model.Entity.MeterValue;
+import com.alexanderageychenko.ecometer.Model.Listener.DetailsEditListener;
 import com.alexanderageychenko.ecometer.Octopus.details.IDetailsOctopus;
 import com.alexanderageychenko.ecometer.R;
 import com.alexanderageychenko.ecometer.Tools.DialogBuilder;
@@ -51,8 +52,6 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
     private Disposable valuesSubscriber;
     TypeConsumer typeConsumer = new TypeConsumer();
     FullNameConsumer fullNameConsumer = new FullNameConsumer();
-    ValuePerDayConsumer valuePerDayConsumer = new ValuePerDayConsumer();
-    ValuePerMonthConsumer valuePerMonthConsumer = new ValuePerMonthConsumer();
     ValuesConsumer valuesConsumer = new ValuesConsumer();
 
     public DetailsFragment() {
@@ -101,7 +100,13 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
     public void onValueClick(MeterValue item) {
         DialogBuilder.getEditDetailsDialog(getActivity(),
                 iDetailsOctopus.getMeter(),
-                iDetailsOctopus.getItemPosition(item))
+                item.getId(),
+                new DetailsEditListener() {
+                    @Override
+                    public void valueWasEdited() {
+                        iDetailsOctopus.requestUpdate();
+                    }
+                })
                 .show();
     }
 
@@ -109,7 +114,13 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
     public void onDateClick(MeterValue item) {
         DialogBuilder.getExitEditDateDialog(getActivity(),
                 iDetailsOctopus.getMeter(),
-                iDetailsOctopus.getItemPosition(item))
+                item.getId(),
+                new DetailsEditListener() {
+                    @Override
+                    public void valueWasEdited() {
+                        iDetailsOctopus.requestUpdate();
+                    }
+                })
                 .show();
     }
 
@@ -121,34 +132,52 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
     }
 
     private void startSubscribers() {
+        stopSubscribers();
         typeSubscriber = iDetailsOctopus.getMeterTypeObservable()
                 .observeOn(UIThread)
-                .subscribe(typeConsumer);
+                .subscribe(typeConsumer); //this is better if you have same code in different consumers
+
         fullnameSubscriber = iDetailsOctopus.getMeterFullnameObservable()
                 .observeOn(UIThread)
                 .subscribe(fullNameConsumer);
+
         valuePerDaySubsriber = iDetailsOctopus.getMeterValuePerDayObservable()
                 .observeOn(UIThread)
-                .subscribe(valuePerDayConsumer);
+                .subscribe(new ValuePerDayConsumer());
+
         valuePerMonthSubscriber = iDetailsOctopus.getMeterValuePerMonthObservable()
                 .observeOn(UIThread)
-                .subscribe(valuePerMonthConsumer);
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String value) throws Exception {
+                        valuePerMonth.setText(value);
+                    }
+                });
+
         valuesSubscriber = iDetailsOctopus.getMeterValuesObservable()
                 .observeOn(UIThread)
-                .subscribe(valuesConsumer);
+                .subscribe(meterValues -> { //retrolyambda example
+                    detailsAdapter.setData(meterValues);
+                    recyclerView.scrollToPosition(0);
+
+                });
 
     }
 
     @Override
     public void onStop() {
+        stopSubscribers();
         iDetailsOctopus.onStop();
+        super.onStop();
+    }
+
+    private void stopSubscribers() {
         RxTools.Unsubscriber()
                 .unsubscribe(typeSubscriber)
                 .unsubscribe(fullnameSubscriber)
                 .unsubscribe(valuePerDaySubsriber)
                 .unsubscribe(valuePerMonthSubscriber)
                 .unsubscribe(valuesSubscriber);
-        super.onStop();
     }
 
     private class TypeConsumer implements Consumer<MeterType> {
@@ -178,12 +207,6 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
         }
     }
 
-    private class ValuePerMonthConsumer implements Consumer<String> {
-        @Override
-        public void accept(String value) throws Exception {
-            valuePerMonth.setText(value);
-        }
-    }
 
     private class ValuesConsumer implements Consumer<ArrayList<MeterValue>> {
         @Override

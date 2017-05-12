@@ -13,6 +13,9 @@ import java.util.Locale;
  */
 
 public class MeterValue {
+    @SerializedName("id")
+    @Expose
+    Long id;
     @SerializedName("value")
     @Expose
     Long value;
@@ -23,6 +26,11 @@ public class MeterValue {
     public MeterValue(Long value, Date date) {
         this.value = value;
         this.date = date;
+        this.id = new Date().getTime();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Long getValue() {
