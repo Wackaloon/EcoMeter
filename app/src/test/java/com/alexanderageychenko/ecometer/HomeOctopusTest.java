@@ -2,9 +2,10 @@ package com.alexanderageychenko.ecometer;
 
 import com.alexanderageychenko.ecometer.Model.Depository.MetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
+import com.alexanderageychenko.ecometer.Octopus.details.DetailsOctopus;
 import com.alexanderageychenko.ecometer.Octopus.home.HomeOctopus;
 import com.alexanderageychenko.ecometer.Tools.DefaultMetersFiller;
-import com.alexanderageychenko.ecometer.Tools.MyLogger;
+import com.alexanderageychenko.ecometer.tools.TestTools;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,11 +17,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -36,6 +34,8 @@ public class HomeOctopusTest extends TestRoot {
     MetersDepository metersDepository;
     @InjectMocks
     HomeOctopus homeOctopus;
+    @InjectMocks
+    DetailsOctopus detailsOctopus;
 
     @Before
     public void setup() {
@@ -45,38 +45,37 @@ public class HomeOctopusTest extends TestRoot {
     @Test(timeout = 10000)
     public void setMetersList() {
 
+        stop = new Boolean[]{false, false};
         DefaultMetersFiller filer = new DefaultMetersFiller();
-        final ArrayList<IMeter> defaultMeters = new ArrayList<IMeter>(filer.getDefaultMeters());
+        final ArrayList<IMeter> defaultMeters = new ArrayList<>(filer.getDefaultMeters());
 
-        when(metersDepository.getMeters())
-                .thenReturn(defaultMeters);
+        when(metersDepository.getSelectedMeter())
+                .thenReturn(defaultMeters.get(0));
 
         when(metersDepository.getMetersPublisher())
                 .thenReturn(Observable.just(defaultMeters)
-                        .map(new Function<ArrayList<IMeter>, Collection<IMeter>>() {
-                            @Override
-                            public Collection<IMeter> apply(ArrayList<IMeter> iMeters) throws Exception {
+                        .map(iMeters -> iMeters));
 
-                                MyLogger.d("HomeOctopusTest", "get meters from observable = " + iMeters.toString());
-                                return iMeters;
-                            }
-                        }));
-        homeOctopus.getMetersObservable().subscribe(new Consumer<Collection<IMeter>>() {
-            @Override
-            public void accept(Collection<IMeter> iMeters) throws Exception {
-
-                MyLogger.d("HomeOctopusTest", "get meters = " + iMeters.toString());
-                if (iMeters.isEmpty()) return;
-                Assert.assertEquals(new ArrayList<>(iMeters), defaultMeters);
-                stopTest();
-            }
+        homeOctopus.getMetersObservable().subscribe(iMeters -> {
+            if (iMeters.isEmpty()) return;
+            Assert.assertEquals(new ArrayList<>(iMeters), defaultMeters);
+            stop[0] = true;
         });
-        MyLogger.d("HomeOctopusTest", "start of octopus");
-        homeOctopus.onStart();
 
-        waitForStopAndCheckResult();
+        detailsOctopus.getMeterFullnameObservable().subscribe(fullname -> {
+            if (fullname.isEmpty()) return;
+            Assert.assertEquals(fullname, defaultMeters.get(0).getFullName());
+            stop[1] = true;
+        });
+
+        homeOctopus.onStart();
+        detailsOctopus.onStart();
+
+        TestTools.pause(stop);
+        Assert.assertFalse(fail[0]);
 
         homeOctopus.onStop();
+        detailsOctopus.onStop();
 
         verify(metersDepository, atLeastOnce()).getMetersPublisher();
     }

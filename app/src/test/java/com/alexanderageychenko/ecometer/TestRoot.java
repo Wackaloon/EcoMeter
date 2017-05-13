@@ -16,14 +16,9 @@ import com.alexanderageychenko.ecometer.tools.TestTools;
 import org.junit.Assert;
 import org.junit.Before;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,10 +30,9 @@ import retrofit2.Response;
  */
 
 public class TestRoot {
-
     protected Rest restManager;
-    private Boolean[] stop = {false};
-    private boolean[] fail = {false};
+    protected Boolean[] stop = {false};
+    protected boolean[] fail = {false};
 
     public TestRoot() {
 
@@ -58,25 +52,17 @@ public class TestRoot {
                         .connectTimeout(60, TimeUnit.SECONDS)
                         .readTimeout(60, TimeUnit.SECONDS)
                         .writeTimeout(60, TimeUnit.SECONDS)
-                        .hostnameVerifier(new HostnameVerifier() {
-                            @Override
-                            public boolean verify(String hostname, SSLSession session) {
-                                return true;
+                        .hostnameVerifier((hostname, session) -> true)
+                        .addInterceptor(chain -> {
+                            Request.Builder requestBuilder = chain.request().newBuilder();
+                            //add headers for request here
+                            Boolean haveAgent = false;
+                            String agent = null;
+                            if (haveAgent) {
+                                requestBuilder.addHeader("user_agent", agent);
                             }
-                        })
-                        .addInterceptor(new Interceptor() {
-                            @Override
-                            public okhttp3.Response intercept(Chain chain) throws IOException {
-                                Request.Builder requestBuilder = chain.request().newBuilder();
-                                //add headers for request here
-                                Boolean haveAgent = false;
-                                String agent = null;
-                                if (haveAgent) {
-                                    requestBuilder.addHeader("user_agent", agent);
-                                }
-                                Request request = requestBuilder.build();
-                                return chain.proceed(request);
-                            }
+                            Request request = requestBuilder.build();
+                            return chain.proceed(request);
                         })
                         //logging interceptor after headers
                         .addInterceptor(interceptor)

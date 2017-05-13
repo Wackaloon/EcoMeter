@@ -35,6 +35,20 @@ public class DetailsOctopus implements IDetailsOctopus {
     }
 
     @Override
+    public void onStart() {
+        pullSelectedMeter();
+        provideData();
+    }
+
+    private void provideData(){
+        meterTypeObservable.onNext(meter.getType());
+        meterFullnameObservable.onNext(meter.getFullName());
+        meterValuePerDayObservable.onNext(meter.getMeanValuePerDayString());
+        meterValuePerMonthObservable.onNext(meter.getMeanValuePerMonthString());
+        meterValuesObservable.onNext(meter.getAllValues());
+    }
+
+    @Override
     public Observable<ArrayList<MeterValue>> getMeterValuesObservable() {
         return meterValuesObservable;
     }
@@ -74,22 +88,10 @@ public class DetailsOctopus implements IDetailsOctopus {
         onStart();
     }
 
-    @Override
-    public void onStart() {
-        pullSelectedMeter();
-        provideData();
-    }
+
 
     private void pullSelectedMeter(){
         meter = iMetersDepository.getSelectedMeter();
-    }
-
-    private void provideData(){
-        meterTypeObservable.onNext(meter.getType());
-        meterFullnameObservable.onNext(meter.getFullName());
-        meterValuePerDayObservable.onNext(meter.getMeanValuePerDayString());
-        meterValuePerMonthObservable.onNext(meter.getMeanValuePerMonthString());
-        meterValuesObservable.onNext(meter.getAllValues());
     }
 
     @Override

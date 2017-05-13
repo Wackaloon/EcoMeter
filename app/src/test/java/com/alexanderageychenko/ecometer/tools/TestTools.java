@@ -12,10 +12,16 @@ public abstract class TestTools {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (stop[0]) {
-                break;
-            }
+
+            boolean isStop = true;
+
+            for (Boolean b : stop)
+                isStop = isStop & b;
+
+            if (isStop) break;
         }
-        stop[0] = false;
+        for (int i = 0; i < stop.length; ++i) {
+            stop[i] = false;
+        }
     }
 }

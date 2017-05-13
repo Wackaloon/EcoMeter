@@ -59,7 +59,8 @@ public abstract class GlobalCallback<T extends IResponse> implements Callback<T>
             if (code != ErrorCode.OK.getNumber()) {
                 globalError(code);
             } else if (!tResponse.body().getError().isEmpty()) {
-                MyLogger.d("DEBUG", "N_REST_LOCAL_ERROR " + url + " | " + tResponse.body().getError().get(0).getMessage());
+                MyLogger.d("DEBUG", "N_REST_LOCAL_ERROR " + url
+                        + " | " + tResponse.body().getError().get(0).getMessage());
                 localError(tResponse.body().getError());
             } else {
                 MyLogger.d("DEBUG", "N_REST_OK " + url);

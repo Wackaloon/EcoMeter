@@ -42,14 +42,16 @@ public class NullCheck {
                 if (!f.getName().contains("this"))
                     if (f.get(object) == null) {
                         if (!checkNullable(f)) {
-                            System.out.println(AnsiColor.ANSI_RED + name + "." + f.getName() + "==null" + AnsiColor.ANSI_RESET);
+                            System.out.println(AnsiColor.ANSI_RED
+                                    + name + "." + f.getName() + "==null" + AnsiColor.ANSI_RESET);
                             fail = true;
                         } else {
                             System.out.println(name + "." + f.getName() + "==null");
                         }
                     } else {
                         System.out.println(name + "." + f.getName() + "==" + f.getGenericType().toString());
-                        if (f.getGenericType().toString().contains("com.alexanderageychenko.ecometer.Model.Entity")) {
+                        if (f.getGenericType().toString()
+                                .contains("com.alexanderageychenko.ecometer.Model.Entity")) {
                             boolean lFail = false;
                             if (!checkIfMustBeIgnored(f)) {
                                 lFail = check(f.get(object), name + "." + f.getName());
@@ -59,7 +61,8 @@ public class NullCheck {
                         } else if (f.getGenericType() instanceof Collection) {
                             int i = 0;
                             for (Object o : ((Collection) f.get(object))) {
-                                if (f.getGenericType().toString().contains("com.alexanderageychenko.ecometer.Model.Entity")) {
+                                if (f.getGenericType().toString()
+                                        .contains("com.alexanderageychenko.ecometer.Model.Entity")) {
                                     boolean lFail = false;
                                     if (!checkIfMustBeIgnored(f)) {
                                         lFail = check(f.get(object), name + "." + f.getName());
