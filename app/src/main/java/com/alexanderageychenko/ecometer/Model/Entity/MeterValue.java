@@ -30,6 +30,7 @@ public class MeterValue {
     }
 
     public Long getId() {
+        if (id == null) id = new Date().getTime();
         return id;
     }
 
