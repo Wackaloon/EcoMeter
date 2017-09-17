@@ -30,4 +30,5 @@ public interface IDetailsOctopus extends Octopus {
 
     void requestUpdate();
 
+    void setMeterId(Long meterId);
 }

@@ -29,6 +29,7 @@ public class DetailsOctopus implements IDetailsOctopus {
     private BehaviorSubject<String> meterValuePerDayObservable = BehaviorSubject.createDefault("");
     private BehaviorSubject<String> meterValuePerMonthObservable = BehaviorSubject.createDefault("");
     private IMeter meter;
+    private Long meterId = null;
 
     public DetailsOctopus() {
         Dagger.get().getInjector().inject(this);
@@ -88,10 +89,14 @@ public class DetailsOctopus implements IDetailsOctopus {
         onStart();
     }
 
+    @Override
+    public void setMeterId(Long meterId) {
+        this.meterId = meterId;
+    }
 
 
     private void pullSelectedMeter(){
-        meter = iMetersDepository.getSelectedMeter();
+        meter = iMetersDepository.getMeter(meterId);
     }
 
     @Override

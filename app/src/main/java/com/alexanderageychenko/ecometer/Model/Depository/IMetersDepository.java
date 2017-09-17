@@ -22,9 +22,6 @@ public interface IMetersDepository {
     //for presenter to request new meters data
     void requestMeters();
     //select meter for further operations
-    void selectMeter(Long meterId);
-    // get selected meter (for editing of adding values)
-    IMeter getSelectedMeter();
 
     void saveMeters();
 }

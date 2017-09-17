@@ -1,11 +1,12 @@
 package com.alexanderageychenko.ecometer.Octopus.home;
 
-import android.content.Intent;
 import android.widget.Toast;
 
-import com.alexanderageychenko.ecometer.MainApplication;
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
+import com.alexanderageychenko.ecometer.R;
+import com.alexanderageychenko.ecometer.Tools.Navigator.MainNavigator;
+import com.alexanderageychenko.ecometer.Tools.Navigator.Navigator;
 import com.alexanderageychenko.ecometer.Tools.RxTools;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppRxSchedulers;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,6 +27,10 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 
+import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.AddValueScreen;
+import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.DetailsScreen;
+import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.SettingsScreen;
+
 /**
  * Created by Alexander on 16.04.2017.
  */
@@ -35,6 +41,8 @@ public class HomeOctopus implements IHomeOctopus {
     @Inject
     @Named(AppRxSchedulers.PRESENTER_THREAD)
     Scheduler backgroundThread;
+    @Inject
+    MainNavigator homeNavigator;
     private Disposable metersSubscription;
     private BehaviorSubject<Collection<IMeter>> metersObservable = BehaviorSubject.create();
     private MetersConsumer consumer = new MetersConsumer();
@@ -76,6 +84,7 @@ public class HomeOctopus implements IHomeOctopus {
 
         iMetersDepository.requestMeters();
     }
+
     @Override
     public void onStop() {
         RxTools.Unsubscriber()
@@ -84,21 +93,21 @@ public class HomeOctopus implements IHomeOctopus {
 
     @Override
     public void openMeterDetails(IMeter meter) {
-        iMetersDepository.selectMeter(meter.getId());
-        MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
-                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_DETAILS));
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("meter_id", meter.getId());
+        homeNavigator.openScreenToStack(new Navigator.Screen<>(DetailsScreen, params), R.anim.in_right, R.anim.no_anim);
     }
+
     @Override
     public void openAddValueToMeter(IMeter meter) {
-        iMetersDepository.selectMeter(meter.getId());
-        MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
-                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_ADD_VALUE));
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("meter_id", meter.getId());
+        homeNavigator.openScreenToStack(new Navigator.Screen<>(AddValueScreen, params), R.anim.in_right, R.anim.no_anim);
     }
 
     @Override
     public void openSettings() {
-        MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
-                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_SETTINGS));
+        homeNavigator.openScreenToStack(new Navigator.Screen<>(SettingsScreen, null), R.anim.in_right, R.anim.no_anim);
     }
 
     @Override
@@ -106,7 +115,7 @@ public class HomeOctopus implements IHomeOctopus {
         Toast.makeText(Dagger.get().getContext(), "Soon...", Toast.LENGTH_SHORT).show();
     }
 
-    private class MetersConsumer implements Consumer<Collection<IMeter>>{
+    private class MetersConsumer implements Consumer<Collection<IMeter>> {
         @Override
         public void accept(Collection<IMeter> iMeters) throws Exception {
             metersObservable.onNext(iMeters);

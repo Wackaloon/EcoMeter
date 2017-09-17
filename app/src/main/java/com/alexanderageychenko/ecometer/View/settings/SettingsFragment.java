@@ -1,6 +1,5 @@
 package com.alexanderageychenko.ecometer.View.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,12 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alexanderageychenko.ecometer.MainApplication;
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.Model.Listener.DeleteMeterListener;
 import com.alexanderageychenko.ecometer.R;
 import com.alexanderageychenko.ecometer.Tools.DialogBuilder;
+import com.alexanderageychenko.ecometer.Tools.Navigator.MainNavigator;
+import com.alexanderageychenko.ecometer.Tools.Navigator.Navigator;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.View.ExFragment;
 
@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -29,6 +30,9 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+
+import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.CreateMeterScreen;
+import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.EditMeterScreen;
 
 
 /**
@@ -43,6 +47,8 @@ public class SettingsFragment extends ExFragment implements SettingsAdapter.List
 
     @Inject
     IMetersDepository iMetersDepository;
+    @Inject
+    MainNavigator mainNavigator;
     private Disposable metersSuscriber;
 
     public SettingsFragment() {
@@ -109,17 +115,16 @@ public class SettingsFragment extends ExFragment implements SettingsAdapter.List
     }
 
     @Override
-    public void onEditClick(IMeter item) {
-        iMetersDepository.selectMeter(item.getId());
-        MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
-                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_EDIT_METER));
+    public void onEditClick(IMeter meter) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("meter_id", meter.getId());
+        homeNavigator.openScreenToStack(new Navigator.Screen<>(EditMeterScreen, params), R.anim.no_anim, R.anim.in_left);
     }
 
     @Override
     public void onAddClick() {
-        iMetersDepository.selectMeter(null);
-        MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
-                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_CREATE_METER));
+        HashMap<String, Object> params = new HashMap<>();
+        homeNavigator.openScreenToStack(new Navigator.Screen<>(CreateMeterScreen, params), R.anim.no_anim, R.anim.in_left);
     }
 
     @Override

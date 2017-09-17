@@ -32,9 +32,10 @@ public class AddValueFragment extends ExFragment implements AddValueAdapter.List
     private TextView last_date;
     private View plus;
     private ImageView meter_image;
-        MultiplePickerView mPicker;
+    MultiplePickerView mPicker;
     @Inject
     IMetersDepository iMetersDepository;
+    private Long meterId = null;
 
     public AddValueFragment() {
         Dagger.get().getInjector().inject(this);
@@ -49,9 +50,9 @@ public class AddValueFragment extends ExFragment implements AddValueAdapter.List
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        meter = iMetersDepository.getSelectedMeter();
+        meter = iMetersDepository.getMeter(meterId);
         done = (Button) view.findViewById(R.id.done);
-        plus =  view.findViewById(R.id.plus);
+        plus = view.findViewById(R.id.plus);
         plus.setVisibility(View.GONE);
         meter_text = (TextView) view.findViewById(R.id.name);
         meter_text.setText(meter.getFullName());
@@ -64,7 +65,7 @@ public class AddValueFragment extends ExFragment implements AddValueAdapter.List
         meter_image.setImageResource(meter.getType().getImageResource());
         done.setOnClickListener(this);
 
-                mPicker = (MultiplePickerView) view.findViewById(R.id.mPicker);
+        mPicker = (MultiplePickerView) view.findViewById(R.id.mPicker);
 
         String last = meter.getLastValue();
         mPicker.setInitialValue(Long.valueOf(last));
@@ -88,5 +89,9 @@ public class AddValueFragment extends ExFragment implements AddValueAdapter.List
             iMetersDepository.addMeter(meter);
             getActivity().onBackPressed();
         }
+    }
+
+    public void setMeterId(Long meterId) {
+        this.meterId = meterId;
     }
 }

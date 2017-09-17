@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.widget.ScrollView;
 
 /**
- * Created by vladimiryuyukin on 22.04.16.
+ * Created by alexanderageychenko on 22.04.16.
  */
 public class ExScrollView extends ScrollView {
     public ExScrollView(Context context) {

@@ -39,6 +39,7 @@ public class EditMeterFragment extends ExFragment implements View.OnClickListene
     private Button done;
     @Inject
     IMetersDepository iMetersDepository;
+    private Long meterId = null;
 
     public EditMeterFragment() {
         Dagger.get().getInjector().inject(this);
@@ -56,6 +57,10 @@ public class EditMeterFragment extends ExFragment implements View.OnClickListene
         return inflater.inflate(R.layout.fragment_edit, container, false);
     }
 
+    public void setMeterId(Long meterId) {
+        this.meterId = meterId;
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -67,12 +72,12 @@ public class EditMeterFragment extends ExFragment implements View.OnClickListene
 
         MeterType typeM = null;
         MeterPosition positionM = null;
-        if (iMetersDepository.getSelectedMeter() != null){
-            meter =iMetersDepository.getSelectedMeter();
+        if (meterId != null) {
+            meter = iMetersDepository.getMeter(meterId);
             ((TextView) view.findViewById(R.id.title)).setText("Edit Meter");
             create = false;
-        }else{
-            meter = new Meter(MeterType.WATER, MeterPosition.KITCHEN, null, (long) iMetersDepository.getMeters().size()+1);
+        } else {
+            meter = new Meter(MeterType.WATER, MeterPosition.KITCHEN, null, (long) iMetersDepository.getMeters().size() + 1);
             ((TextView) view.findViewById(R.id.title)).setText("Create New Meter");
             create = true;
         }
@@ -90,7 +95,7 @@ public class EditMeterFragment extends ExFragment implements View.OnClickListene
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                meter.setMeterType((MeterType)type.getSelectedItem());
+                meter.setMeterType((MeterType) type.getSelectedItem());
             }
 
             @Override
@@ -101,7 +106,7 @@ public class EditMeterFragment extends ExFragment implements View.OnClickListene
         position.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                meter.setMeterPosition((MeterPosition)position.getSelectedItem());
+                meter.setMeterPosition((MeterPosition) position.getSelectedItem());
             }
 
             @Override
@@ -117,12 +122,11 @@ public class EditMeterFragment extends ExFragment implements View.OnClickListene
         nameInput.setOnEditorActionListener(this);
 
 
-
     }
 
     @Override
     public void onClick(View view) {
-        if (view == done){
+        if (view == done) {
             try {
                 if (!nameInput.getText().toString().isEmpty())
                     meter.setName(nameInput.getText().toString());
@@ -131,7 +135,7 @@ public class EditMeterFragment extends ExFragment implements View.OnClickListene
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (create){
+            if (create) {
                 iMetersDepository.addMeter(meter);
             }
             getActivity().onBackPressed();

@@ -6,6 +6,8 @@ import com.alexanderageychenko.ecometer.Model.DataBase.IMetersDAO;
 import com.alexanderageychenko.ecometer.Model.DataBase.MetersDAO;
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 import com.alexanderageychenko.ecometer.Model.Depository.MetersDepository;
+import com.alexanderageychenko.ecometer.Model.Depository.preloader.IPreloaderDepository;
+import com.alexanderageychenko.ecometer.Model.Depository.preloader.PreloaderDepository;
 
 import javax.inject.Singleton;
 
@@ -29,4 +31,8 @@ public class DepositoryModule {
     IMetersDAO provideIMetersDAO(Context context){
         return new MetersDAO(context);
     }
+
+    @Singleton
+    @Provides
+    IPreloaderDepository provideIPreloaderDepository(){return new PreloaderDepository();}
 }

@@ -110,6 +110,10 @@ public class HomeFragment
         iHomeOctopus.openAddValueToMeter(item);
     }
 
+    @Override
+    public boolean popBackStack() {
+        return false;
+    }
 
     @Override
     public void onClick(View view) {

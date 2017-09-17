@@ -1,32 +1,33 @@
 buildscript {
     repositories {
-        mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
-
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://maven.google.com' }
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath 'io.fabric.tools:gradle:1.23.0'
+        //classpath "gradle.plugin.me.tatarka:gradle-retrolambda:3.6.0"
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: "me.tatarka.retrolambda"
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url "https://jitpack.io" }
+    maven { url "https://adcolony.bintray.com/AdColony" }
+    maven { url 'https://maven.google.com' }
     flatDir {
         dirs 'libs'
     }
+    mavenCentral()
 }
+
 android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
     lintOptions {
         // set to true to turn off analysis progress reporting by lint
         quiet true
@@ -36,12 +37,12 @@ android {
         ignoreWarnings true
     }
 
-    compileSdkVersion 25
-    buildToolsVersion '25.0.1'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
     defaultConfig {
         applicationId "com.alexanderageychenko.ecometer"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         multiDexEnabled true
         versionCode 2
         versionName "v1.2"
@@ -64,37 +65,83 @@ android {
     }
     productFlavors {
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    compile 'com.google.android.gms:play-services-auth:10.2.1'
-    compile 'com.google.android.gms:play-services-identity:10.2.1'
-    compile 'com.google.android.gms:play-services-gcm:10.2.1'
-    compile 'com.google.android.gms:play-services-plus:10.2.1'
     compile 'com.google.dagger:dagger:2.9'
-    apt 'com.google.dagger:dagger-compiler:2.9'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
+    compile('com.twitter.sdk.android:twitter:2.0.0@aar') {
+        transitive = true;
+    }
+
+    //noinspection GradleCompatible
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:support-v13:26.1.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:support-v4:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'commons-io:commons-io:2.4'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'me.leolin:ShortcutBadger:1.1.8@aar'
+    compile 'com.github.qiujuer:ImageBlurring:V2.0.0'
+    compile 'joda-time:joda-time:2.9.6'
+    compile 'commons-codec:commons-codec:1.10'
+
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 // Because RxAndroid releases are few and far between, it is recommended you also
 // explicitly depend on RxJava's latest version for bug fixes and new features.
-    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.3'
+    compile 'com.annimon:stream:1.1.7'
+
+
+    compile 'com.makeramen:roundedimageview:2.3.0'
+    testCompile 'junit:junit:4.12'
     testCompile 'com.github.fabioCollini:DaggerMock:0.6.2'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
-        transitive = true;
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testCompile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.18"
+    testCompile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-rx1', version: '0.18'
+
+    androidTestCompile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    androidTestCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    androidTestCompile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.18"
+    androidTestCompile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-rx1', version: '0.18'
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-annotations'
+        exclude module: 'design'
+    }
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
     }
 }

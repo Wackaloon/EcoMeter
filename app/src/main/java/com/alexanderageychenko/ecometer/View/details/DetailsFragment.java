@@ -53,6 +53,7 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
     TypeConsumer typeConsumer = new TypeConsumer();
     FullNameConsumer fullNameConsumer = new FullNameConsumer();
     ValuesConsumer valuesConsumer = new ValuesConsumer();
+    private Long meterId;
 
     public DetailsFragment() {
         Dagger.get().getInjector().inject(this);
@@ -178,6 +179,15 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
                 .unsubscribe(valuePerDaySubsriber)
                 .unsubscribe(valuePerMonthSubscriber)
                 .unsubscribe(valuesSubscriber);
+    }
+
+    public void setMeterId(Long meterId) {
+        this.meterId = meterId;
+        iDetailsOctopus.setMeterId(meterId);
+    }
+
+    public Long getMeterId() {
+        return meterId;
     }
 
     private class TypeConsumer implements Consumer<MeterType> {

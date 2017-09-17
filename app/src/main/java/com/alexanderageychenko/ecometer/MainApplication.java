@@ -16,7 +16,6 @@ import com.alexanderageychenko.ecometer.Tools.dagger2.Module.UIModule;
 import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class MainApplication extends Application {
 
@@ -55,13 +54,6 @@ public class MainApplication extends Application {
         FILTER_ACTION_NAME = getApplicationContext().getPackageName();
         GLOBAL_FILTER = new IntentFilter(FILTER_ACTION_NAME);
 
-        //fontPath="fonts/Lucida-Grande-Regular.ttf"
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Asap-Regular.ttf")
-                .setFontAttrId(com.alexanderageychenko.ecometer.R.attr.fontPath)
-                .build()
-        );
-
         apiCheck();
 
         registerReceiver(broadcastReceiver, GLOBAL_FILTER);
@@ -89,7 +81,7 @@ public class MainApplication extends Application {
 
 
     public enum SIGNAL_TYPE {
-        LOG, OPEN_DETAILS, OPEN_EDIT_METER, OPEN_CREATE_METER, OPEN_ADD_VALUE, OPEN_SETTINGS,
+        LOG
     }
 
     public static class ACTIVITY_RESULT_REQUEST_KEY {

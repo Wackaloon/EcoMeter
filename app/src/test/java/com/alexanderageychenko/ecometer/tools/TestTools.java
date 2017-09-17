@@ -1,7 +1,7 @@
 package com.alexanderageychenko.ecometer.tools;
 
 /**
- * Created by vladimiryuyukin on 27.12.16.
+ * Created by alexanderageychenko on 27.12.16.
  */
 
 public abstract class TestTools {

@@ -1,5 +1,6 @@
 package com.alexanderageychenko.ecometer.Tools.dagger2.SubComponent;
 
+import com.alexanderageychenko.ecometer.Model.DataBase.IMetersDAO;
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 
 import dagger.Subcomponent;
@@ -10,4 +11,5 @@ import dagger.Subcomponent;
 @Subcomponent
 public interface DepositoryComponent {
     IMetersDepository getIMetersDepository();
+    IMetersDAO getIMetersDAO();
 }
