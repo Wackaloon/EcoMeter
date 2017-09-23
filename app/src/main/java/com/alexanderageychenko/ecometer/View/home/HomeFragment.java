@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
-import com.alexanderageychenko.ecometer.Octopus.home.IHomeOctopus;
+import com.alexanderageychenko.ecometer.Presenter.home.IHomeIPresenter;
 import com.alexanderageychenko.ecometer.R;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppRxSchedulers;
@@ -36,7 +36,7 @@ public class HomeFragment
     private View settings;
     private View statistics;
     @Inject
-    IHomeOctopus iHomeOctopus;
+    IHomeIPresenter iHomeOctopus;
     @Inject
     @Named(AppRxSchedulers.UI_THREAD)
     Scheduler UIThread;

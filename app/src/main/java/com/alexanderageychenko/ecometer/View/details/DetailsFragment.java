@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.alexanderageychenko.ecometer.Model.Entity.MeterType;
 import com.alexanderageychenko.ecometer.Model.Entity.MeterValue;
 import com.alexanderageychenko.ecometer.Model.Listener.DetailsEditListener;
-import com.alexanderageychenko.ecometer.Octopus.details.IDetailsOctopus;
+import com.alexanderageychenko.ecometer.Presenter.details.IDetailsIPresenter;
 import com.alexanderageychenko.ecometer.R;
 import com.alexanderageychenko.ecometer.Tools.DialogBuilder;
 import com.alexanderageychenko.ecometer.Tools.RxTools;
@@ -44,7 +44,7 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
     @Named(AppRxSchedulers.UI_THREAD)
     Scheduler UIThread;
     @Inject
-    IDetailsOctopus iDetailsOctopus;
+    IDetailsIPresenter iDetailsOctopus;
     private Disposable typeSubscriber;
     private Disposable fullnameSubscriber;
     private Disposable valuePerDaySubsriber;

@@ -1,4 +1,4 @@
-package com.alexanderageychenko.ecometer.Octopus.home;
+package com.alexanderageychenko.ecometer.Presenter.home;
 
 import android.widget.Toast;
 
@@ -35,7 +35,7 @@ import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.Se
  * Created by Alexander on 16.04.2017.
  */
 
-public class HomeOctopus implements IHomeOctopus {
+public class HomeIPresenter implements IHomeIPresenter {
     @Inject
     IMetersDepository iMetersDepository;
     @Inject
@@ -47,7 +47,7 @@ public class HomeOctopus implements IHomeOctopus {
     private BehaviorSubject<Collection<IMeter>> metersObservable = BehaviorSubject.create();
     private MetersConsumer consumer = new MetersConsumer();
 
-    public HomeOctopus() {
+    public HomeIPresenter() {
         Dagger.get().getInjector().inject(this);
         metersObservable.onNext(new ArrayList<IMeter>());
     }

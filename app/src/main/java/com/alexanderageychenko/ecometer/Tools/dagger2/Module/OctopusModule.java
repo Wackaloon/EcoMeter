@@ -1,9 +1,9 @@
 package com.alexanderageychenko.ecometer.Tools.dagger2.Module;
 
-import com.alexanderageychenko.ecometer.Octopus.details.DetailsOctopus;
-import com.alexanderageychenko.ecometer.Octopus.details.IDetailsOctopus;
-import com.alexanderageychenko.ecometer.Octopus.home.HomeOctopus;
-import com.alexanderageychenko.ecometer.Octopus.home.IHomeOctopus;
+import com.alexanderageychenko.ecometer.Presenter.details.DetailsIPresenter;
+import com.alexanderageychenko.ecometer.Presenter.details.IDetailsIPresenter;
+import com.alexanderageychenko.ecometer.Presenter.home.HomeIPresenter;
+import com.alexanderageychenko.ecometer.Presenter.home.IHomeIPresenter;
 
 import javax.inject.Singleton;
 
@@ -17,13 +17,13 @@ import dagger.Provides;
 public class OctopusModule {
     @Provides
     @Singleton
-    IHomeOctopus provideIHomeOctopus() {
-        return new HomeOctopus();
+    IHomeIPresenter provideIHomeOctopus() {
+        return new HomeIPresenter();
     }
 
     @Provides
     @Singleton
-    IDetailsOctopus provideIDetailsOctopus() {
-        return new DetailsOctopus();
+    IDetailsIPresenter provideIDetailsOctopus() {
+        return new DetailsIPresenter();
     }
 }

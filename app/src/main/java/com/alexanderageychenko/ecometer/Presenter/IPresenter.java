@@ -1,10 +1,10 @@
-package com.alexanderageychenko.ecometer.Octopus;
+package com.alexanderageychenko.ecometer.Presenter;
 
 /**
  * Created by Alexander on 16.04.2017.
  */
 
-public interface Octopus {
+public interface IPresenter {
     void onStart();
 
     void onStop();

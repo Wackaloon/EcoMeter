@@ -1,4 +1,4 @@
-package com.alexanderageychenko.ecometer.Octopus.details;
+package com.alexanderageychenko.ecometer.Presenter.details;
 
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
@@ -17,7 +17,7 @@ import io.reactivex.subjects.BehaviorSubject;
  * Created by Alexander on 11.05.2017.
  */
 
-public class DetailsOctopus implements IDetailsOctopus {
+public class DetailsIPresenter implements IDetailsIPresenter {
 
     @Inject
     IMetersDepository iMetersDepository;
@@ -31,7 +31,7 @@ public class DetailsOctopus implements IDetailsOctopus {
     private IMeter meter;
     private Long meterId = null;
 
-    public DetailsOctopus() {
+    public DetailsIPresenter() {
         Dagger.get().getInjector().inject(this);
     }
 

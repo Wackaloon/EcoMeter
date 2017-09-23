@@ -2,8 +2,8 @@ package com.alexanderageychenko.ecometer;
 
 import com.alexanderageychenko.ecometer.Model.Depository.MetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
-import com.alexanderageychenko.ecometer.Octopus.details.DetailsOctopus;
-import com.alexanderageychenko.ecometer.Octopus.home.HomeOctopus;
+import com.alexanderageychenko.ecometer.Presenter.details.DetailsIPresenter;
+import com.alexanderageychenko.ecometer.Presenter.home.HomeIPresenter;
 import com.alexanderageychenko.ecometer.Tools.DefaultMetersFiller;
 import com.alexanderageychenko.ecometer.tools.TestTools;
 
@@ -29,13 +29,13 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(value = BlockJUnit4ClassRunner.class)
-public class HomeOctopusTest extends TestRoot {
+public class HomeIPresenterTest extends TestRoot {
     @Mock
     MetersDepository metersDepository;
     @InjectMocks
-    HomeOctopus homeOctopus;
+    HomeIPresenter homeIPresenter;
     @InjectMocks
-    DetailsOctopus detailsOctopus;
+    DetailsIPresenter detailsIPresenter;
 
     @Before
     public void setup() {
@@ -49,33 +49,36 @@ public class HomeOctopusTest extends TestRoot {
         DefaultMetersFiller filer = new DefaultMetersFiller();
         final ArrayList<IMeter> defaultMeters = new ArrayList<>(filer.getDefaultMeters());
 
-        when(metersDepository.getSelectedMeter())
-                .thenReturn(defaultMeters.get(0));
-
         when(metersDepository.getMetersPublisher())
                 .thenReturn(Observable.just(defaultMeters)
                         .map(iMeters -> iMeters));
 
-        homeOctopus.getMetersObservable().subscribe(iMeters -> {
+        when(metersDepository.getMeters())
+                .thenReturn(defaultMeters);
+        when(metersDepository.getMeter(defaultMeters.get(0).getId()))
+                .thenReturn(defaultMeters.get(0));
+
+        homeIPresenter.getMetersObservable().subscribe(iMeters -> {
             if (iMeters.isEmpty()) return;
             Assert.assertEquals(new ArrayList<>(iMeters), defaultMeters);
             stop[0] = true;
         });
 
-        detailsOctopus.getMeterFullnameObservable().subscribe(fullname -> {
+        detailsIPresenter.getMeterFullnameObservable().subscribe(fullname -> {
             if (fullname.isEmpty()) return;
             Assert.assertEquals(fullname, defaultMeters.get(0).getFullName());
             stop[1] = true;
         });
 
-        homeOctopus.onStart();
-        detailsOctopus.onStart();
+        homeIPresenter.onStart();
+        detailsIPresenter.setMeterId(defaultMeters.get(0).getId());
+        detailsIPresenter.onStart();
 
         TestTools.pause(stop);
         Assert.assertFalse(fail[0]);
 
-        homeOctopus.onStop();
-        detailsOctopus.onStop();
+        homeIPresenter.onStop();
+        detailsIPresenter.onStop();
 
         verify(metersDepository, atLeastOnce()).getMetersPublisher();
     }

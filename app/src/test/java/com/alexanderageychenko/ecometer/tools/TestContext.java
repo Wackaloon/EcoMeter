@@ -378,7 +378,19 @@ public class TestContext extends Context {
 
     @Nullable
     @Override
+    public Intent registerReceiver(@Nullable BroadcastReceiver broadcastReceiver, IntentFilter intentFilter, int i) {
+        return null;
+    }
+
+    @Nullable
+    @Override
     public Intent registerReceiver(BroadcastReceiver broadcastReceiver, IntentFilter intentFilter, String s, Handler handler) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Intent registerReceiver(BroadcastReceiver broadcastReceiver, IntentFilter intentFilter, @Nullable String s, @Nullable Handler handler, int i) {
         return null;
     }
 
@@ -390,6 +402,12 @@ public class TestContext extends Context {
     @Nullable
     @Override
     public ComponentName startService(Intent intent) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public ComponentName startForegroundService(Intent intent) {
         return null;
     }
 
@@ -469,6 +487,11 @@ public class TestContext extends Context {
     }
 
     @Override
+    public void revokeUriPermission(String s, Uri uri, int i) {
+
+    }
+
+    @Override
     public int checkUriPermission(Uri uri, int i, int i1, int i2) {
         return 0;
     }
@@ -510,6 +533,11 @@ public class TestContext extends Context {
 
     @Override
     public Context createPackageContext(String s, int i) throws PackageManager.NameNotFoundException {
+        return null;
+    }
+
+    @Override
+    public Context createContextForSplit(String s) throws PackageManager.NameNotFoundException {
         return null;
     }
 
