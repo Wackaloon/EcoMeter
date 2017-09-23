@@ -2,18 +2,20 @@ package com.alexanderageychenko.ecometer.View.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alexanderageychenko.ecometer.MainActivity;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.Presenter.home.IHomeIPresenter;
 import com.alexanderageychenko.ecometer.R;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppRxSchedulers;
-import com.alexanderageychenko.ecometer.View.ExFragment;
+import com.alexanderageychenko.ecometer.Model.ExContainers.ExFragment;
 
 import java.util.Collection;
 
@@ -30,11 +32,8 @@ import io.reactivex.functions.Consumer;
  */
 public class HomeFragment
         extends ExFragment
-        implements HomeAdapter.Listener,
-                             View.OnClickListener {
+        implements HomeAdapter.Listener {
     private HomeAdapter homeAdapter;
-    private View settings;
-    private View statistics;
     @Inject
     IHomeIPresenter iHomeOctopus;
     @Inject
@@ -64,14 +63,13 @@ public class HomeFragment
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
         homeAdapter = new HomeAdapter(getActivity());
         homeAdapter.setListener(this);
         recyclerView.setAdapter(homeAdapter);
 
-        settings = view.findViewById(R.id.settings);
-        settings.setOnClickListener(this);
-        statistics = view.findViewById(R.id.statistics);
-        statistics.setOnClickListener(this);
     }
 
     @Override
@@ -79,6 +77,7 @@ public class HomeFragment
         super.onStart();
         startSubscribers();
         iHomeOctopus.onStart();
+        ((MainActivity) getActivity()).showBackButtonOnBurger(false);
     }
 
     @Override
@@ -113,15 +112,6 @@ public class HomeFragment
     @Override
     public boolean popBackStack() {
         return false;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == settings){
-            iHomeOctopus.openSettings();
-        } else if ( view == statistics){
-            iHomeOctopus.openStatistics();
-        }
     }
 
 

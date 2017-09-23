@@ -29,7 +29,7 @@ import io.reactivex.subjects.BehaviorSubject;
 
 import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.AddValueScreen;
 import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.DetailsScreen;
-import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.SettingsScreen;
+import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.MetersSettingsScreen;
 
 /**
  * Created by Alexander on 16.04.2017.
@@ -107,7 +107,7 @@ public class HomeIPresenter implements IHomeIPresenter {
 
     @Override
     public void openSettings() {
-        homeNavigator.openScreenToStack(new Navigator.Screen<>(SettingsScreen, null), R.anim.in_right, R.anim.no_anim);
+        homeNavigator.openScreenToStack(new Navigator.Screen<>(MetersSettingsScreen, null), R.anim.in_right, R.anim.no_anim);
     }
 
     @Override

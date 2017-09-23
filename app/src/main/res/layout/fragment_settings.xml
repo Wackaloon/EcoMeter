@@ -15,37 +15,4 @@
         android:layout_marginBottom="@dimen/design_dp_8"
         android:layout_marginTop="@dimen/design_dp_8"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/back"
-            style="@style/AppTheme.ButtonShadow.Button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="@dimen/button_rounded_height"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/design_dp_16"
-            android:background="@drawable/button_green_brand"
-            android:text="Back"/>
-
-        <Button
-            android:id="@+id/statistics"
-            style="@style/AppTheme.ButtonShadow.Button"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:visibility="invisible"
-            android:layout_height="@dimen/button_rounded_height"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/design_dp_16"
-            android:background="@drawable/button_green_brand"
-            android:text="Stats"/>
-
-
-    </LinearLayout>
 </com.alexanderageychenko.ecometer.Model.ExContainers.ExRelativeLayout>

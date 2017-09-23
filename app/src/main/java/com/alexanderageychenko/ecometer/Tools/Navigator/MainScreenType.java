@@ -9,6 +9,7 @@ public enum MainScreenType {
     MetersListScreen,
     DetailsScreen,
     AddValueScreen,
+    MetersSettingsScreen,
     SettingsScreen,
     EditMeterScreen,
     CreateMeterScreen

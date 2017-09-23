@@ -14,7 +14,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.alexanderageychenko.ecometer.View.ExFragment;
+import com.alexanderageychenko.ecometer.MainActivity;
+import com.alexanderageychenko.ecometer.Model.ExContainers.ExFragment;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
@@ -122,6 +123,13 @@ public class EditMeterFragment extends ExFragment implements View.OnClickListene
         nameInput.setOnEditorActionListener(this);
 
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ((MainActivity) getActivity()).showBackButtonOnBurger(true);
     }
 
     @Override

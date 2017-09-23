@@ -10,7 +10,7 @@ public class MainNavigator extends NavigatorImpl<MainScreenType> {
 
     @Override
     protected MainScreenType getDefaultType() {
-        return MainScreenType.Null;
+        return MainScreenType.MetersListScreen;
     }
 
     public boolean isActive() {

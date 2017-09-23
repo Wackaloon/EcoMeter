@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alexanderageychenko.ecometer.MainActivity;
 import com.alexanderageychenko.ecometer.Model.Entity.MeterType;
 import com.alexanderageychenko.ecometer.Model.Entity.MeterValue;
 import com.alexanderageychenko.ecometer.Model.Listener.DetailsEditListener;
@@ -19,7 +20,7 @@ import com.alexanderageychenko.ecometer.Tools.DialogBuilder;
 import com.alexanderageychenko.ecometer.Tools.RxTools;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Module.AppRxSchedulers;
-import com.alexanderageychenko.ecometer.View.ExFragment;
+import com.alexanderageychenko.ecometer.Model.ExContainers.ExFragment;
 
 import java.util.ArrayList;
 
@@ -129,6 +130,8 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
     public void onStart() {
         super.onStart();
         startSubscribers();
+
+        ((MainActivity) getActivity()).showBackButtonOnBurger(true);
         iDetailsOctopus.onStart();
     }
 

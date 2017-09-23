@@ -27,9 +27,7 @@
                 android:layout_alignParentTop="true"
                 android:background="@color/colorPrimary"
                 android:padding="@dimen/design_dp_12"
-                android:src="@drawable/ic_public_white_48dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/ic_public_white_48dp"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"

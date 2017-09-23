@@ -10,41 +10,6 @@
         android:id="@+id/home_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/design_dp_8"
-        android:layout_above="@+id/card"
-        android:layout_marginTop="@dimen/design_dp_8"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/settings"
-                style="@style/AppTheme.ButtonShadow.Button"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/button_rounded_height"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/design_dp_16"
-                android:background="@drawable/button_green_brand"
-                android:text="Edit"/>
-
-            <Button
-                android:id="@+id/statistics"
-                style="@style/AppTheme.ButtonShadow.Button"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_rounded_height"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/design_dp_16"
-                android:background="@drawable/button_green_brand"
-                android:text="Stats"/>
-
-
-        </LinearLayout>
+        android:layout_above="@+id/card"/>
 
 </com.alexanderageychenko.ecometer.Model.ExContainers.ExRelativeLayout>

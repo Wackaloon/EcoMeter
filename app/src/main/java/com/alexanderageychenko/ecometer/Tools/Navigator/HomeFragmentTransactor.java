@@ -1,14 +1,14 @@
 package com.alexanderageychenko.ecometer.Tools.Navigator;
 
 import com.alexanderageychenko.ecometer.MainActivity;
+import com.alexanderageychenko.ecometer.Model.ExContainers.ExFragment;
 import com.alexanderageychenko.ecometer.R;
 import com.alexanderageychenko.ecometer.Tools.RxCustomUtils;
-import com.alexanderageychenko.ecometer.View.ExFragment;
 import com.alexanderageychenko.ecometer.View.add.AddValueFragment;
 import com.alexanderageychenko.ecometer.View.details.DetailsFragment;
 import com.alexanderageychenko.ecometer.View.edit.EditMeterFragment;
 import com.alexanderageychenko.ecometer.View.home.HomeFragment;
-import com.alexanderageychenko.ecometer.View.settings.SettingsFragment;
+import com.alexanderageychenko.ecometer.View.meters_settings.MetersSettingsFragment;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -65,8 +65,8 @@ public class HomeFragmentTransactor {
                 fragment.setMeterId((Long) newScreen.hashMap.get("meter_id"));
                 return fragment;
             }
-            case SettingsScreen:{
-                return new SettingsFragment();
+            case MetersSettingsScreen:{
+                return new MetersSettingsFragment();
             }
             case CreateMeterScreen:
             case EditMeterScreen: {

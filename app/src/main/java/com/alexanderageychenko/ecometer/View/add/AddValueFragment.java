@@ -14,7 +14,7 @@ import com.alexanderageychenko.ecometer.Model.Depository.IMetersDepository;
 import com.alexanderageychenko.ecometer.Model.Entity.IMeter;
 import com.alexanderageychenko.ecometer.R;
 import com.alexanderageychenko.ecometer.Tools.dagger2.Dagger;
-import com.alexanderageychenko.ecometer.View.ExFragment;
+import com.alexanderageychenko.ecometer.Model.ExContainers.ExFragment;
 import com.alexanderageychenko.ecometer.View.custom_view.MultiplePickerView;
 
 import javax.inject.Inject;

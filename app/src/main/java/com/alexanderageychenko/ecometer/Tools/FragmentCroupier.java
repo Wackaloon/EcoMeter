@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.animation.Animation;
 
-import com.alexanderageychenko.ecometer.View.ExFragment;
+import com.alexanderageychenko.ecometer.Model.ExContainers.ExFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
