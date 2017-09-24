@@ -77,7 +77,6 @@ public class HomeFragment
         super.onStart();
         startSubscribers();
         iHomeOctopus.onStart();
-        ((MainActivity) getActivity()).showBackButtonOnBurger(false);
     }
 
     @Override

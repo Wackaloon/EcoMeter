@@ -54,7 +54,7 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 if (listener != null) listener.onItemClick(item, holder);
             }
         });
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) listener.onImageClick(item, holder);
@@ -90,10 +90,12 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView name, lastValue, lastDate;
+        ImageView plus;
 
         ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.image);
+            plus = (ImageView) itemView.findViewById(R.id.plus);
             name = (TextView) itemView.findViewById(R.id.name);
             lastValue = (TextView) itemView.findViewById(R.id.last_value);
             lastDate = (TextView) itemView.findViewById(R.id.last_date);

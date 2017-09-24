@@ -129,7 +129,6 @@ public class EditMeterFragment extends ExFragment implements View.OnClickListene
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).showBackButtonOnBurger(true);
     }
 
     @Override

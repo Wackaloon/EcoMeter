@@ -2,6 +2,7 @@ package com.alexanderageychenko.ecometer.View.meters_settings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.CreateMeterScreen;
+import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.DetailsScreen;
 import static com.alexanderageychenko.ecometer.Tools.Navigator.MainScreenType.EditMeterScreen;
 
 
@@ -66,24 +68,19 @@ public class MetersSettingsFragment extends ExFragment implements MetersSettings
         recyclerView = (RecyclerView) view.findViewById(R.id.home_recycler_view);
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
         homeAdapter = new MetersSettingsAdapter(getActivity());
         homeAdapter.setListener(this);
         recyclerView.setAdapter(homeAdapter);
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private Function<Collection<IMeter>, Collection<IMeter>> sortFunc = new Function<Collection<IMeter>, Collection<IMeter>>() {
-        @Override
-        public Collection<IMeter> apply(Collection<IMeter> iMeters) throws Exception {
-            ArrayList<IMeter> list = new ArrayList<IMeter>(iMeters);
-            Collections.sort(list, new Comparator<IMeter>() {
-                @Override
-                public int compare(IMeter meter, IMeter t1) {
-                    return meter.getId().compareTo(t1.getId());
-                }
-            });
-            return list;
-        }
+    private Function<Collection<IMeter>, Collection<IMeter>> sortFunc = iMeters -> {
+        ArrayList<IMeter> list = new ArrayList<>(iMeters);
+        Collections.sort(list, (meter, t1) -> meter.getId().compareTo(t1.getId()));
+        return list;
     };
     private Consumer<Collection<IMeter>> consumer = new Consumer<Collection<IMeter>>() {
         @Override
@@ -96,7 +93,6 @@ public class MetersSettingsFragment extends ExFragment implements MetersSettings
     public void onStart() {
         super.onStart();
 
-        ((MainActivity) getActivity()).showBackButtonOnBurger(true);
         metersSuscriber = Observable.just(iMetersDepository.getMeters())
                 .map(sortFunc)
                 .subscribe(consumer);
@@ -123,21 +119,18 @@ public class MetersSettingsFragment extends ExFragment implements MetersSettings
 
     @Override
     public void onDeleteClick(final IMeter item) {
-        DialogBuilder.getDeleteMeterDialog(getActivity(), new DeleteMeterListener() {
-            @Override
-            public void delete() {
-                iMetersDepository.getMeters().remove(item);
-                homeAdapter.setData(iMetersDepository.getMeters());
-            }
+        DialogBuilder.getDeleteMeterDialog(getActivity(), () -> {
+            iMetersDepository.getMeters().remove(item);
+            homeAdapter.setData(iMetersDepository.getMeters());
         }).show();
 
     }
 
     @Override
     public void onItemClick(IMeter item) {
-//        iMetersDepository.selectMeter(item.getId());
-//        MainApplication.getInstance().sendBroadcast(new Intent(MainApplication.FILTER_ACTION_NAME)
-//                .putExtra(MainApplication.SIGNAL_NAME, MainApplication.SIGNAL_TYPE.OPEN_DETAILS));
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("meter_id", item.getId());
+        homeNavigator.openScreenToStack(new Navigator.Screen<>(DetailsScreen, params), R.anim.no_anim, R.anim.in_left);
     }
 
 }

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.alexanderageychenko.ecometer.Model.ExContainers.ExRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.alexanderageychenko.ecometer.Model.ExContainers.ExRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    xmlns:tools="http://schemas.android.com/tools"
     android:elevation="10dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/home_recycler_view"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/design_dp_8"
-        android:layout_marginTop="@dimen/design_dp_8"/>
+        android:layout_alignParentTop="true" />
 
 </com.alexanderageychenko.ecometer.Model.ExContainers.ExRelativeLayout>

@@ -9,6 +9,8 @@ import com.alexanderageychenko.ecometer.View.details.DetailsFragment;
 import com.alexanderageychenko.ecometer.View.edit.EditMeterFragment;
 import com.alexanderageychenko.ecometer.View.home.HomeFragment;
 import com.alexanderageychenko.ecometer.View.meters_settings.MetersSettingsFragment;
+import com.alexanderageychenko.ecometer.View.settings.SettingsExFragment;
+import com.alexanderageychenko.ecometer.View.settings.SettingsFragment;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -67,6 +69,9 @@ public class HomeFragmentTransactor {
             }
             case MetersSettingsScreen:{
                 return new MetersSettingsFragment();
+            }
+            case SettingsScreen:{
+                return new SettingsExFragment();
             }
             case CreateMeterScreen:
             case EditMeterScreen: {

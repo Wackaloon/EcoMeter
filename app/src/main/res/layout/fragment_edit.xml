@@ -4,79 +4,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:elevation="3dp"
-    android:orientation="vertical">
+    android:elevation="13dp"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/design_dp_8">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/title"
             style="@style/AppTheme.TextViewMain"
-            android:layout_margin="@dimen/design_dp_8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/fonts_sizes_22"
             android:layout_centerHorizontal="true"
-            android:text="Edit meter" />
+            android:layout_margin="@dimen/design_dp_8"
+            android:text="Edit meter"
+            android:textSize="@dimen/fonts_sizes_22" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_below="@+id/title"
+            android:orientation="vertical"
             android:padding="@dimen/design_dp_8">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/design_dp_70"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     style="@style/AppTheme.TextViewMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:text="Meter Type" />
 
                 <Spinner
                     android:id="@+id/spinner_type"
                     android:layout_width="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_height="match_parent" />
+                    android:layout_centerVertical="true" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/design_dp_70"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
                     style="@style/AppTheme.TextViewMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:text="Meter Position" />
 
                 <Spinner
                     android:id="@+id/spinner_position"
                     android:layout_width="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_height="match_parent" />
+                    android:layout_centerVertical="true" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/design_dp_70"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     style="@style/AppTheme.TextViewMain"
@@ -87,29 +88,32 @@
                 <EditText
                     android:id="@+id/name_input"
                     style="@style/AppTheme.TextViewMain"
-                    android:background="@android:color/white"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:inputType="textCapWords|text|textAutoComplete"
-                    android:imeOptions="actionDone"
                     android:layout_marginLeft="@dimen/design_dp_8"
+                    android:background="@android:color/white"
                     android:gravity="right|center"
-                    android:hint="Optional..." />
+                    android:hint="Optional..."
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords|text|textAutoComplete" />
             </LinearLayout>
 
 
         </LinearLayout>
-        </RelativeLayout>
+    </RelativeLayout>
+
     <Button
         android:id="@+id/done"
         style="@style/AppTheme.ButtonShadow.Button"
-        android:layout_width="@dimen/button_rounded_width"
-        android:layout_height="@dimen/button_rounded_height"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/edit_card"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/design_dp_40"
         android:layout_marginTop="@dimen/design_dp_8"
+        android:background="@drawable/button_background"
         android:text="Done"
         android:visibility="visible" />
 </com.alexanderageychenko.ecometer.Model.ExContainers.ExRelativeLayout>

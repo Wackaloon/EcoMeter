@@ -43,39 +43,27 @@ class MetersSettingsAdapter extends RecyclerView.Adapter<MetersSettingsAdapter.V
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        if (position >= data.size()){
+        if (position >= data.size()) {
             bindAdd(holder);
             return;
-        }else{
+        } else {
             holder.itemView.setOnClickListener(null);
             holder.edit.setVisibility(View.VISIBLE);
             holder.delete.setVisibility(View.VISIBLE);
         }
         final IMeter item = data.get(position);
         holder.name.setText(item.getFullName());
-        holder.edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) listener.onEditClick(item);
-            }
+        holder.edit.setOnClickListener(v -> {
+            if (listener != null) listener.onEditClick(item);
         });
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) listener.onDeleteClick(item);
-            }
+        holder.delete.setOnClickListener(v -> {
+            if (listener != null) listener.onDeleteClick(item);
         });
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) listener.onItemClick(item);
-            }
+        holder.imageView.setOnClickListener(view -> {
+            if (listener != null) listener.onItemClick(item);
         });
-        holder.name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) listener.onItemClick(item);
-            }
+        holder.name.setOnClickListener(view -> {
+            if (listener != null) listener.onItemClick(item);
         });
         MeterType type = item.getType();
         if (type == null) {
@@ -102,29 +90,20 @@ class MetersSettingsAdapter extends RecyclerView.Adapter<MetersSettingsAdapter.V
         }
     }
 
-    private void bindAdd(ViewHolder holder){
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener!=null) {
-                    listener.onAddClick();
-                }
+    private void bindAdd(ViewHolder holder) {
+        holder.itemView.setOnClickListener(view -> {
+            if (listener != null) {
+                listener.onAddClick();
             }
         });
         holder.name.setText("ADD NEW");
         holder.edit.setVisibility(View.GONE);
         holder.delete.setVisibility(View.GONE);
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) listener.onAddClick();
-            }
+        holder.imageView.setOnClickListener(view -> {
+            if (listener != null) listener.onAddClick();
         });
-        holder.name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) listener.onAddClick();
-            }
+        holder.name.setOnClickListener(view -> {
+            if (listener != null) listener.onAddClick();
         });
 
         holder.imageView.setBackgroundColor(context.getResources().getColor(R.color.main_green_A0));
@@ -147,6 +126,7 @@ class MetersSettingsAdapter extends RecyclerView.Adapter<MetersSettingsAdapter.V
         void onAddClick();
 
         void onDeleteClick(IMeter item);
+
         void onItemClick(IMeter item);
     }
 

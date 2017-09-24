@@ -131,7 +131,6 @@ public class DetailsFragment extends ExFragment implements DetailsAdapter.Listen
         super.onStart();
         startSubscribers();
 
-        ((MainActivity) getActivity()).showBackButtonOnBurger(true);
         iDetailsOctopus.onStart();
     }
 
