@@ -1,28 +1,16 @@
+*.iml
+.gradle
+/local.properties
+.DS_Store
+/build
+/captures
+*.apk
+/javado
+/.idea/*
 
-#ignore thumbnails created by windows
-Thumbs.db
-#Ignore files build by Visual Studio
-*.obj
-*.exe
-*.pdb
-*.user
-*.aps
-*.pch
-*.vspscc
-*_i.c
-*_p.c
-*.ncb
-*.suo
-*.tlb
-*.tlh
-*.bak
-*.cache
-*.ilk
-*.log
-*.dll
-*.lib
-*.sbr
+# Created by https://www.gitignore.io/api/android
 
+### Android ###
 # Built application files
 *.apk
 *.ap_
@@ -61,20 +49,15 @@ captures/
 *.iml
 .idea/workspace.xml
 .idea/tasks.xml
-.idea/gradle.xml
-.idea/dictionaries
 .idea/libraries
 
 # Keystore files
-*.jks
+# *.jks
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
+### Android Patch ###
+gen-external-apklibs
 
-# Freeline
-freeline.py
-freeline/
-freeline_project_description.json
+# End of https://www.gitignore.io/api/androidc
