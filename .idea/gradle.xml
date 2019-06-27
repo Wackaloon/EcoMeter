@@ -10,6 +10,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/meter-data" />
+            <option value="$PROJECT_DIR$/meter-domain" />
+            <option value="$PROJECT_DIR$/value-data" />
+            <option value="$PROJECT_DIR$/value-domain" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

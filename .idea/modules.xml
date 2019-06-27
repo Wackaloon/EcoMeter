@@ -4,6 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/EcoMeter.iml" filepath="$PROJECT_DIR$/EcoMeter.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/meter-data/meter-data.iml" filepath="$PROJECT_DIR$/meter-data/meter-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/meter-domain/meter-domain.iml" filepath="$PROJECT_DIR$/meter-domain/meter-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/value-data/value-data.iml" filepath="$PROJECT_DIR$/value-data/value-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/value-domain/value-domain.iml" filepath="$PROJECT_DIR$/value-domain/value-domain.iml" />
     </modules>
   </component>
 </project>
