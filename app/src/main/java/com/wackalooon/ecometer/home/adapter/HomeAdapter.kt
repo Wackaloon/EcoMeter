@@ -1,4 +1,4 @@
-package com.wackalooon.ecometer.home
+package com.wackalooon.ecometer.home.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.wackalooon.ecometer.R
+import com.wackalooon.ecometer.home.HomeContract
+import com.wackalooon.ecometer.home.model.HomeItem
 import kotlinx.android.synthetic.main.screen_home_item.view.*
 
 
 class HomeAdapter(
     diffCallback: HomeItemDiffCallback,
-    private val listener: (HomeContract.HomeItem) -> Unit
-) : ListAdapter<HomeContract.HomeItem, HomeAdapter.ViewHolder>(diffCallback) {
+    private val listener: (HomeItem) -> Unit
+) : ListAdapter<HomeItem, HomeAdapter.ViewHolder>(diffCallback) {
 
     @SuppressLint("InflateParams")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,9 +30,9 @@ class HomeAdapter(
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(item: HomeContract.HomeItem) {
+        fun bind(item: HomeItem) {
             itemView.imageView.setImageResource(item.image)
-            itemView.item_name.text = item.name
+            itemView.item_location.text = item.location
             itemView.item_type.setText(item.type)
             itemView.item_date_value.text = item.date
             itemView.item_value_value.text = item.value

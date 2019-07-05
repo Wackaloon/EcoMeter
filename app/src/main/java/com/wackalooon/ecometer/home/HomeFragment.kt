@@ -4,21 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wackalooon.ecometer.R
-import com.wackalooon.meter.data.repository.MeterRepositoryImpl
-import com.wackalooon.meter.data.storage.MeterDatabase
-import com.wackalooon.meter.domain.usecase.GetAllMetersUseCase
-import com.wackalooon.value.data.repository.ValueRepositoryImpl
-import com.wackalooon.value.data.storage.ValueDatabase
-import com.wackalooon.value.domain.usecase.GetAllValuesForMeterIdUseCase
+import com.wackalooon.ecometer.base.BaseView
+import com.wackalooon.ecometer.home.adapter.HomeAdapter
+import com.wackalooon.ecometer.home.adapter.HomeItemDiffCallback
 import kotlinx.android.synthetic.main.screen_home.*
 
 
-class HomeFragment : Fragment(), HomeContract.HomeView {
+class HomeFragment : BaseView() {
 
-    lateinit var presenter: HomePresenter
+    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
+
     lateinit var adapter: HomeAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,39 +29,34 @@ class HomeFragment : Fragment(), HomeContract.HomeView {
         super.onViewCreated(view, savedInstanceState)
         // TODO replace with DI
         loading_progress.hide()
-        presenter = HomePresenter(
-                GetAllMetersUseCase(MeterRepositoryImpl(MeterDatabase.get(context!!).meterDao())),
-                GetAllValuesForMeterIdUseCase(ValueRepositoryImpl(ValueDatabase.get(context!!).valueDao())),
-                HomeItemMapper()
-        )
 
-        val layoutManager = LinearLayoutManager(context)
+        setupRecyclerView()
+
+        viewModel.homeState.observe(this) {
+            render(it)
+        }
+    }
+
+    private fun setupRecyclerView() {
+
+        val layoutManager = LinearLayoutManager(activity!!)
         items_list.layoutManager = layoutManager
         items_list.isClickable = true
 
-        adapter = HomeAdapter(HomeItemDiffCallback(), presenter::onHomeItemClick)
+        adapter = HomeAdapter(HomeItemDiffCallback(), {})
         items_list.adapter = adapter
-
-        presenter.onViewCreated(this)
     }
 
-    override fun onDestroyView() {
-        presenter.onViewDestroyed()
-        super.onDestroyView()
-    }
+    private fun render(state: HomeContract.HomeViewState) {
+        if (state.isLoading) {
+            loading_progress.show()
+        } else {
+            loading_progress.hide()
+        }
+        adapter.submitList(state.data)
 
-    override fun render(state: HomeContract.HomeState) {
-        when (state) {
-            HomeContract.HomeState.Loanding -> {
-                loading_progress.show()
-            }
-            HomeContract.HomeState.Error -> {
-                loading_progress.hide()
-            }
-            is HomeContract.HomeState.Data -> {
-                loading_progress.hide()
-                adapter.submitList(state.meters)
-            }
+        if (state.error != null) {
+            Toast.makeText(activity, state.error, Toast.LENGTH_SHORT).show()
         }
     }
 }

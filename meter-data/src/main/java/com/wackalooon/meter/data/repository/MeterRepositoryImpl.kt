@@ -10,10 +10,10 @@ import com.wackalooon.meter.domain.repository.MeterRepository
 class MeterRepositoryImpl(private val meterDao: MeterDao) : MeterRepository {
     override fun getListOfMeters(): List<Meter> {
         return listOf(
-                Meter(0, "Kitchen", Type.Water(WaterType.HOT)),
-                Meter(0, "Bathroom", Type.Water(WaterType.COLD)),
-                Meter(0, "Kitchen", Type.Gas),
-                Meter(0, "Electric shield", Type.Electricity)
+                Meter(0, "Kitchen", "Kitchen", Type.Water(WaterType.HOT)),
+                Meter(0, "Bathroom","Bathroom", Type.Water(WaterType.COLD)),
+                Meter(0, "Kitchen","Kitchen", Type.Gas),
+                Meter(0, "Electric shield","Electric shield", Type.Electricity)
         )
         //return meterDao.getAll().map { it.toMeter() }
     }
@@ -31,7 +31,7 @@ class MeterRepositoryImpl(private val meterDao: MeterDao) : MeterRepository {
     }
 
     private fun MeterDatabaseEntity.toMeter(): Meter {
-        return Meter(id, name, type)
+        return Meter(id, name, type.toString(), type)
     }
 
     private fun Meter.toMeterDaoEntity(): MeterDatabaseEntity {

@@ -1,4 +1,4 @@
-package com.wackalooon.ecometer.home
+package com.wackalooon.ecometer.home.model
 
 import android.text.format.DateFormat
 import com.wackalooon.ecometer.R
@@ -10,11 +10,11 @@ import java.util.Calendar
 
 
 class HomeItemMapper {
-    fun map(meter: Meter, value: Value?): HomeContract.HomeItem {
-        return HomeContract.HomeItem(
+    fun map(meter: Meter, value: Value?): HomeItem {
+        return HomeItem(
                 meter.id,
                 mapImage(meter.type),
-                meter.name,
+                meter.location,
                 mapType(meter.type),
                 value?.value?.toString() ?: "0",
                 mapDate(value?.creationTime)

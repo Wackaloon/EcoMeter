@@ -1,32 +1,39 @@
 package com.wackalooon.ecometer.home
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import com.wackalooon.ecometer.base.BasePresenter
-import com.wackalooon.ecometer.base.BaseView
+import com.wackalooon.ecometer.base.Action
+import com.wackalooon.ecometer.base.Result
+import com.wackalooon.ecometer.base.ViewState
+import com.wackalooon.ecometer.home.model.HomeItem
 
 interface HomeContract {
 
-    interface HomePresenter : BasePresenter<HomeView> {
-        fun onHomeItemClick(item: HomeItem)
+    sealed class HomeResult : Result {
+        object Loading : HomeResult()
+        data class Success(val data: List<HomeItem>) : HomeResult()
+        data class Failure(val error: Throwable) : HomeResult()
     }
 
-    interface HomeView : BaseView {
-        fun render(state: HomeState)
+    sealed class HomeAction:Action {
+        object OpenMeterDetails : HomeAction()
+        object LoadMeterDetails : HomeAction()
     }
 
-    sealed class HomeState {
-        object Loanding : HomeState()
-        object Error : HomeState()
-        data class Data(val meters: List<HomeItem>) : HomeState()
-    }
+    data class HomeViewState(
+        val isLoading: Boolean = false,
+        val data: List<HomeItem> = emptyList(),
+        val error: String? = null
+    ) : ViewState {
 
-    data class HomeItem(
-        val id: Long,
-        @DrawableRes val image: Int,
-        val name: String,
-        @StringRes val type: Int,
-        val value: String,
-        val date: String
-    )
+        fun loading(): HomeViewState{
+            return copy(isLoading = true)
+        }
+
+        fun data(data: List<HomeItem>): HomeViewState{
+            return copy(isLoading = false, data = data, error = null)
+        }
+
+        fun error(error: Throwable): HomeViewState{
+            return copy(isLoading = false, error = error.localizedMessage)
+        }
+    }
 }
