@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.collect
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel<E : Event, U : Update, S : State>(
-    initialState: S,
-    dispatcher: Dispatcher<E, U>
+    dispatcher: Dispatcher<E, U>,
+    initialState: S
 ) : ViewModel(), CoroutineScope {
     override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.IO
 

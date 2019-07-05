@@ -31,7 +31,6 @@ class HomeFragment : BaseView<HomeState>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loading_progress.hide()
         setupRecyclerView()
         subscribeToChanges()
     }

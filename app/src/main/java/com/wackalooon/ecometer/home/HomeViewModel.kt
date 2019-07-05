@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     dispatcher: HomeDispatcher
-) : BaseViewModel<HomeEvent, HomeUpdate, HomeState>(HomeState(), dispatcher) {
+) : BaseViewModel<HomeEvent, HomeUpdate, HomeState>(dispatcher, HomeState()) {
 
     override fun updateState(update: HomeUpdate): HomeState {
         return when (update) {
