@@ -5,6 +5,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.wackalooon.value.data.model.ValueDatabaseEntity
 
 private const val DATABASE_VERSION = 1
 
@@ -19,8 +20,7 @@ abstract class ValueDatabase : RoomDatabase() {
 
     companion object {
 
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        val DATABASE_NAME = "value-database"
+        private val DATABASE_NAME = "value-database"
 
         @Volatile
         private var instance: ValueDatabase? = null

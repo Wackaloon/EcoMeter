@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.wackalooon.value.data.model.ValueDatabaseEntity
 
 @Dao
 interface ValueDao {

@@ -1,14 +1,20 @@
 package com.wackalooon.value.data.repository
 
+import com.wackalooon.value.data.model.ValueDatabaseEntity
 import com.wackalooon.value.data.storage.ValueDao
-import com.wackalooon.value.data.storage.ValueDatabaseEntity
 import com.wackalooon.value.domain.model.Value
 import com.wackalooon.value.domain.repository.ValueRepository
+import java.util.Date
 
 
 class ValueRepositoryImpl(private val valueDao: ValueDao) : ValueRepository {
     override fun getValuesForMeterId(meterId: Long): List<Value> {
-        return valueDao.getAll(meterId).map { it.toValue() }
+        return listOf(
+            Value(0, Date().time - 90000, 30.0),
+            Value(1, Date().time - 6000, 30.0),
+            Value(2, Date().time - 3000, 30.0)
+        )
+//        return valueDao.getAll(meterId).map { it.toValue() }
     }
 
     override fun addValueForMeterId(value: Value, meterId: Long) {

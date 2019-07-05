@@ -6,6 +6,7 @@ import androidx.room.Query
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Update
+import com.wackalooon.meter.data.model.MeterDatabaseEntity
 
 @Dao
 interface MeterDao {

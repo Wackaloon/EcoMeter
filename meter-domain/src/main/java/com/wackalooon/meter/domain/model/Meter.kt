@@ -5,6 +5,5 @@ typealias ValueId = Long
 data class Meter(
     val id: Long,
     val name: String,
-    val type: Type,
-    val values: ArrayList<ValueId> = ArrayList()
+    val type: Type
 )
