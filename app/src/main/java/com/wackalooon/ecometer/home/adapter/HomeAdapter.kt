@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.wackalooon.ecometer.R
-import com.wackalooon.ecometer.home.HomeContract
 import com.wackalooon.ecometer.home.model.HomeItem
 import kotlinx.android.synthetic.main.screen_home_item.view.*
 

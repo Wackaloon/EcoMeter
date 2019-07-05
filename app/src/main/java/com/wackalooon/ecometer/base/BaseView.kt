@@ -1,20 +1,24 @@
 package com.wackalooon.ecometer.base
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.wackalooon.ecometer.home.di.ViewModelFactory
+import com.wackalooon.ecometer.di.ViewModelFactory
 import dagger.android.support.DaggerFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseView : DaggerFragment() {
+abstract class BaseView<S : State> : DaggerFragment(), CoroutineScope {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+    override val coroutineContext: CoroutineContext = Job() + Dispatchers.Main
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        coroutineContext.cancel()
     }
 
-
+    abstract fun render(state: S)
 }

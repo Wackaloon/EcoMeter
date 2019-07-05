@@ -1,7 +1,6 @@
 package com.wackalooon.ecometer.home.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.wackalooon.ecometer.home.HomeContract
 import com.wackalooon.ecometer.home.model.HomeItem
 
 class HomeItemDiffCallback : DiffUtil.ItemCallback<HomeItem>() {

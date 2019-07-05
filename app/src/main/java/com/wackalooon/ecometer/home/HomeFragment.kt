@@ -6,16 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wackalooon.ecometer.R
 import com.wackalooon.ecometer.base.BaseView
 import com.wackalooon.ecometer.home.adapter.HomeAdapter
 import com.wackalooon.ecometer.home.adapter.HomeItemDiffCallback
+import com.wackalooon.ecometer.home.model.HomeEvent
+import com.wackalooon.ecometer.home.model.HomeItem
+import com.wackalooon.ecometer.home.model.HomeState
 import kotlinx.android.synthetic.main.screen_home.*
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 
 
-class HomeFragment : BaseView() {
+class HomeFragment : BaseView<HomeState>() {
 
     private val viewModel: HomeViewModel by viewModels { viewModelFactory }
 
@@ -27,36 +31,53 @@ class HomeFragment : BaseView() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO replace with DI
         loading_progress.hide()
-
         setupRecyclerView()
+        subscribeToChanges()
+    }
 
-        viewModel.homeState.observe(this) {
-            render(it)
-        }
+    override fun onStart() {
+        super.onStart()
+        viewModel.offerEvent(HomeEvent.LoadMeterDetails)
+    }
+
+    private fun subscribeToChanges() = launch {
+        viewModel.stateChannel.consumeEach(::render)
     }
 
     private fun setupRecyclerView() {
-
         val layoutManager = LinearLayoutManager(activity!!)
         items_list.layoutManager = layoutManager
         items_list.isClickable = true
 
-        adapter = HomeAdapter(HomeItemDiffCallback(), {})
+        adapter = HomeAdapter(HomeItemDiffCallback()) { viewModel.offerEvent(HomeEvent.HomeItemClick) }
         items_list.adapter = adapter
     }
 
-    private fun render(state: HomeContract.HomeViewState) {
-        if (state.isLoading) {
+    override fun render(state: HomeState) {
+        state.apply {
+            renderLoadingState(isLoading)
+            renderData(data)
+            renderError(error)
+        }
+    }
+
+    private fun renderLoadingState(isLoading: Boolean) {
+        if (isLoading) {
             loading_progress.show()
         } else {
             loading_progress.hide()
         }
-        adapter.submitList(state.data)
+    }
 
-        if (state.error != null) {
-            Toast.makeText(activity, state.error, Toast.LENGTH_SHORT).show()
+    private fun renderData(data: List<HomeItem>) {
+        adapter.submitList(data)
+    }
+
+    private fun renderError(error: String?) {
+        if (error.isNullOrEmpty()) {
+            return
         }
+        Toast.makeText(activity, error, Toast.LENGTH_SHORT).show()
     }
 }

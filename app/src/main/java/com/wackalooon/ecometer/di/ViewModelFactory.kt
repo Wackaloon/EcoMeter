@@ -1,4 +1,4 @@
-package com.wackalooon.ecometer.home.di
+package com.wackalooon.ecometer.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

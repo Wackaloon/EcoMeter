@@ -1,22 +1,21 @@
 package com.wackalooon.ecometer.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.wackalooon.ecometer.base.BaseViewModel
-import com.wackalooon.ecometer.home.HomeContract.HomeResult.*
+import com.wackalooon.ecometer.home.model.HomeEvent
+import com.wackalooon.ecometer.home.model.HomeState
+import com.wackalooon.ecometer.home.model.HomeUpdate
+import com.wackalooon.ecometer.home.model.HomeUpdate.*
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(dispatcher: HomeDispatcher) : BaseViewModel() {
+class HomeViewModel @Inject constructor(
+    dispatcher: HomeDispatcher
+) : BaseViewModel<HomeEvent, HomeUpdate, HomeState>(HomeState(), dispatcher) {
 
-    private val viewState = HomeContract.HomeViewState()
-
-    val homeState: LiveData<HomeContract.HomeViewState> =
-        Transformations.map(dispatcher.dispatchAction(HomeContract.HomeAction.LoadMeterDetails)) {
-            when (it) {
-                is Loading -> viewState.loading()
-                is Success -> viewState.data(it.data)
-                is Failure -> viewState.error(it.error)
-            }
+    override fun updateState(update: HomeUpdate): HomeState {
+        return when (update) {
+            is Loading -> currentState.loading()
+            is Success -> currentState.data(update.data)
+            is Failure -> currentState.error(update.error)
         }
-
+    }
 }
