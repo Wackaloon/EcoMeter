@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_item_water_type_hot">Water (Hot)</string>
+    <string name="home_item_water_type_cold">Water (Cold)</string>
+    <string name="home_item_type_gas">Gas</string>
+    <string name="home_item_type_electricity">Electricity</string>
+
+</resources>

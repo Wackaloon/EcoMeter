@@ -9,7 +9,12 @@ import com.wackalooon.meter.domain.repository.MeterRepository
 
 class MeterRepositoryImpl(private val meterDao: MeterDao) : MeterRepository {
     override fun getListOfMeters(): List<Meter> {
-        return listOf(Meter(0, "TestMeter", Type.Water(WaterType.HOT)))
+        return listOf(
+                Meter(0, "Kitchen", Type.Water(WaterType.HOT)),
+                Meter(0, "Bathroom", Type.Water(WaterType.COLD)),
+                Meter(0, "Kitchen", Type.Gas),
+                Meter(0, "Electric shield", Type.Electricity)
+        )
         //return meterDao.getAll().map { it.toMeter() }
     }
 

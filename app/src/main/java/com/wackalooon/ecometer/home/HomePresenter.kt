@@ -9,7 +9,7 @@ class HomePresenter(
     private val getAllValuesForMeterIdUseCase: GetAllValuesForMeterIdUseCase,
     private val mapper: HomeItemMapper
 ) : HomeContract.HomePresenter {
-    override fun onMeterClick(meterId: Long) {
+    override fun onHomeItemClick(item: HomeContract.HomeItem) {
         // TODO add navigation to meter details
     }
 
