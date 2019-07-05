@@ -11,5 +11,5 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideContext(application: EcoMeterApp):Context = application
+    fun provideContext(application: EcoMeterApp): Context = application
 }

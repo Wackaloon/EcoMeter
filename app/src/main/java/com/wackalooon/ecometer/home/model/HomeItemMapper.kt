@@ -6,18 +6,18 @@ import com.wackalooon.meter.domain.model.Meter
 import com.wackalooon.meter.domain.model.Type
 import com.wackalooon.meter.domain.model.WaterType
 import com.wackalooon.value.domain.model.Value
-import java.util.Calendar
+import java.util.*
 
 
 class HomeItemMapper {
     fun map(meter: Meter, value: Value?): HomeItem {
         return HomeItem(
-                meter.id,
-                mapImage(meter.type),
-                meter.location,
-                mapType(meter.type),
-                value?.value?.toString() ?: "0",
-                mapDate(value?.creationTime)
+            meter.id,
+            mapImage(meter.type),
+            meter.location,
+            mapType(meter.type),
+            value?.value?.toString() ?: "0",
+            mapDate(value?.creationTime)
         )
     }
 

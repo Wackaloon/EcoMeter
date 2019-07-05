@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class ValueDatabaseEntity (
+data class ValueDatabaseEntity(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val creationTime: Long,
     val meterId: Long,

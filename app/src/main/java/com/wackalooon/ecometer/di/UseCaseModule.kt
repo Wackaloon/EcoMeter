@@ -16,5 +16,6 @@ class UseCaseModule {
 
     @Provides
     @Reusable
-    fun getAllValuesForMeterIdUseCase(valuesRepository: ValueRepository) = GetAllValuesForMeterIdUseCase(valuesRepository)
+    fun getAllValuesForMeterIdUseCase(valuesRepository: ValueRepository) =
+        GetAllValuesForMeterIdUseCase(valuesRepository)
 }

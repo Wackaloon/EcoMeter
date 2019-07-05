@@ -14,9 +14,9 @@ class DaoModule {
 
     @Provides
     @Singleton
-    fun provideMetersDao(context:Context): MeterDao = MeterDatabase.get(context).meterDao()
+    fun provideMetersDao(context: Context): MeterDao = MeterDatabase.get(context).meterDao()
 
     @Provides
     @Singleton
-    fun provideValuesDao(context:Context): ValueDao = ValueDatabase.get(context).valueDao()
+    fun provideValuesDao(context: Context): ValueDao = ValueDatabase.get(context).valueDao()
 }

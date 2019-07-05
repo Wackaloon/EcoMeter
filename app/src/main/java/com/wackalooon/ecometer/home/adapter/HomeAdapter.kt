@@ -19,7 +19,7 @@ class HomeAdapter(
     @SuppressLint("InflateParams")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemLayoutView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.screen_home_item, parent, false)
+            .inflate(R.layout.screen_home_item, parent, false)
 
         return ViewHolder(itemLayoutView)
     }

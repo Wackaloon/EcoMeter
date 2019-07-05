@@ -7,7 +7,6 @@ import com.wackalooon.ecometer.home.model.HomeItemMapper
 import com.wackalooon.ecometer.home.model.HomeUpdate
 import com.wackalooon.meter.domain.model.Meter
 import com.wackalooon.meter.domain.usecase.GetAllMetersUseCase
-import com.wackalooon.value.domain.model.Value
 import com.wackalooon.value.domain.usecase.GetAllValuesForMeterIdUseCase
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -41,7 +40,7 @@ class HomeDispatcher @Inject constructor(
         }
     }
 
-    private fun List<Meter>.convertToHomeItems():List<HomeItem>{
+    private fun List<Meter>.convertToHomeItems(): List<HomeItem> {
         return map { homeItemsMapper.map(it, getAllValuesForMeterIdUseCase(it.id).firstOrNull()) }
     }
 }
